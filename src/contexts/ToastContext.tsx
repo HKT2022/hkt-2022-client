@@ -144,8 +144,8 @@ export function ToastProvider({ children }: ToastProviderProps) {
                 }
             )((toasts => {
                 if(toastDivContainerElement.clientHeight > windowSize.height) {
-                    clearTimeout(toasts[0].timeoutIds.fadeOutTimeoutId);
-                    clearTimeout(toasts[0].timeoutIds.removeTimeoutId);
+                    // clearTimeout(toasts[0].timeoutIds.fadeOutTimeoutId);
+                    // clearTimeout(toasts[0].timeoutIds.removeTimeoutId);
     
                     return toasts.slice(1);
                 } else {
