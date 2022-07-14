@@ -105,7 +105,6 @@ function GoogleLoginButton(props: IGoogleLoginButtonProps): JSX.Element {
     
     useEffect(() => {
         // Loading google plateform api, if it's not loaded
-        console.log('GoogleLoginButton useEffect');
         if (typeof gapi === 'undefined') {
             setDisabled(true);
             getScript('https://apis.google.com/js/platform.js', () => {
