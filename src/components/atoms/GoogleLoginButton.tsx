@@ -31,7 +31,6 @@ const SigninWithGoogleButton = styled(Button1)`
 export interface IGoogleLoginButtonProps {
     readonly clientConfig: gapi.auth2.ClientConfig,
     readonly singInOptions?: gapi.auth2.SigninOptions | gapi.auth2.SigninOptionsBuilder,
-    readonly classNames?: string,
     readonly preLogin?: () => void,
     readonly responseHandler: (response: gapi.auth2.GoogleUser) => void
     readonly failureHandler?: (error: string) => void,
@@ -80,7 +79,7 @@ export interface IGoogleLoginButtonProps {
 //                     responseHandler(googleUser);
 //                 })
 //                 .catch(reason => {
-//                     failureHandler && failureHandler(reason.error);
+//                     failureHandler?.(reason.error);
 //                 });
 //         }
 //     };
@@ -100,23 +99,24 @@ export interface IGoogleLoginButtonProps {
 // }
 
 function GoogleLoginButton(props: IGoogleLoginButtonProps): JSX.Element {
-    const {classNames, children} = props;
+    const {children} = props;
 
     const [disabled, setDisabled] = useState(false);
     
     useEffect(() => {
         // Loading google plateform api, if it's not loaded
+        console.log('GoogleLoginButton useEffect');
         if (typeof gapi === 'undefined') {
             setDisabled(true);
             getScript('https://apis.google.com/js/platform.js', () => {
                 gapi.load('auth2', () => {
                     gapi.auth2.init(props.clientConfig);
-                    if (!classNames && !children) {
+                    if (!children) {
                         gapi.signin2.render('ts-google-react-login', {...props.renderOptions});
                     }
                 });
             });
-        } else if (!classNames && !children) {
+        } else if (!children) {
             gapi.signin2.render('ts-google-react-login', {...props.renderOptions});
         }
     }, []);
@@ -125,7 +125,7 @@ function GoogleLoginButton(props: IGoogleLoginButtonProps): JSX.Element {
         const { preLogin, responseHandler, singInOptions, failureHandler } = props;
 
         // if there is pre login task
-        preLogin && preLogin();
+        preLogin?.();
 
         const googleAuth = gapi.auth2.getAuthInstance();
         if (googleAuth) {
@@ -134,7 +134,7 @@ function GoogleLoginButton(props: IGoogleLoginButtonProps): JSX.Element {
                     responseHandler(googleUser);
                 })
                 .catch(reason => {
-                    failureHandler && failureHandler(reason.error);
+                    failureHandler?.(reason.error);
                 });
         }
     }, [props.preLogin, props.responseHandler, props.singInOptions, props.failureHandler]);
