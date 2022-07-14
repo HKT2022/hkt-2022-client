@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { MEDIA_MAX_WIDTH } from '../../constants/css';
 
 export const OuterFlexDiv = styled.div`

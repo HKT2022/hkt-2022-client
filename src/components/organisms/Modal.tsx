@@ -1,10 +1,11 @@
-import styled from 'styled-components';
-import Portal from '../atoms/Portal';
 import {
     memo
 } from 'react';
-import { InnerFlexDiv1, Button1 } from '../atoms/styled';
+import styled from 'styled-components';
+
 import { MEDIA_MAX_WIDTH } from '../../constants/css';
+import Portal from '../atoms/Portal';
+import { Button1,InnerFlexDiv1 } from '../atoms/styled';
 
 const ModalContainerDiv = styled.div`
     position: fixed;

@@ -1,4 +1,7 @@
 import {
+    useApolloClient
+} from '@apollo/client';
+import {
     useCallback,
     useEffect,
     useState
@@ -15,15 +18,12 @@ import {
     Title1Div
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
+import useToast from '../contexts/ToastContext';
+import * as Mutations from '../gql/mutations';
 import useEmailValidator from '../hooks/text-validators/useEmailValidator';
 import usePasswordConfirmValidator from '../hooks/text-validators/usePasswordConfirmValidator';
 import usePasswordValidator from '../hooks/text-validators/usePasswordValidator';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
-import {
-    useApolloClient
-} from '@apollo/client';
-import * as Mutations from '../gql/mutations';
-import useToast from '../contexts/ToastContext';
 
 const RegisterButton = styled(Button1)`
     margin-top: 50px;

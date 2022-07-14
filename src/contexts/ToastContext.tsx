@@ -1,11 +1,11 @@
 import {
     createContext,
-    useContext,
     useCallback,
-    useState,
-    useRef
-} from 'react';
+    useContext,
+    useRef,
+    useState} from 'react';
 import styled from 'styled-components';
+
 import Portal from '../components/atoms/Portal';
 import { MEDIA_MAX_WIDTH } from '../constants/css';
 import useWindowSize from '../hooks/useWindowSize';

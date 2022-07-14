@@ -1,16 +1,15 @@
 import {
+    memo,
     useCallback,
     useEffect,
-    useState,
-    memo
-} from 'react';
+    useState} from 'react';
 import { 
     Link,
     useNavigate
 } from 'react-router-dom';
 import styled from 'styled-components';
-import { MEDIA_MAX_WIDTH } from '../../constants/css';
 
+import { MEDIA_MAX_WIDTH } from '../../constants/css';
 import useDebounce from '../../hooks/useDebounce';
 import useWindowSize from '../../hooks/useWindowSize';
 import MenuButton from '../atoms/MenuButton';
