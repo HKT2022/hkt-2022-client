@@ -7,6 +7,7 @@ import {
     useNavigate
 } from 'react-router-dom';
 import styled from 'styled-components';
+import GoogleLoginButton from '../components/atoms/GoogleLoginButton';
 
 import RequiredTextField from '../components/atoms/RequiredTextField';
 import {
@@ -81,31 +82,6 @@ const RegisterNowDiv = styled(InnerFlexDiv1)`
 const SignInWithSocialDiv = styled(InnerFlexDiv1)`
     align-items: start;
     padding: 18px 20px;
-`;
-
-const SigninWithGoogleButton = styled(Button1)`
-    background-color: ${props => props.theme.colors.primary};
-
-    &:hover {
-        background-color: ${props => props.theme.colors.background};
-    }
-
-    &:active {
-        background-color: ${props => props.theme.colors.tertiary};
-    }
-
-    margin-bottom: 10px;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-    padding: 0px 40px;
-
-    color: ${props => props.theme.colors.textLightest};
-
-    position: relative;
 `;
 
 const GoogleLogo = styled.img`
@@ -212,10 +188,14 @@ function LoginWithSocialForm(): JSX.Element {
     return (
         <SignInWithSocialDiv>
             <MarginBottomLeftAlignDiv>{'Sign in with'}</MarginBottomLeftAlignDiv>
-            <SigninWithGoogleButton>
+            <GoogleLoginButton
+                clientConfig={ { client_id: '1024012472528-7jl6nu726me147h6t8l957tr1jni50bt.apps.googleusercontent.com'} }
+                responseHandler={response => console.log(response)}
+                failureHandler={error => console.log(error)}
+            >
                 <GoogleLogo src={'/static/GoogleLogo.svg'} />
                 Google
-            </SigninWithGoogleButton>
+            </GoogleLoginButton>
             <Font13Div>
                 <Checkbox type={'checkbox'} checked={rememberMe} onChange={handleRememberMeChange}/>
                 Remember Me
