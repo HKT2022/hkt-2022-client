@@ -3,7 +3,6 @@ import {
 } from '@apollo/client';
 import {
     useCallback,
-    useEffect,
     useState
 } from 'react';
 import styled from 'styled-components';
@@ -17,6 +16,7 @@ import {
     StyledLink,
     Title1Div
 } from '../components/atoms/styled';
+import { useNavigate } from 'react-router-dom';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import useToast from '../contexts/ToastContext';
 import * as Mutations from '../gql/mutations';
@@ -37,13 +37,17 @@ const MarginTopLeftAlignDiv = styled(LeftAlignDiv)`
     margin-top: 10px;
 `;
 
-const EmailFieldContainerForm = styled.form`
+const EmailFieldContainerForm = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
 
     width: 100%;
+`;
+
+const CertificateFieldContainerForm = styled(EmailFieldContainerForm)<{blind: boolean}>`
+    display: ${props => props.blind ? 'none' : 'flex'};
 `;
 
 interface SendVerificationEmailButtonProps {
@@ -77,6 +81,8 @@ function RegisterForm(): JSX.Element {
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [passwordConfirmError, setPasswordConfirmError] = useState<string|null>(null);
 
+    const [certificationCode, setCertificationCode] = useState('');
+
     const usernameValidator = useRequiredValidator('Username must be at least 1 characters long');
     const emailValidator = useEmailValidator();
     const passwordValidator = usePasswordValidator();
@@ -107,6 +113,10 @@ function RegisterForm(): JSX.Element {
         setPasswordConfirmError(passwordConfirmValidator(event.target.value));
     }, [setPasswordConfirm, setPasswordConfirmError, passwordConfirmValidator]);
 
+    const handleCertificationCodeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setCertificationCode(event.target.value);
+    }, [setCertificationCode]);
+
     const apolloClient = useApolloClient();
 
     const toast = useToast();
@@ -114,6 +124,7 @@ function RegisterForm(): JSX.Element {
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        const history = useNavigate();
         const usernameError = usernameValidator(username);
         const emailError = emailValidator(email, emailVerified);
         const passwordError = passwordValidator(password);
@@ -124,22 +135,34 @@ function RegisterForm(): JSX.Element {
         setPasswordError(passwordError);
         setPasswordConfirmError(passwordConfirmError);
 
-        if (usernameError || emailError || passwordError || passwordConfirmError) {
+        if (usernameError || emailError || passwordError || passwordConfirmError || !emailVerificationId) {
             return;
         }
 
-        Mutations.registerLocal(
-            apolloClient, 
-            {
-                'user': {
-                    'username': username,
-                    'password': password,
-                    'emailToken': 'some-token'
+        Mutations.issueEmailToken(apolloClient, {
+            emailCheckId: emailVerificationId
+        })
+            .then(res => {
+                if (!res.data?.issueEmailToken) {
+                    throw new Error('Failed to issue email token');
                 }
-            }
-        ).catch(error => {
-            toast.showToast(error.message, 'error');
-        });
+                Mutations.registerLocal(
+                    apolloClient, 
+                    {
+                        'user': {
+                            'username': username,
+                            'password': password,
+                            'emailToken': res.data?.issueEmailToken
+                        }
+                    }
+                );
+            })
+            .then(() => {
+                history('/');
+            })
+            .catch(error => {
+                toast.showToast(error.message, 'error');
+            });
     }, [username, email, emailVerified, password, passwordConfirm, usernameValidator, emailValidator, passwordValidator, passwordConfirmValidator, apolloClient, toast]);
 
     const handleSendVerificationEmail = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
@@ -167,26 +190,18 @@ function RegisterForm(): JSX.Element {
         });
     }, [email, apolloClient, toast, emailValidator, setEmailError, setEmailVerificationId]);
 
-    useEffect(() => {
-        const emailTimer = setInterval(() => {
-            if (emailVerificationId) {
-                Mutations.verifyEmail(
-                    apolloClient,
-                    { 'verifyId': emailVerificationId }
-                ).then((response) => {
-                    if (!response.data) throw new Error('Error while verifying email');
-                    setEmailVerified(true);
-                }
-                ).catch(error => {
-                    toast.showToast(error.message, 'error');
-                });
-            }
-        }, 5000);
+    const handleVerifyEmail = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
 
-        return () => {
-            clearInterval(emailTimer);
-        };
-    }, [emailVerificationId, apolloClient, toast]);
+        Mutations.verifyEmail(apolloClient, { verifyId: certificationCode })
+            .then(response => {
+                if (!response.data) throw new Error('Error while verifying email');
+                setEmailVerified(true);
+            })
+            .catch(error => {
+                toast.showToast(error.message, 'error');
+            });
+    }, [apolloClient]);
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>
@@ -211,6 +226,18 @@ function RegisterForm(): JSX.Element {
                     {emailVerificationId ? 'Email sent' : 'Send verification email'}
                 </SendVerificationEmailButton>
             </EmailFieldContainerForm>
+            <CertificateFieldContainerForm blind={emailVerificationId === null}>
+                <RequiredTextField
+                    type='certification_code'
+                    placeholder='Certivication code'
+                    value={certificationCode}
+                    onChange={handleCertificationCodeChange}
+                    error={null}
+                />
+                <SendVerificationEmailButton onClick={handleVerifyEmail} isDisabled={emailVerificationId !== null}>
+                    {emailVerificationId ? 'verify' : 'verified'}
+                </SendVerificationEmailButton>  
+            </CertificateFieldContainerForm>
             <PaddingDiv height='20px'/>
             <RequiredTextField
                 type='password'
