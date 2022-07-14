@@ -53,7 +53,6 @@ interface SendVerificationEmailButtonProps {
 const SendVerificationEmailButton = styled(Button1)<SendVerificationEmailButtonProps>`
     height: 35px;
     margin-left: 10px;
-    width: 300px;
     ${props => props.isDisabled && `
         background-color: ${props.theme.colors.buttonActive};
 
