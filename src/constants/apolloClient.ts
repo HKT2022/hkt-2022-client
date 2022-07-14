@@ -1,1 +1,1 @@
-export const API_URL = 'http://lunuy.com:3000/graphql';
+export const API_URL = 'https://api.hkt-2022.kro.kr/graphql';
