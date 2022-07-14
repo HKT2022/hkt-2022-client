@@ -1,0 +1,17 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+#root, #modal-root {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+
+    position: absolute;
+}
+
+#modal-root {
+    pointer-events: none;
+}
