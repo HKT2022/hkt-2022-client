@@ -1,7 +1,7 @@
-import { createContext } from "react";
-import { JWT_LOCAL_STORAGE_KEY } from "../constants/localStorage";
-import { useLocalStorageRawState } from "../hooks/LocalStorageState";
+import { createContext } from 'react';
+import { JWT_LOCAL_STORAGE_KEY } from '../constants/localStorage';
 import React from 'react';
+import useLocalStorageRawState from '../hooks/useLocalStorageRawState';
 
 
 interface AuthContextState {
@@ -14,7 +14,7 @@ export const AuthContext = createContext<AuthContextState>({
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [jwt, setJwt] = useLocalStorageRawState("", JWT_LOCAL_STORAGE_KEY);
+    const [jwt, setJwt] = useLocalStorageRawState('', JWT_LOCAL_STORAGE_KEY);
     
     const state = {
         jwt,
@@ -26,4 +26,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             {children}
         </AuthContext.Provider>
     );
-};
+}
