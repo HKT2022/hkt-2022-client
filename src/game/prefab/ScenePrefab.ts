@@ -16,6 +16,11 @@ import {
 //import SansFightRoomTileAtlas from '../asset/room_sanscorridor.png';
 import SansBlack from '../asset/Sans black.png';
 import { CssSpriteAtlasRenderMode } from 'the-world-engine/dist/engine/script/render/CssSpriteAtlasRenderer';
+import { AirPurifierPrefab } from './furniture/AirPurifierPrefab';
+import { ChairFrontPrefab } from './furniture/ChairFrontPrefab';
+import { ChairBackPrefab } from './furniture/ChairBackPrefab';
+import { ChairSidePrefab } from './furniture/ChairSidePrefab';
+import { ObjectSpawner } from '../script/ObjectSpawner';
 
 export class ScenePrefab extends Prefab {
     private _colideTilemapChunkRenderer = new PrefabRef<CssCollideTilemapChunkRenderer>();
@@ -154,13 +159,12 @@ export class ScenePrefab extends Prefab {
                 .withComponent(GridObjectCollideMap, c => {
                     c.gridCellHeight = this._colideTilemapChunkRenderer.ref?.gridCellHeight ?? 1;
                     c.gridCellWidth = this._colideTilemapChunkRenderer.ref?.gridCellWidth ?? 1;
-                    c.showCollider = true;
                 })
                 .getComponent(GridObjectCollideMap, this._gridObjectCollideMap))
 
             .withChild(instantiater.buildGameObject('objects')
 
-                .withChild(instantiater.buildGameObject('iframe', new Vector3(0.5 + 10, 0.5, 0))
+                .withChild(instantiater.buildGameObject('iframe', new Vector3(0.5 + 6, 0.5, 0))
                     .withComponent(CssIframeRenderer, c => {
                         c.iframeSource = 'https://www.youtube.com/embed/p9wmCeqB0eA';
                         c.width = 4 * 1;
@@ -185,7 +189,18 @@ export class ScenePrefab extends Prefab {
                         c.addCollider(0, 0);
                         c.gridObjectCollideMap = this._gridObjectCollideMap.ref!;
                     })
-                    .withComponent(ZaxisSorter)))
+                    .withComponent(ZaxisSorter))
+
+                .withChild(instantiater.buildGameObject('spawner')
+                    .withComponent(ObjectSpawner, c => {
+                        c.gridObjectCollideMap = this._gridObjectCollideMap.ref!;
+                        c.objectList = [
+                            AirPurifierPrefab,
+                            ChairFrontPrefab,
+                            ChairBackPrefab,
+                            ChairSidePrefab
+                        ];
+                    })))
         ;
     }
 }
