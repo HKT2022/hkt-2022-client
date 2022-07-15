@@ -13,6 +13,17 @@ export interface LocalUserInput {
   emailToken: string;
 }
 
+export interface TodoInput {
+  content: string;
+  priority: number;
+}
+
+export interface TodoUpdate {
+  content: string;
+  priority: number;
+  completed: boolean;
+}
+
 export interface UserUpdate {
   username: string;
 }

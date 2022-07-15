@@ -3,6 +3,7 @@ import { ApolloClient, gql } from '@apollo/client';
 import { GetCurrentUser } from './__generated__/GetCurrentUser';
 import { GetUser, GetUserVariables } from './__generated__/GetUser';
 import { IsEmailUsed, IsEmailUsedVariables } from './__generated__/IsEmailUsed';
+import { MyTodos } from './__generated__/MyTodos';
 
 export function isEmailUsed(
     apolloClient: ApolloClient<any>,
@@ -51,3 +52,22 @@ export function getCurrentUser(
         `
     });
 }
+
+export function getMyTodos(
+    apolloClient: ApolloClient<any>
+) {
+    return apolloClient.query<MyTodos>({
+        query: gql`
+            query MyTodos {
+                myTodos {
+                    id,
+                    createdAt,
+                    priority,
+                    completed,
+                    content
+                }
+            }
+        `
+    });
+}
+
