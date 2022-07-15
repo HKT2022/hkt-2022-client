@@ -1,4 +1,4 @@
-import { gql, useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { getCurrentUser } from '../gql/queries';
 import { GetCurrentUser } from '../gql/__generated__/GetCurrentUser';
