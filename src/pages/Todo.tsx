@@ -8,11 +8,18 @@ import * as queries from '../gql/queries';
 import { useApolloClient } from '@apollo/client';
 import { MyTodos_myTodos } from '../gql/__generated__/MyTodos';
 import useToast from '../contexts/ToastContext';
+import { MEDIA_MAX_WIDTH } from '../constants/css';
 
 const BaseDiv = styled.div`
     display: flex;
     flex-direction: row;
     color: ${props => props.theme.colors.primaryInverse};
+
+    @media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
+        flex-direction: column;
+        align-items: center;
+        width: calc(100% - 40px);
+    }
 `;
 
 const LeftSideDiv = styled.div`
@@ -25,6 +32,10 @@ const RightSideDiv = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    @media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
+        width: 100%;
+    }
 `;
 
 const TitleContainerDiv = styled.div`
@@ -39,6 +50,15 @@ const HealthBarContainerDiv = styled.div`
     border: 1px solid red;
     padding: 10px;
     margin-top: 10px;
+    
+    @media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
+        margin-bottom: 10px;
+    }
+`;
+
+const TodoListContainerDiv = styled.div`
+    height: 250px;
+    overflow-y: auto;
 `;
 
 const TodoItemDiv = styled.div`
@@ -135,7 +155,6 @@ function Todo(): JSX.Element {
     useEffect(() => {
         queries.getMyTodos(apolloClient)
             .then(res => {
-                console.debug(res);
                 setTodos(res.data.myTodos);
             })
             .catch(err => {
@@ -150,7 +169,7 @@ function Todo(): JSX.Element {
 
     const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+
         const newTodo = {
             content: newTodoContent,
             priority: 1,
@@ -184,7 +203,7 @@ function Todo(): JSX.Element {
                     <TitleContainerDiv>
                         To Do
                     </TitleContainerDiv>
-                    <div>
+                    <TodoListContainerDiv>
                         {todos.map(todo => {
                             return (
                                 <TodoItemDiv key={todo.id}>
@@ -198,7 +217,7 @@ function Todo(): JSX.Element {
                                 </TodoItemDiv>
                             );
                         })}
-                    </div>
+                    </TodoListContainerDiv>
                     <TodoListAddForm onSubmit={onSubmit}>
                         <TodoListInput placeholder='new todo...' value={newTodoContent} onChange={onChangeNewTodoContent} />
                         <TodoListAddButton type='submit'>
