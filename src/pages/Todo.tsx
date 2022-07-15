@@ -1,7 +1,13 @@
-import { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HealthBar from '../components/atoms/HealthBar';
 import { OuterFlexDiv, PaddingDiv } from '../components/atoms/styled';
+import useUser from '../hooks/useCurrentUser';
+import * as mutations from '../gql/mutations';
+import * as queries from '../gql/queries';
+import { useApolloClient } from '@apollo/client';
+import { MyTodos_myTodos } from '../gql/__generated__/MyTodos';
+import useToast from '../contexts/ToastContext';
 
 const BaseDiv = styled.div`
     display: flex;
@@ -116,11 +122,27 @@ const TodoListAddButton = styled.button`
 `;
 
 function Todo(): JSX.Element {
-    const [todos, ] = useState<string[]>([
-        'Todo 1',
-        'Todo 2',
-        'Todo 3'
-    ]);
+    const user = useUser();
+    const toast = useToast();
+    const apolloClient = useApolloClient();
+
+    const [todos, setTodos] = useState<MyTodos_myTodos[]>([]);
+
+    const [newTodoContent, setNewTodoContent] = useState('');
+
+    useEffect(() => {
+        queries.getMyTodos(apolloClient)
+            .then(res => {
+                setTodos(res.data.myTodos);
+            })
+            .catch(err => {
+                toast.showToast(err.message, 'error');
+            });
+    }, []);
+
+    const onChangeNewTodoContent = useCallback((todo: React.ChangeEvent<HTMLInputElement>) => {
+        setNewTodoContent(todo.target.value);
+    }, []);
 
     return (
         <OuterFlexDiv>
@@ -142,10 +164,10 @@ function Todo(): JSX.Element {
                     <div>
                         {todos.map(todo => {
                             return (
-                                <TodoItemDiv key={todo}>
+                                <TodoItemDiv key={todo.id}>
                                     <TodoItemLeftDiv>
                                         <PriorityDiv priority={1} />
-                                        {todo}
+                                        {todo.content}
                                     </TodoItemLeftDiv>
                                     <TodoItemButton>
                                         v
@@ -155,7 +177,7 @@ function Todo(): JSX.Element {
                         })}
                     </div>
                     <TodoListAddForm>
-                        <TodoListInput placeholder='new todo...' />
+                        <TodoListInput placeholder='new todo...' value={newTodoContent} onChange={onChangeNewTodoContent} />
                         <TodoListAddButton>
                             +
                         </TodoListAddButton>
