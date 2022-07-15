@@ -357,8 +357,13 @@ function Todo(): JSX.Element {
     const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (newTodoContent.length === 0) {
+        if (newTodoContent.trim().length === 0) {
             toast.showToast('Todo content is empty', 'error');
+            return;
+        }
+        if (newTodoContent.length > 50) {
+            toast.showToast('Todo content is too long', 'error');
+            return;
         }
 
         const newTodo = {
