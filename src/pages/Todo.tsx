@@ -438,7 +438,7 @@ function Todo(): JSX.Element {
 
                 //if (gameContainerRef.current) gameContainerRef.current.innerHTML = '';
             };
-        }, 200);
+        }, 300);
     }, [gameContainerRef, setGame, setGameInteropObject]);
 
     useEffect(() => {
