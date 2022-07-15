@@ -14,14 +14,13 @@ const TitleContainerDiv = styled(InnerFlexDiv1)`
     background-color: transparent;
 `;
 
-const TitleH1 = styled.h1`
+const TitleImg = styled.img`
     font-size: 50px;
-    margin: 0;
+    margin: 30px;
     padding: 0 10px;
     box-sizing: border-box;
-    background-color: ${props => props.theme.colors.quaternary};
     width: 90%;
-    height: 300px;
+    height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,9 +45,7 @@ function Welcome(): JSX.Element {
         <>
             <OuterFlexDiv>
                 <TitleContainerDiv>
-                    <TitleH1>
-                        todo survival
-                    </TitleH1>
+                    <TitleImg src="/static/LogoSmall.svg" />
                     <PaddingDiv height='20px' />
                         에 오신것을 환영합니다!
                     <PaddingDiv height='100px' />
