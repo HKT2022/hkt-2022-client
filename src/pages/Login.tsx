@@ -144,10 +144,9 @@ function LoginForm(): JSX.Element {
         
         Mutations.loginLocal(apolloClient, { email, password, rememberMe })
             .then(res => {
-                if (!res.data?.loginLocal?.accessToken) throw new Error('No access token');
+                if (!res.data?.loginLocal.accessToken) throw new Error('No access token');
                 apolloClient.resetStore();
-                setJwt(res.data?.loginLocal?.accessToken);
-                console.log(res.data?.loginLocal?.refreshToken);
+                setJwt(res.data.loginLocal.accessToken);
                 setRefreshToken(res.data.loginLocal.refreshToken);
                 toast.showToast('Logged in successfully', 'success');
                 navigate('/');
