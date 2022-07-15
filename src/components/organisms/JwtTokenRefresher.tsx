@@ -20,7 +20,6 @@ function JwtTokenRefresher(): JSX.Element {
                 ).then(res => {
                     if (!res.data?.refreshAccessToken) throw new Error('No access token');
                     apolloClient.resetStore();
-                    console.log('Refreshed access token', res.data.refreshAccessToken);
                     setJwt(res.data?.refreshAccessToken);
                 }).catch(error => {
                     toast.showToast(error.message, 'error');
