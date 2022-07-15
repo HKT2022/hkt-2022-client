@@ -160,6 +160,26 @@ const GameViewDiv = styled.div`
     background-color: ${props => props.theme.colors.secondaryBG};
 `;
 
+const FakeHr = styled.div`
+    width: 100%;
+    height: 0px;
+    border-top: 3px solid ${props => props.theme.colors.tertiary};
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    max-width: 810px;
+`;
+
+const BottomDiv = styled.div`
+    width: 100%;
+    max-width: 810px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`;
+
 function Todo(): JSX.Element {
     const user = useUser();
     const toast = useToast();
@@ -286,12 +306,16 @@ function Todo(): JSX.Element {
                     </TodoListAddForm>
                 </RightSideDiv>
             </BaseDiv>
-            <div>
-                ==========================================================
-            </div>
-            <div>
-
-            </div>
+            <FakeHr />
+            <BottomDiv>
+                <div>
+                    logo
+                </div>
+                <div>
+                    <img src='/static/trophy.svg' />
+                    <img src='/static/setting.svg' />
+                </div>
+            </BottomDiv>
         </OuterFlexDiv>
     );
 }

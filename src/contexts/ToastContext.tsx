@@ -51,7 +51,7 @@ const ToastDiv = styled.div<ToastKindProps>`
         }
     }};
 
-    color: ${props => props.theme.colors.primaryInverse};
+    color: ${props => props.theme.colors.textLightest};
 
     @keyframes slide-in {
         from {
