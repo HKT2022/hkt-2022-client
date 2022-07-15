@@ -184,9 +184,10 @@ const BottomDiv = styled.div`
 function CheckButton({onChange, first}: {onChange: (state:boolean) => void, first?: boolean}) {
     const [checked, setChecked] = useState(first || false);
     const onClick = useCallback(() => {
+        console.log(!checked);
+        onChange(!checked);
         setChecked(o => !o);
-        onChange(checked);
-    }, []);
+    }, [checked, setChecked, onChange]);
 
     return (
         <img 
@@ -267,6 +268,17 @@ function Todo(): JSX.Element {
         setNewTodoContent('');
     }, [newTodoContent, apolloClient, toast]);
 
+    const onChangeChecked = useCallback((todo: MyTodos_myTodos) => (state: boolean) => {
+        mutations.updateTodo(apolloClient, {
+            id: todo.id,
+            todo: {
+                completed: state,
+                content: todo.content,
+                priority: todo.priority
+            }
+        });
+    }, []);
+
     const gameContainerRef = useRef<HTMLDivElement>(null);
 
     const [game, setGame] = useState<Game|null>(null);
@@ -325,7 +337,7 @@ function Todo(): JSX.Element {
                                         <PriorityDiv priority={todo.priority as 1 | 2 | 3} />
                                         {todo.content}
                                     </TodoItemLeftDiv>
-                                    <CheckButton onChange={() => {/** */}} />
+                                    <CheckButton onChange={onChangeChecked(todo)} first={todo.completed} />
                                 </TodoItemDiv>
                             );
                         })}
