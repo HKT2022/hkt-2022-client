@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import isLoggedIn from './utilities/isLoggedIn';
 
 import ChangePassword from './pages/ChangePassword';
 import Login from './pages/Login';
