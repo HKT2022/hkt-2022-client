@@ -55,7 +55,7 @@ const NavBarLogo = styled.img`
 
 const NavBarButton = styled.button`
     height: 100%;
-    width: 100px;
+    min-width: 100px;
     border: none;
     font-size: 15px;
     padding: 0px 10px;

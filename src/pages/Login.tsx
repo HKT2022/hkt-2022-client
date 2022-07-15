@@ -23,7 +23,6 @@ import useToast from '../contexts/ToastContext';
 import * as Mutations from '../gql/mutations';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
 import { useAuthContext } from '../contexts/AuthContext';
-import useLocalStorageRawState from '../hooks/useLocalStorageRawState';
 import { REFRESH_TOKEN_LOCAL_STORAGE_KEY } from '../constants/localStorage';
 
 const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`
@@ -106,7 +105,6 @@ function LoginForm(): JSX.Element {
     const [rememberMe, setRememberMe] = useState(false);
 
     const { setJwt } = useAuthContext();
-    const [ , setRefreshToken ] = useLocalStorageRawState('', REFRESH_TOKEN_LOCAL_STORAGE_KEY);
     
     const emailValidator = useRequiredValidator('Email is required');
     const passwordValidator = useRequiredValidator('Password is required');
@@ -147,14 +145,14 @@ function LoginForm(): JSX.Element {
                 if (!res.data?.loginLocal.accessToken) throw new Error('No access token');
                 apolloClient.resetStore();
                 setJwt(res.data.loginLocal.accessToken);
-                setRefreshToken(res.data.loginLocal.refreshToken);
+                window.localStorage.setItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY, res.data.loginLocal.refreshToken);
                 toast.showToast('Logged in successfully', 'success');
                 navigate('/');
             })
             .catch(error => {
                 toast.showToast(error.message, 'error');
             });
-    }, [email, password, rememberMe, emailValidator, passwordValidator, apolloClient, toast.showToast, setJwt, setRefreshToken, navigate]);
+    }, [email, password, rememberMe, emailValidator, passwordValidator, apolloClient, toast.showToast, setJwt, navigate]);
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>
@@ -178,7 +176,7 @@ function LoginForm(): JSX.Element {
                         <Checkbox type={'checkbox'} checked={rememberMe} onChange={handleRememberMeChange} />
                         Remember Me
                     </Font13Div>
-                    <Styled13Link to={'/password/reset'}>
+                    <Styled13Link to={'/password/reset-request'}>
                         I forgot my password
                     </Styled13Link>
                 </HorizontalDiv>

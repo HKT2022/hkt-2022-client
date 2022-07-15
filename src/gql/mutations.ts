@@ -6,6 +6,7 @@ import { LoginLocal, LoginLocalVariables } from './__generated__/LoginLocal';
 import { RefreshAccessToken, RefreshAccessTokenVariables } from './__generated__/RefreshAccessToken';
 import { RegisterLocal, RegisterLocalVariables } from './__generated__/RegisterLocal';
 import { RequestEmailCheck, RequestEmailCheckVariables } from './__generated__/RequestEmailCheck';
+import { RequestResetPasswordEmail, RequestResetPasswordEmailVariables } from './__generated__/RequestResetPasswordEmail';
 import { ResetPassword, ResetPasswordVariables } from './__generated__/ResetPassword';
 import { UpdateUser, UpdateUserVariables } from './__generated__/UpdateUser';
 import { VerifyEmail, VerifyEmailVariables } from './__generated__/VerifyEmail';
@@ -148,6 +149,20 @@ export function issueEmailToken(
         mutation: gql`
             mutation IssueEmailToken($emailCheckId: String!) {
                 issueEmailToken(emailCheckId: $emailCheckId)
+            }
+        `,
+        variables
+    });
+}
+
+export function requestResetPasswordEmail(
+    apolloClient: ApolloClient<any>,
+    variables: RequestResetPasswordEmailVariables
+) {
+    return apolloClient.mutate<RequestResetPasswordEmail>({
+        mutation: gql`
+            mutation RequestResetPasswordEmail($email: String!) {
+                requestResetPasswordEmail(email: $email)
             }
         `,
         variables
