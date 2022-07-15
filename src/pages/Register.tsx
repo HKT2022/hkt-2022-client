@@ -120,11 +120,11 @@ function RegisterForm(): JSX.Element {
     const apolloClient = useApolloClient();
 
     const toast = useToast();
+    const history = useNavigate();
 
     const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const history = useNavigate();
         const usernameError = usernameValidator(username);
         const emailError = emailValidator(email, emailVerified);
         const passwordError = passwordValidator(password);
@@ -158,7 +158,7 @@ function RegisterForm(): JSX.Element {
                 );
             })
             .then(() => {
-                history('/');
+                history('/login');
             })
             .catch(error => {
                 toast.showToast(error.message, 'error');
