@@ -148,6 +148,7 @@ function Todo(): JSX.Element {
     const toast = useToast();
     const apolloClient = useApolloClient();
 
+    const [health, setHealth] = useState(10);
     const [todos, setTodos] = useState<MyTodos_myTodos[]>([]);
 
     const [newTodoContent, setNewTodoContent] = useState('');
@@ -156,6 +157,13 @@ function Todo(): JSX.Element {
         queries.getMyTodos(apolloClient)
             .then(res => {
                 setTodos(res.data.myTodos);
+            })
+            .catch(err => {
+                toast.showToast(err.message, 'error');
+            });
+        queries.getCurrentUserCharacter(apolloClient)
+            .then(res => {
+                setHealth(res.data.currentUser.character.hp);
             })
             .catch(err => {
                 toast.showToast(err.message, 'error');
@@ -195,7 +203,7 @@ function Todo(): JSX.Element {
                     </div>
                     <HealthBarContainerDiv>
                         health
-                        <HealthBar health={10} maxHealth={100} />
+                        <HealthBar health={health} maxHealth={100} />
                     </HealthBarContainerDiv>
                 </LeftSideDiv>
                 <PaddingDiv width='10px' />
