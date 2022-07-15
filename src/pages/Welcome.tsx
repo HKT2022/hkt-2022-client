@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button1, InnerFlexDiv1, OuterFlexDiv, PaddingDiv } from '../components/atoms/styled';
-import { MEDIA_MAX_WIDTH } from '../constants/css';
 
 const TitleContainerDiv = styled(InnerFlexDiv1)`
     width: 600px;
@@ -12,11 +11,13 @@ const TitleContainerDiv = styled(InnerFlexDiv1)`
     justify-content: center;
     color: ${props => props.theme.colors.primaryInverse};
     background-color: transparent;
+    box-shadow: none;
 `;
 
 const TitleImg = styled.img`
     font-size: 50px;
     margin: 30px;
+    margin-bottom: 0px;
     padding: 0 10px;
     box-sizing: border-box;
     width: 90%;
