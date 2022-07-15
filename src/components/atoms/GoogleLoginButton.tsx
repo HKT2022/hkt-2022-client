@@ -1,5 +1,7 @@
+import { CredentialResponse } from 'google-one-tap';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { GOOGLE_CLIENT_ID } from '../../constants/googleClient';
 import getScript from '../../utilities/getScript';
 import { Button1 } from './styled';
 
@@ -29,25 +31,14 @@ const SigninWithGoogleButton = styled(Button1)`
 `;
 
 export interface IGoogleLoginButtonProps {
-    readonly clientConfig: gapi.auth2.ClientConfig,
-    readonly singInOptions?: gapi.auth2.SigninOptions | gapi.auth2.SigninOptionsBuilder,
-    readonly preLogin?: () => void,
-    readonly responseHandler: (response: gapi.auth2.GoogleUser) => void
-    readonly failureHandler?: (error: string) => void,
-    readonly children?: React.ReactNode,
-    readonly renderOptions?: {
-        readonly width?: number,
-        readonly height?: number,
-        readonly longtitle?: boolean,
-        readonly theme?: string, // must be either dark or light
-    }
+    readonly responseHandler: (response: CredentialResponse) => void,
+    readonly children?: React.ReactNode
 }
 
 // class GoogleLoginButton extends Component<IGoogleLoginButtonProps> {
 //     public constructor(props: IGoogleLoginButtonProps) {
 //         super(props);
 //     }
-
 //     public componentDidMount(): void {
 //         const {classNames, children} = this.props;
 //         // Loading google plateform api, if it's not loaded
@@ -98,45 +89,39 @@ export interface IGoogleLoginButtonProps {
 //     }
 // }
 
+// const handleCredentialResponse = (response: CredentialResponse) => {
+//     console.log(response);
+// };
+
 function GoogleLoginButton(props: IGoogleLoginButtonProps): JSX.Element {
     const {children} = props;
 
     const [disabled, setDisabled] = useState(false);
+
+    const handleCredentialResponse = useCallback((response: CredentialResponse) => {
+        props.responseHandler(response);
+    }, [props.responseHandler]);
     
     useEffect(() => {
         // Loading google plateform api, if it's not loaded
-        if (typeof gapi === 'undefined') {
+        if (typeof google === 'undefined') {
             setDisabled(true);
-            getScript('https://apis.google.com/js/platform.js', () => {
-                gapi.load('auth2', () => {
-                    gapi.auth2.init(props.clientConfig);
-                    if (!children) {
-                        gapi.signin2.render('ts-google-react-login', {...props.renderOptions});
-                    }
+            getScript('https://accounts.google.com/gsi/client', () => {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleCredentialResponse
                 });
+                google.accounts.id.prompt();
+              
             });
-        } else if (!children) {
-            gapi.signin2.render('ts-google-react-login', {...props.renderOptions});
         }
-    }, []);
+    }, [setDisabled]);
 
     const clickHandler = useCallback(() => {
-        const { preLogin, responseHandler, singInOptions, failureHandler } = props;
-
-        // if there is pre login task
-        preLogin?.();
-
-        const googleAuth = gapi.auth2.getAuthInstance();
-        if (googleAuth) {
-            googleAuth.signIn(singInOptions)
-                .then(googleUser => {
-                    responseHandler(googleUser);
-                })
-                .catch(reason => {
-                    failureHandler?.(reason.error);
-                });
+        if (!disabled) {
+            google.accounts.id.prompt();
         }
-    }, [props.preLogin, props.responseHandler, props.singInOptions, props.failureHandler]);
+    }, [disabled]);
 
     return (
         <SigninWithGoogleButton

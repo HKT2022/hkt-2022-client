@@ -18,12 +18,12 @@ import {
     StyledLink
 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
-import { GOOGLE_CLIENT_ID } from '../constants/googleClient';
 import useToast from '../contexts/ToastContext';
 import * as Mutations from '../gql/mutations';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
 import { useAuthContext } from '../contexts/AuthContext';
 import { REFRESH_TOKEN_LOCAL_STORAGE_KEY } from '../constants/localStorage';
+import { CredentialResponse } from 'google-one-tap';
 
 const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`
     display: flex;
@@ -197,30 +197,28 @@ function LoginWithSocialForm(): JSX.Element {
         setRememberMe(event.target.checked);
     }, []);
 
-    const handleResponse = useCallback((response: gapi.auth2.GoogleUser) => {
-        const idToken = response.getAuthResponse().id_token;
+    const handleResponse = useCallback((response: CredentialResponse) => {
+        const idToken = response.credential;
+        console.log(idToken);
 
         Mutations.loginGoogle(apolloClient, { idToken, rememberMe })
             .then(() => {
                 toast.showToast('Logged in successfully', 'success');
                 navigate('/');
-            })
-            .catch(error => {
+            }).catch(error => {
                 toast.showToast(error.message, 'error');
             });
     }, [apolloClient, toast.showToast]);
 
-    const handleError = useCallback((error: string) => {
-        toast.showToast(error, 'error');
-    }, [toast.showToast]);
+    // const handleError = useCallback((error: string) => {
+    //     toast.showToast(error, 'error');
+    // }, [toast.showToast]);
 
     return (
         <SignInWithSocialDiv>
             <MarginBottomLeftAlignDiv>{'Sign in with'}</MarginBottomLeftAlignDiv>
             <GoogleLoginButton
-                clientConfig={ { client_id: GOOGLE_CLIENT_ID} }
                 responseHandler={handleResponse}
-                failureHandler={handleError}
             >
                 <GoogleLogo src={'/static/GoogleLogo.svg'} />
                 Google
