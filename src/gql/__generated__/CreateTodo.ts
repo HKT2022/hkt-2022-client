@@ -12,6 +12,9 @@ import { TodoInput } from "./../../../codegen/__generated__/globalTypes";
 export interface CreateTodo_createTodo {
   __typename: "Todo";
   id: number;
+  priority: number;
+  content: string;
+  completed: boolean;
 }
 
 export interface CreateTodo {

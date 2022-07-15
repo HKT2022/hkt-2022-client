@@ -144,6 +144,23 @@ function Todo(): JSX.Element {
         setNewTodoContent(todo.target.value);
     }, []);
 
+    const onSubmit = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const newTodo = {
+            content: newTodoContent,
+            priority: 1,
+        };
+        mutations.createTodo(apolloClient, {
+            todo: newTodo
+        }).then(res => {
+            const resTodo = res.data?.createTodo;
+            if (!resTodo) throw new Error('createTodo failed');
+            setTodos(o => [...o, {...resTodo, createdAt: new Date()}]);
+        }).catch(err => {
+            toast.showToast(err.message, 'error');
+        });
+        setNewTodoContent('');
+    }, []);
+
     return (
         <OuterFlexDiv>
             <BaseDiv>
@@ -178,7 +195,7 @@ function Todo(): JSX.Element {
                     </div>
                     <TodoListAddForm>
                         <TodoListInput placeholder='new todo...' value={newTodoContent} onChange={onChangeNewTodoContent} />
-                        <TodoListAddButton>
+                        <TodoListAddButton onClick={onSubmit}>
                             +
                         </TodoListAddButton>
                     </TodoListAddForm>

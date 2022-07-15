@@ -180,7 +180,10 @@ export function createTodo(
         mutation: gql`
             mutation CreateTodo($todo: TodoInput!) {
                 createTodo(todo: $todo) {
-                    id
+                    id,
+                    priority,
+                    content,
+                    completed
                 }
             }
         `,
