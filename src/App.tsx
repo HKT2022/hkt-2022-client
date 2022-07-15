@@ -9,6 +9,7 @@ import NotFound from './pages/NotFound';
 import PasswordReset from './pages/PasswordReset';
 import PasswordResetRequest from './pages/PasswordResetRequest';
 import Register from './pages/Register';
+import Todo from './pages/Todo';
 
 function App(): JSX.Element {
     return (
@@ -22,6 +23,7 @@ function App(): JSX.Element {
                 <Route path='/password/reset' element={<PasswordReset />} />
                 <Route path='/password/change' element={<ChangePassword />} />
                 <Route path='/mypage' element={<MyPage />} />
+                <Route path='/todo' element={<Todo />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
         </BrowserRouter>
