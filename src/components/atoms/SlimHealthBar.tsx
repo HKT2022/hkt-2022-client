@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 import styled from 'styled-components';
 
-const HealthBarContainerDiv = styled.div`
+const HealthBarContainerDiv = styled.div<{ isInverted: boolean }>`
     width: 100%;
     height: 25px;
 
     border-radius: 80px;
     overflow: hidden;
-    background-color: ${props => props.theme.colors.tertiary};
+    background-color: ${props => props.isInverted ? 'white' : props.theme.colors.tertiary};
     color: ${props => props.theme.colors.textLightest};
 
     position: relative;
@@ -24,12 +24,13 @@ const HealthBarInnerDiv = styled.div`
 
 interface HealthBarItemProps {
     healthPercentage: number;
+    isInverted: boolean;
 }
 
 const HealthBarItem = styled.div<HealthBarItemProps>`
     width: ${props => props.healthPercentage}%;
     height: 100%;
-    background: ${props => props.theme.colors.primary};
+    background: ${props => props.isInverted ? props.theme.colors.tertiary : props.theme.colors.primary};
 
     transition: width 0.5s;
 `;
@@ -53,9 +54,9 @@ function SlimHealthBar(props: HealthBarProps) {
     }, [health, maxHealth]);
 
     return (
-        <HealthBarContainerDiv>
+        <HealthBarContainerDiv isInverted={props.isInverted}>
             <HealthBarInnerDiv>
-                <HealthBarItem healthPercentage={healthPercentage} />
+                <HealthBarItem healthPercentage={healthPercentage} isInverted={props.isInverted} />
             </HealthBarInnerDiv>
             <TextDiv>{innerText}</TextDiv>
         </HealthBarContainerDiv>

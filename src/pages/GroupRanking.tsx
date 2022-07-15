@@ -3,13 +3,16 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { OuterFlexDiv } from '../components/atoms/styled';
 import { MEDIA_MAX_WIDTH } from '../constants/css';
-import { getTodoGroupRankings, getTotalRankings } from '../gql/queries';
+import { getTodoGroup, getTodoGroupRankings, getTotalRankings } from '../gql/queries';
 import { GetTotalRankings } from '../gql/__generated__/GetTotalRankings';
 import useAsync from '../hooks/useAsync';
 import ordinal from 'ordinal';
 import useId from '../hooks/useId';
 import { GetTodoGroupRankings } from '../gql/__generated__/GetTodoGroupRankings';
 import SlimHealthBar from '../components/atoms/SlimHealthBar';
+import { useCallback } from 'react';
+import { sendHeart } from '../gql/mutations';
+import useToast from '../contexts/ToastContext';
 
 const ITEMS_IN_PAGE = 10;
 
@@ -26,12 +29,20 @@ height: 185px;
 position: relative;
 z-index: 2;
 `;
+export const TitleH2 = styled.h2`
+text-align: center;
+color: white;
+margin-bottom: 0px;
+margin-top: 0px;
+padding-top: 40px;
+font-size: 30px;
+`;
 export const TitleH1 = styled.h1`
 text-align: center;
 color: white;
 margin-bottom: 0px;
 margin-top: 0px;
-padding-top: 70px;
+padding-top: 10px;
 font-size: 45px;
 `;
 const BodyContainerDiv = styled.div`
@@ -123,7 +134,7 @@ height: 30px;
 cursor: pointer;
 `;
 
-function RankingList({ rankings }: { rankings: GetTodoGroupRankings['todoGroupRankings'] }) {
+function RankingList({ rankings, onHeartSendClick }: { rankings: GetTodoGroupRankings['todoGroupRankings'], onHeartSendClick: (userCharacterId: number) => void }) {
     const id = useId();
 
     return (
@@ -141,7 +152,8 @@ function RankingList({ rankings }: { rankings: GetTodoGroupRankings['todoGroupRa
                             <UserNameSpan>{user.username}</UserNameSpan>
                         </VerticalCenterDiv>
                         <VerticalCenterDiv>
-                            <div style={{ width: '200px' }}><SlimHealthBar health={user.character.hp} maxHealth={100} isInverted={true}/></div>
+                            { !isMe ? <div onClick={() => onHeartSendClick(user.character.id)}>♥</div> : <></> }
+                            <div style={{ width: '200px' }}><SlimHealthBar health={user.character.hp} maxHealth={100} isInverted={isMe} innerText={`${user.character.hp}/100`}/></div>
                             <div style={{ width: '10px' }}></div>
                             <ScoreSpan>{user.score}</ScoreSpan>
                         </VerticalCenterDiv>
@@ -153,13 +165,26 @@ function RankingList({ rankings }: { rankings: GetTodoGroupRankings['todoGroupRa
 }
 
 export default function GroupRanking() {
+    const toast = useToast();
 
     const params = useParams();
     const groupId = Number(params.groupId) | 0;
 
     const apolloClient = useApolloClient();
+    const groupAsync = useAsync(() => getTodoGroup(apolloClient, { id: groupId }));
     const totalRankingsAsync = useAsync(() => getTodoGroupRankings(apolloClient, { todoGroupId: groupId, skip: 0, limit: ITEMS_IN_PAGE }));
     
+    const handleHeartSendClick = useCallback((userCharacterId: number) => {
+        (async () => {
+            try {
+                await sendHeart(apolloClient, { userCharacterId });
+                toast.showToast('Heart sent.', 'success');
+            } catch(e: any) {
+                toast.showToast(e.message, 'error');
+            }
+        })();
+    }, []);
+
     return (
         <OuterFlexDiv>
             <BackLink to="/todo"><BackIcon src={'/static/back.svg'}/></BackLink>
@@ -168,11 +193,12 @@ export default function GroupRanking() {
                     <LightBlueBall/>
                 </LightBlueBallContainer>
                 <TitleContainerDiv>
-                    <TitleH1>GroupRanking</TitleH1>
+                    <TitleH2>{groupAsync.value?.data.TodoGroup.name}</TitleH2>
+                    <TitleH1>Ranking</TitleH1>
                 </TitleContainerDiv>
                 <BodyContainerDiv>
                     <ListContainerDiv>
-                        <RankingList rankings={totalRankingsAsync.value?.data.todoGroupRankings ?? []}/>
+                        <RankingList rankings={totalRankingsAsync.value?.data.todoGroupRankings ?? []} onHeartSendClick={handleHeartSendClick}/>
                     </ListContainerDiv>
                 </BodyContainerDiv>
             </ContainerDiv>

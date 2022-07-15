@@ -13,6 +13,7 @@ import { RequestEmailCheck, RequestEmailCheckVariables } from './__generated__/R
 import { RequestResetPasswordEmail, RequestResetPasswordEmailVariables } from './__generated__/RequestResetPasswordEmail';
 import { ResetPassword, ResetPasswordVariables } from './__generated__/ResetPassword';
 import { ReviveMyUserCharacter } from './__generated__/ReviveMyUserCharacter';
+import { SendHeart, SendHeartVariables } from './__generated__/SendHeart';
 import { UpdateTodo, UpdateTodoVariables } from './__generated__/UpdateTodo';
 import { UpdateUser, UpdateUserVariables } from './__generated__/UpdateUser';
 import { VerifyEmail, VerifyEmailVariables } from './__generated__/VerifyEmail';
@@ -281,6 +282,21 @@ export function registerTodoGroup(
                     description
                 }
             }
+        `,
+        variables
+    });
+}
+
+
+export function sendHeart(
+    apolloClient: ApolloClient<any>,
+    variables: SendHeartVariables
+) {
+    return apolloClient.mutate<SendHeart>({
+        mutation: gql`
+        mutation SendHeart($userCharacterId: Int!) {
+            sendHeart(userCharacterId: $userCharacterId)
+        }
         `,
         variables
     });

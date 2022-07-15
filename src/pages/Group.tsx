@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { OuterFlexDiv } from '../components/atoms/styled';
 import { MEDIA_MAX_WIDTH } from '../constants/css';
@@ -176,6 +176,8 @@ export default function Group() {
     const [searchText, setSearchText] = useState('');
     const [searchResults, setSearchResults] = useState<SearchTodoGroups['searchTodoGroups']>([]);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         (async () => {
             const searchResults = (await searchTodoGroups(apolloClient, { text: searchText, limit: 10 })).data.searchTodoGroups;
@@ -192,6 +194,7 @@ export default function Group() {
             try {
                 await registerTodoGroup(apolloClient, { id: group.id });
                 toast.showToast('Successfully joined to this group!', 'success');
+                navigate(`/group/${group.id}/ranking`);
             } catch(e: any) {
                 toast.showToast(e.message, 'error');
             }
