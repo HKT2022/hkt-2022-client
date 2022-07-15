@@ -12,20 +12,20 @@ import useId from '../hooks/useId';
 
 const ITEMS_IN_PAGE = 10;
 
-const ContainerDiv = styled.div`
-width: calc(100% - 200px);
+export const ContainerDiv = styled.div`
+width: calc(max(100% - 200px, 280px));
 position: relative;
 
 @media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
     width: calc(100% - 30px);
 }
 `;
-const TitleContainerDiv = styled.div`   
+export const TitleContainerDiv = styled.div`   
 height: 185px;
 position: relative;
 z-index: 2;
 `;
-const TitleH1 = styled.h1`
+export const TitleH1 = styled.h1`
 text-align: center;
 color: white;
 margin-bottom: 0px;
@@ -94,14 +94,14 @@ const UserNameSpan = styled.span`
 const ScoreSpan = styled.span`
 `;
 
-const LightBlueBallContainer = styled.div`
+export const LightBlueBallContainer = styled.div`
 display: flex;
 height: 0px;
 position: relative;
 justify-content: center;
 z-index: 1;
 `;
-const LightBlueBall = styled.div`
+export const LightBlueBall = styled.div`
     background-color: #CEDEFF;
     width: 452px;
     height: 452px;
