@@ -11,6 +11,7 @@ import Todo from './pages/Todo';
 import Welcome from './pages/Welcome';
 import useIsLoggedIn from './hooks/useIsLoggedIn';
 import Ranking from './pages/Ranking';
+import GameViewTest from './pages/GameViewTest';
 
 function App(): JSX.Element {
     const loggedIn = useIsLoggedIn();
@@ -31,6 +32,7 @@ function App(): JSX.Element {
                 <Route path='/todo' element={<Todo />} />
                 <Route path='/welcome' element={<Welcome />} />
                 <Route path='/ranking' element={<Ranking />} />
+                <Route path='/game-view-test' element={<GameViewTest />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
         </BrowserRouter>
