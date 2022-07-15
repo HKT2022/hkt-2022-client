@@ -1,13 +1,16 @@
 import { ApolloClient, gql } from '@apollo/client';
+import { CreateTodo, CreateTodoVariables } from './__generated__/CreateTodo';
 
 import { IssueEmailToken, IssueEmailTokenVariables } from './__generated__/IssueEmailToken';
 import { LoginGoogle, LoginGoogleVariables } from './__generated__/LoginGoogle';
 import { LoginLocal, LoginLocalVariables } from './__generated__/LoginLocal';
 import { RefreshAccessToken, RefreshAccessTokenVariables } from './__generated__/RefreshAccessToken';
 import { RegisterLocal, RegisterLocalVariables } from './__generated__/RegisterLocal';
+import { RemoveTodo, RemoveTodoVariables } from './__generated__/RemoveTodo';
 import { RequestEmailCheck, RequestEmailCheckVariables } from './__generated__/RequestEmailCheck';
 import { RequestResetPasswordEmail, RequestResetPasswordEmailVariables } from './__generated__/RequestResetPasswordEmail';
 import { ResetPassword, ResetPasswordVariables } from './__generated__/ResetPassword';
+import { UpdateTodo, UpdateTodoVariables } from './__generated__/UpdateTodo';
 import { UpdateUser, UpdateUserVariables } from './__generated__/UpdateUser';
 import { VerifyEmail, VerifyEmailVariables } from './__generated__/VerifyEmail';
 
@@ -163,6 +166,54 @@ export function requestResetPasswordEmail(
         mutation: gql`
             mutation RequestResetPasswordEmail($email: String!) {
                 requestResetPasswordEmail(email: $email)
+            }
+        `,
+        variables
+    });
+}
+
+export function createTodo(
+    apolloClient: ApolloClient<any>,
+    variables: CreateTodoVariables
+) {
+    return apolloClient.mutate<CreateTodo>({
+        mutation: gql`
+            mutation CreateTodo($todo: TodoInput!) {
+                createTodo(todo: $todo) {
+                    id
+                }
+            }
+        `,
+        variables
+    });
+}
+
+
+export function updateTodo(
+    apolloClient: ApolloClient<any>,
+    variables: UpdateTodoVariables
+) {
+    return apolloClient.mutate<UpdateTodo>({
+        mutation: gql`
+            mutation UpdateTodo($id: Int!, $todo: TodoUpdate!) {
+                updateTodo(id: $id, todo: $todo) {
+                    id
+                }
+            }
+        `,
+        variables
+    });
+}
+
+
+export function removeTodo(
+    apolloClient: ApolloClient<any>,
+    variables: RemoveTodoVariables
+) {
+    return apolloClient.mutate<RemoveTodo>({
+        mutation: gql`
+            mutation RemoveTodo($id: Int!) {
+                removeTodo(id: $id)
             }
         `,
         variables
