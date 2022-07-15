@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloProvider,InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloProvider,createHttpLink,InMemoryCache } from '@apollo/client';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from 'styled-components';
@@ -8,10 +8,27 @@ import { API_URL } from './constants/apolloClient';
 import { DARK_THEME, LIGHT_THEME } from './constants/css';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
+import { setContext } from '@apollo/client/link/context';
+import { JWT_LOCAL_STORAGE_KEY } from './constants/localStorage';
+
+const httpLink = createHttpLink({
+    uri: 'https://truedu.kr/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+    const token = localStorage.getItem(JWT_LOCAL_STORAGE_KEY);
+
+    return {
+        headers: {
+            ...headers,
+            authorization: token ? `${token}` : '',
+        }
+    };
+});
 
 const client = new ApolloClient({
-    uri: API_URL,
-    cache: new InMemoryCache(),  
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
 });
 
 const root = ReactDOM.createRoot(
