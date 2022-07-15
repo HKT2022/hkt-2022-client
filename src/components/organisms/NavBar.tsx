@@ -120,6 +120,10 @@ function RightNavbarButtons(): JSX.Element {
         navigate('/login');
     }, [navigate]);
 
+    const handleLogoutClick = useCallback(() => {
+        navigate('/logout');
+    }, [navigate]);
+
     const isLoggedIn = useIsLoggedIn();
     const user = useCurrentUser();
     return (
@@ -130,7 +134,7 @@ function RightNavbarButtons(): JSX.Element {
                         Sign In
                     </NavBarButton>
                 ) : (
-                    <NavBarButton>
+                    <NavBarButton onClick={handleLogoutClick}>
                         {user?.username ?? '...'}
                     </NavBarButton>
                 ) }
