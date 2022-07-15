@@ -2,6 +2,7 @@ import { ApolloClient, gql } from '@apollo/client';
 
 import { GetCurrentUser } from './__generated__/GetCurrentUser';
 import { GetCurrentUserCharacter } from './__generated__/GetCurrentUserCharacter';
+import { GetTotalRankings, GetTotalRankingsVariables } from './__generated__/GetTotalRankings';
 import { GetUser, GetUserVariables } from './__generated__/GetUser';
 import { GetUserCharacter, GetUserCharacterVariables } from './__generated__/GetUserCharacter';
 import { IsEmailUsed, IsEmailUsedVariables } from './__generated__/IsEmailUsed';
@@ -104,6 +105,29 @@ export function getUserCharacter(
         query: gql`
             query GetUserCharacter($id: String!) {
                 User(id: $id) {
+                    character {
+                        id
+                        hp
+                    }
+                }
+            }
+        `,
+        variables
+    });
+}
+
+
+export function getTotalRankings(
+    apolloClient: ApolloClient<any>,
+    variables: GetTotalRankingsVariables
+) {
+    return apolloClient.query<GetTotalRankings>({
+        query: gql`
+            query GetTotalRankings($skip: Int!, $limit: Int!) {
+                totalRankings(skip: $skip, limit: $limit) {
+                    id
+                    username
+                    score
                     character {
                         id
                         hp

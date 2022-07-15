@@ -11,6 +11,7 @@ import useToast from '../contexts/ToastContext';
 import { MEDIA_MAX_WIDTH } from '../constants/css';
 import useLocalStorageState from '../hooks/useLocalStorageState';
 import { BEFORE_HEALTH_KEY } from '../constants/localStorage';
+import shakeCamera from '../utilities/shakeCamera';
 import { Game } from 'the-world-engine';
 import { Bootstrapper } from '../game/GameBootstrapper';
 
@@ -159,15 +160,19 @@ function Todo(): JSX.Element {
     const apolloClient = useApolloClient();
 
     const [beforeHealth, setBeforeHealth] = useLocalStorageState(0, BEFORE_HEALTH_KEY);
-    const [health, setHealth] = useState(10);
+    const [health, setHealth] = useState(100);
     const [todos, setTodos] = useState<MyTodos_myTodos[]>([]);
 
     const [newTodoContent, setNewTodoContent] = useState('');
 
     const changedHealth = useCallback((hp: number) => {
-        const d = beforeHealth - hp;
+        const d = hp - beforeHealth;
+        const dif = Math.abs(d);
 
-        // work
+        if (d < 0) {
+            shakeCamera();
+            toast.showToast(`You lost ${dif} health!`, 'error');
+        }
         
 
         setBeforeHealth(hp);

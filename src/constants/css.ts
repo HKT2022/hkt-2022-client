@@ -2,10 +2,16 @@ export const MEDIA_MAX_WIDTH = 768;
 
 export const LIGHT_THEME = {
     colors: {
-        background: '#fff',
-        primary: '#fdfdfd',
-        secondary: '#eee',
-        tertiary: '#f5f5f5',
+        // background: '#fff',
+        // primary: '#fdfdfd',
+        // secondary: '#eee',
+        // tertiary: '#f5f5f5',
+        background: '#F8F9FD',
+        primary: '#5A81FA',
+        secondary: '#2B308C',
+        tertiary: '#9CB3FC',
+        quaternary: '#9CB3FC',
+        
         backgroundInverse: '#000',
         primaryInverse: '#111',
 
