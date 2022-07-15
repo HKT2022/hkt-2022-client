@@ -1,15 +1,15 @@
-import { Component, CoroutineIterator, WaitForSeconds } from "the-world-engine";
-import { PlayerGridMovementController } from "./PlayerGridMovementController";
-import { HealthState, PlayerStatusRenderController } from "./PlayerStatusRenderController";
+import { Component, CoroutineIterator, WaitForSeconds } from 'the-world-engine';
+import { PlayerGridMovementController } from './PlayerGridMovementController';
+import { HealthState, PlayerStatusRenderController } from './PlayerStatusRenderController';
 
 export class RandomBehaviorMaker extends Component {
     public override readonly disallowMultipleComponent: boolean = true;
     public override readonly requiredComponents = [PlayerGridMovementController];
 
-    public randomMovementRange: number = 10;
-    public randowMovementInterval: number = 5000;
+    public randomMovementRange = 4;
+    public randowMovementInterval = 5;
 
-    public randomChatRange: number = 10;
+    public randomChatRange = 10;
 
     public randomChatHealth1Set: string[] = [];
     public randomChatHealth2Set: string[] = [];
@@ -31,8 +31,7 @@ export class RandomBehaviorMaker extends Component {
 
     private *randomMovement(): CoroutineIterator {
         for (; ;) {
-            yield new WaitForSeconds(this.randowMovementInterval / 1000);
-
+            yield new WaitForSeconds(this.randowMovementInterval);
             const randomPosition = this._playerGridMovementController!.positionInGrid;
             randomPosition.x += Math.floor(Math.random() * this.randomMovementRange * 2) - this.randomMovementRange;
             randomPosition.y += Math.floor(Math.random() * this.randomMovementRange * 2) - this.randomMovementRange;
@@ -45,18 +44,18 @@ export class RandomBehaviorMaker extends Component {
             const playerHealthState = this._playerStatusRenderController!.healthState;
             let randomChatSet: string[];
             switch (playerHealthState) {
-                case HealthState.Healthy:
-                    randomChatSet = this.randomChatHealth1Set;
-                    break;
-                case HealthState.Damaged1:
-                    randomChatSet = this.randomChatHealth2Set;
-                    break;
-                case HealthState.Damaged2:
-                    randomChatSet = this.randomChatHealth3Set;
-                    break;
-                case HealthState.Damaged3:
-                    randomChatSet = this.randomChatHealth4Set;
-                    break;
+            case HealthState.Healthy:
+                randomChatSet = this.randomChatHealth1Set;
+                break;
+            case HealthState.Damaged1:
+                randomChatSet = this.randomChatHealth2Set;
+                break;
+            case HealthState.Damaged2:
+                randomChatSet = this.randomChatHealth3Set;
+                break;
+            case HealthState.Damaged3:
+                randomChatSet = this.randomChatHealth4Set;
+                break;
             }
 
             const randomChat = randomChatSet[Math.floor(Math.random() * randomChatSet.length)];

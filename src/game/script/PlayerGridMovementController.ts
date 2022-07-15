@@ -1,5 +1,6 @@
-import { Direction, Directionable, EventContainer, GridPointer, IEventContainer, IGridCollidable, IGridPositionable, Pathfinder, PointerGridEvent, ReadonlyVector2, WritableVector2 } from 'the-world-engine';
+import { Direction, Directionable, EventContainer, GridPointer, IEventContainer, IGridCollidable, IGridPositionable, PointerGridEvent, ReadonlyVector2, WritableVector2 } from 'the-world-engine';
 import { Vector2 } from 'three/src/Three';
+import { Pathfinder } from './pathfind/Pathfinder';
 
 
 /**
