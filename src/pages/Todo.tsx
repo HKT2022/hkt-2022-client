@@ -326,7 +326,6 @@ function Todo(): JSX.Element {
             .then(res => {
                 setCharacterId(res.data.currentUser.character.id);
                 setHealth(res.data.currentUser.character.hp);
-                changedHealth(res.data.currentUser.character.hp);
             })
             .catch(err => {
                 toast.showToast(err.message, 'error');
@@ -421,6 +420,8 @@ function Todo(): JSX.Element {
 
     useEffect(() => {
         if (!gameInteropObject) return;
+
+        changedHealth(health);
 
         let state = HealthState.Healthy;
         if      (health <= 25) state = HealthState.Damaged3;
