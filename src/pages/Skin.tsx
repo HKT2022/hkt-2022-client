@@ -143,6 +143,9 @@ const AbsoluteArea = styled.div`
     transform: translateX(-50%);
 `;
 
+const LogoImg = styled.img`
+    height: 35px;
+`;
 
 function Skin(): JSX.Element {
     // const user = useUser();
@@ -268,9 +271,7 @@ function Skin(): JSX.Element {
                 </BaseDiv>
                 <FakeHr />
                 <BottomDiv>
-                    <div>
-                        logo
-                    </div>
+                    <LogoImg src={'static/LogoSmall.svg'} alt='logo' />
                     <div>
                         <BtnImg src='/static/group.svg' 
                             onClick={() => {
