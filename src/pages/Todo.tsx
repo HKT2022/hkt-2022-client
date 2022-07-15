@@ -9,6 +9,8 @@ import { useApolloClient } from '@apollo/client';
 import { MyTodos_myTodos } from '../gql/__generated__/MyTodos';
 import useToast from '../contexts/ToastContext';
 import { MEDIA_MAX_WIDTH } from '../constants/css';
+import useLocalStorageState from '../hooks/useLocalStorageState';
+import { BEFORE_HEALTH_KEY } from '../constants/localStorage';
 
 const BaseDiv = styled.div`
     display: flex;
@@ -148,10 +150,20 @@ function Todo(): JSX.Element {
     const toast = useToast();
     const apolloClient = useApolloClient();
 
+    const [beforeHealth, setBeforeHealth] = useLocalStorageState(0, BEFORE_HEALTH_KEY);
     const [health, setHealth] = useState(10);
     const [todos, setTodos] = useState<MyTodos_myTodos[]>([]);
 
     const [newTodoContent, setNewTodoContent] = useState('');
+
+    const changedHealth = useCallback((hp: number) => {
+        const d = beforeHealth - hp;
+
+        // work
+        
+
+        setBeforeHealth(hp);
+    }, [beforeHealth]);
 
     useEffect(() => {
         queries.getMyTodos(apolloClient)
@@ -164,6 +176,7 @@ function Todo(): JSX.Element {
         queries.getCurrentUserCharacter(apolloClient)
             .then(res => {
                 setHealth(res.data.currentUser.character.hp);
+                changedHealth(res.data.currentUser.character.hp);
             })
             .catch(err => {
                 toast.showToast(err.message, 'error');

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-function useLocalSotrageState<T>(defaultValue: T, key: string): [T, React.Dispatch<React.SetStateAction<T>>] {
+function useLocalStorageState<T>(defaultValue: T, key: string): [T, React.Dispatch<React.SetStateAction<T>>] {
     const [value, setValue] = useState<T>(() => {
         const stickyValue = window.localStorage.getItem(key);
         return stickyValue !== null
@@ -15,4 +15,4 @@ function useLocalSotrageState<T>(defaultValue: T, key: string): [T, React.Dispat
     return [value, setValue];
 }
 
-export default useLocalSotrageState;
+export default useLocalStorageState;
