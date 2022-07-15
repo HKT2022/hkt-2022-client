@@ -12,8 +12,31 @@ import { CameraPrefab } from './prefab/CameraPrefab';
 import { GridInputPrefab } from './prefab/GridInputPrefab';
 import { PlayerPrefab } from './prefab/PlayerPrefab';
 import { SansFightRoomPrefab } from './prefab/SansFightRoomPrefab';
+import { InvokeOnStart } from './script/InvokeOnStart';
+import { HealthState, PlayerStatusRenderController } from './script/PlayerStatusRenderController';
 
-export class Bootstrapper extends BaseBootstrapper {
+export interface IStateInterop {
+    setState(state: HealthState): void;
+}
+
+export class StateInteropObject implements IStateInterop {
+    private _state: HealthState = HealthState.Healthy;
+    private _playerStatusRenderController: PlayerStatusRenderController|null = null;
+
+    public setState(healthState: HealthState): void {
+        this._state = healthState;
+        if (this._playerStatusRenderController) {
+            this._playerStatusRenderController.setHealthState(healthState);
+        }
+    }
+    
+    public setController(controller: PlayerStatusRenderController): void {
+        this._playerStatusRenderController = controller;
+        controller.setHealthState(this._state);
+    }
+}
+
+export class Bootstrapper extends BaseBootstrapper<StateInteropObject> {
     public run(): SceneBuilder {
         const instantiater = this.instantiater;
         
@@ -21,6 +44,8 @@ export class Bootstrapper extends BaseBootstrapper {
         const collideMap = new PrefabRef<GridObjectCollideMap>();
         const player = new PrefabRef<GameObject>();
         const gridPointer = new PrefabRef<GridPointer>();
+
+        const playerStatusRenderController = new PrefabRef<PlayerStatusRenderController>();
 
         return this.sceneBuilder
             .withChild(instantiater.buildPrefab('sans_fight_room', SansFightRoomPrefab)
@@ -32,6 +57,7 @@ export class Bootstrapper extends BaseBootstrapper {
                 .withCollideMap(colideTilemapChunkRenderer)
                 .withGridPosition(new PrefabRef(new Vector2(0, -1)))
                 .withPathfindPointer(gridPointer).make()
+                .getComponent(PlayerStatusRenderController, playerStatusRenderController)
                 .getGameObject(player))
                 
             .withChild(instantiater.buildPrefab('grid_input', GridInputPrefab, new Vector3(0, 0, -500000))
@@ -41,6 +67,11 @@ export class Bootstrapper extends BaseBootstrapper {
                 
             .withChild(instantiater.buildPrefab('camera', CameraPrefab)
                 .withTrackTarget(player).make())
+
+            .withChild(instantiater.buildGameObject('invoker')
+                .withComponent(InvokeOnStart, c => c.invoke = () => {
+                    this.interopObject?.setController(playerStatusRenderController.ref!);
+                }))
         ;
     }
 }
