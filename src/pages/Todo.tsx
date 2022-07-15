@@ -15,6 +15,17 @@ function Todo(): JSX.Element {
         <CenterAlignedPage>
             <>
                 <div>
+                    <h1 style={{ color: 'white' }}>{user?.id || '샌즈'}</h1>
+                </div>
+                <div style={{ color: 'white' }}>
+                    캐릭터 체력 ===============================
+                </div>
+                <div style={{width: 300, height: 300, background: 'white'}}>
+                    캐릭터 사진
+                </div>
+                <br />
+                <input placeholder='새로운 todo 추가' />
+                <div>
                     {todos.map(todo => {
                         return (
                             <div key={todo} style={{color: 'white'}}>
