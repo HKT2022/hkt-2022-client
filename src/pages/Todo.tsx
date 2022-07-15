@@ -140,7 +140,14 @@ const TodoListAddForm = styled.form`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    box-sizing: border-box;
+    width: calc(100%-12px);
+
+    color: white;
+    margin: 6px;
+
+    border-radius: 21.5px;
+    background-color: ${props => props.theme.colors.quaternary};
 `;
 
 const TodoListInput = styled.input`
@@ -149,6 +156,9 @@ const TodoListInput = styled.input`
     padding: 5px 10px;
     box-sizing: content-box;
     width: 100%;
+
+    border: 0px solid #00000000;
+    background-color: #00000000;
 `;
 
 const TodoListAddButton = styled.button`
@@ -205,8 +215,8 @@ const BottomDiv = styled.div`
 function CheckButton({onChange, first}: {onChange: (state:boolean) => void, first?: boolean}) {
     const [checked, setChecked] = useState(first || false);
     const onClick = useCallback(() => {
-        onChange(!checked);
-        setChecked(o => !o);
+        onChange(true);
+        setChecked(true);
     }, [checked, setChecked, onChange]);
 
     return (
@@ -218,7 +228,7 @@ function CheckButton({onChange, first}: {onChange: (state:boolean) => void, firs
 }
 
 const PriorityListDiv = styled.div`
-    height: 50px;
+    height: 40px;
 
     display: flex;
     flex-direction: row;
@@ -373,26 +383,28 @@ function Todo(): JSX.Element {
     const [game, setGame] = useState<Game|null>(null);
 
     useEffect(() => {
-        if (gameContainerRef.current && !game) {
-            const game = new Game(gameContainerRef.current);
-            const interopObject = new StateInteropObject();
-            game.run(Bootstrapper, interopObject);
-            game.inputHandler.startHandleEvents();
-            setGame(game);
-            setGameInteropObject(interopObject);
-        }
-
-        return () => {
-            if (game) {
-                game.inputHandler.stopHandleEvents();
-                game.dispose();
+        setTimeout(() => {
+            if (gameContainerRef.current && !game) {
+                const game = new Game(gameContainerRef.current);
+                const interopObject = new StateInteropObject();
+                game.run(Bootstrapper, interopObject);
+                game.inputHandler.startHandleEvents();
+                setGame(game);
+                setGameInteropObject(interopObject);
             }
 
-            setGame(null);
-            setGameInteropObject(null);
+            return () => {
+                if (game) {
+                    game.inputHandler.stopHandleEvents();
+                    game.dispose();
+                }
 
-            //if (gameContainerRef.current) gameContainerRef.current.innerHTML = '';
-        };
+                setGame(null);
+                setGameInteropObject(null);
+
+                //if (gameContainerRef.current) gameContainerRef.current.innerHTML = '';
+            };
+        }, 100);
     }, [gameContainerRef, setGame, setGameInteropObject]);
 
     useEffect(() => {
@@ -459,7 +471,19 @@ function Todo(): JSX.Element {
             <BottomDiv>
                 <LogoImg src={'static/LogoSmall.svg'} alt='logo' />
                 <div>
+                    <BtnImg src='/static/group.svg' 
+                        onClick={() => {
+                            navigate('/group');
+                        }}
+                    />
+                    <BtnImg src='/static/skin.svg' 
+                        style={{marginLeft: 32}}
+                        onClick={() => {
+                            navigate('/');
+                        }}
+                    />
                     <BtnImg src='/static/trophy.svg' 
+                        style={{marginLeft: 32}}
                         onClick={() => {
                             navigate('/ranking');
                         }}
