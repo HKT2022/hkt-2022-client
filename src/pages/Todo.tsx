@@ -157,6 +157,8 @@ const TodoListAddButton = styled.button`
     box-sizing: content-box;
 
     margin-right: 10px;
+
+    border: none;
 `;
 
 const GameViewDiv = styled.div`
