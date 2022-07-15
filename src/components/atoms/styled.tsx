@@ -20,13 +20,17 @@ export const InnerFlexForm1 = styled.form`
     align-items: center;
     justify-content: start;
     width: 500px;
-    background-color: ${props => props.theme.colors.secondary};
+    background-color: ${props => props.theme.colors.secondaryBG};
     padding: 20px;
     box-sizing: border-box;
+
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
 
     @media (max-width: ${MEDIA_MAX_WIDTH}px) {
         width: calc(100% - 40px);
     }
+
+    border-radius: 30px;
 `;
 
 export const InnerFlexDiv1 = styled.div`
@@ -35,13 +39,17 @@ export const InnerFlexDiv1 = styled.div`
     align-items: center;
     justify-content: start;
     width: 500px;
-    background-color: ${props => props.theme.colors.secondary};
+    background-color: ${props => props.theme.colors.secondaryBG};
     padding: 20px;
     box-sizing: border-box;
+    
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
 
     @media (max-width: ${MEDIA_MAX_WIDTH}px) {
         width: calc(100% - 40px);
     }
+
+    border-radius: 30px;
 `;
 
 export const TextInput1 = styled.input`
@@ -51,6 +59,7 @@ export const TextInput1 = styled.input`
     font-size: 15px;
     color: ${props => props.theme.colors.primaryInverse};
     background-color: ${props => props.theme.colors.background};
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05) inset;
     margin-bottom: 20px;
     box-sizing: border-box;
     padding: 0 10px;
