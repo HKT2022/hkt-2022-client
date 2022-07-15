@@ -13,6 +13,11 @@ export interface LocalUserInput {
   emailToken: string;
 }
 
+export interface TodoGroupInput {
+  name: string;
+  description: string;
+}
+
 export interface TodoInput {
   content: string;
   priority: number;

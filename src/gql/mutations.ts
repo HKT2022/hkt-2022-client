@@ -1,11 +1,13 @@
 import { ApolloClient, gql } from '@apollo/client';
 import { CreateTodo, CreateTodoVariables } from './__generated__/CreateTodo';
+import { CreateTodoGroup, CreateTodoGroupVariables } from './__generated__/CreateTodoGroup';
 
 import { IssueEmailToken, IssueEmailTokenVariables } from './__generated__/IssueEmailToken';
 import { LoginGoogle, LoginGoogleVariables } from './__generated__/LoginGoogle';
 import { LoginLocal, LoginLocalVariables } from './__generated__/LoginLocal';
 import { RefreshAccessToken, RefreshAccessTokenVariables } from './__generated__/RefreshAccessToken';
 import { RegisterLocal, RegisterLocalVariables } from './__generated__/RegisterLocal';
+import { RegisterTodoGroup, RegisterTodoGroupVariables } from './__generated__/RegisterTodoGroup';
 import { RemoveTodo, RemoveTodoVariables } from './__generated__/RemoveTodo';
 import { RequestEmailCheck, RequestEmailCheckVariables } from './__generated__/RequestEmailCheck';
 import { RequestResetPasswordEmail, RequestResetPasswordEmailVariables } from './__generated__/RequestResetPasswordEmail';
@@ -236,5 +238,50 @@ export function reviveMyUserCharacter(
                 }
             }
         `
+    });
+}
+
+
+export function createTodoGroup(
+    apolloClient: ApolloClient<any>,
+    variables: CreateTodoGroupVariables
+) {
+    return apolloClient.mutate<CreateTodoGroup>({
+        mutation: gql`
+            mutation CreateTodoGroup($todoGroup: TodoGroupInput!) {
+                createTodoGroup(todoGroup: $todoGroup) {
+                    id,
+                    name,
+                    owner {
+                        id
+                        username
+                    },
+                    description
+                }
+            }
+        `,
+        variables
+    });
+}
+
+export function registerTodoGroup(
+    apolloClient: ApolloClient<any>,
+    variables: RegisterTodoGroupVariables
+) {
+    return apolloClient.mutate<RegisterTodoGroup>({
+        mutation: gql`
+            mutation RegisterTodoGroup($id: Int!) {
+                registerTodoGroup(id: $id) {
+                    id,
+                    name,
+                    owner {
+                        id
+                        username
+                    },
+                    description
+                }
+            }
+        `,
+        variables
     });
 }

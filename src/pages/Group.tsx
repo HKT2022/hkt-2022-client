@@ -1,7 +1,13 @@
+import { useApolloClient } from '@apollo/client';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { OuterFlexDiv } from '../components/atoms/styled';
 import { MEDIA_MAX_WIDTH } from '../constants/css';
+import useToast from '../contexts/ToastContext';
+import { registerTodoGroup } from '../gql/mutations';
+import { searchTodoGroups } from '../gql/queries';
+import { SearchTodoGroups } from '../gql/__generated__/SearchTodoGroups';
 
 export const ContainerDiv = styled.div`
     width: calc(max(100% - 200px, 280px));
@@ -123,19 +129,23 @@ const BackIcon = styled.img`
     height: 30px;
     cursor: pointer;
 `;
+const CursorPointerDiv = styled.div`
+    cursor: pointer;
+`;
 
-function RankingList({ rankings }: { rankings: string[] }) {
+function GroupList({ groups, onGroupRegisterClick }: { groups: SearchTodoGroups['searchTodoGroups'], onGroupRegisterClick: (x: SearchTodoGroups['searchTodoGroups'][number]) => void }) {
+
     return (
         <ListOl>
-            {rankings.map((user, index) => {
+            {groups.map((group, index) => {
 
                 return (
                     <ListItemLi key={index} isReversedColor={false}>
                         <VerticalCenterDiv>
-                            <UserNameSpan>{user}</UserNameSpan>
+                            <UserNameSpan>{group.name}</UserNameSpan>
                         </VerticalCenterDiv>
-                        <VerticalCenterDiv>
-                            <img src="/static/join.svg" />
+                        <VerticalCenterDiv onClick={e => onGroupRegisterClick(group)}>
+                            <CursorPointerDiv><img src="/static/join.svg" /></CursorPointerDiv>
                         </VerticalCenterDiv>
                     </ListItemLi>
                 );
@@ -160,6 +170,34 @@ const Search = styled.input`
 `;
 
 export default function Group() {
+    const apolloClient = useApolloClient();
+    const toast = useToast();
+
+    const [searchText, setSearchText] = useState('');
+    const [searchResults, setSearchResults] = useState<SearchTodoGroups['searchTodoGroups']>([]);
+
+    useEffect(() => {
+        (async () => {
+            const searchResults = (await searchTodoGroups(apolloClient, { text: searchText, limit: 10 })).data.searchTodoGroups;
+            setSearchResults(searchResults);
+        })();
+    }, [searchText]);
+
+    const handleSearchTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchText(e.target.value);
+    }, []);
+
+    const handleGroupRegisterClick = useCallback((group: SearchTodoGroups['searchTodoGroups'][number]) => {
+        (async () => {
+            try {
+                await registerTodoGroup(apolloClient, { id: group.id });
+                toast.showToast('Successfully joined to this group!', 'success');
+            } catch(e: any) {
+                toast.showToast(e.message, 'error');
+            }
+        })();
+    }, []);
+
     return (
         <OuterFlexDiv>
             <BackLink to="/todo"><BackIcon src={'/static/back.svg'}/></BackLink>
@@ -170,15 +208,10 @@ export default function Group() {
                 <TitleContainerDiv>
                     <TitleH1>Group</TitleH1>
                 </TitleContainerDiv>
-                <Search placeholder='검색어를 입력하세요' />
+                <Search placeholder='검색어를 입력하세요' onChange={handleSearchTextChange} value={searchText}/>
                 <BodyContainerDiv>
                     <ListContainerDiv>
-                        <RankingList rankings={[
-                            '강성우의 생존 그룹',
-                            '문정윤의 생존 그룹',
-                            '유희원의 생존 그룹',
-                            '남현종의 생존 그룹'
-                        ]}/>
+                        <GroupList groups={searchResults} onGroupRegisterClick={handleGroupRegisterClick}/>
                     </ListContainerDiv>
                 </BodyContainerDiv>
             </ContainerDiv>

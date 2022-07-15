@@ -2,11 +2,14 @@ import { ApolloClient, gql } from '@apollo/client';
 
 import { GetCurrentUser } from './__generated__/GetCurrentUser';
 import { GetCurrentUserCharacter } from './__generated__/GetCurrentUserCharacter';
+import { GetTodoGroupRankings, GetTodoGroupRankingsVariables } from './__generated__/GetTodoGroupRankings';
 import { GetTotalRankings, GetTotalRankingsVariables } from './__generated__/GetTotalRankings';
 import { GetUser, GetUserVariables } from './__generated__/GetUser';
 import { GetUserCharacter, GetUserCharacterVariables } from './__generated__/GetUserCharacter';
 import { IsEmailUsed, IsEmailUsedVariables } from './__generated__/IsEmailUsed';
 import { MyTodos } from './__generated__/MyTodos';
+import { SearchTodoGroups, SearchTodoGroupsVariables } from './__generated__/SearchTodoGroups';
+import { TodoGroup, TodoGroupVariables } from './__generated__/TodoGroup';
 
 export function isEmailUsed(
     apolloClient: ApolloClient<any>,
@@ -134,6 +137,73 @@ export function getTotalRankings(
                     }
                 }
             }
+        `,
+        variables
+    });
+}
+
+export function getTodoGroup(
+    apolloClient: ApolloClient<any>,
+    variables: TodoGroupVariables
+) {
+    return apolloClient.query<TodoGroup>({
+        query: gql`
+            query TodoGroup($id: Int!) {
+                TodoGroup(id: $id) {
+                    id
+                    name
+                    owner {
+                        id
+                        username
+                    }
+                    description
+                }
+            }
+        `,
+        variables
+    });
+}
+
+export function searchTodoGroups(
+    apolloClient: ApolloClient<any>,
+    variables: SearchTodoGroupsVariables
+) {
+    return apolloClient.query<SearchTodoGroups>({
+        query: gql`
+            query SearchTodoGroups($text: String!, $limit: Int!) {
+                searchTodoGroups(text: $text, limit: $limit) {
+                    id
+                    name
+                    description
+                    owner {
+                        id
+                        username
+                    }
+                }
+            }
+        `,
+        variables
+    });
+}
+
+
+export function getTodoGroupRankings(
+    apolloClient: ApolloClient<any>,
+    variables: GetTodoGroupRankingsVariables
+) {
+    return apolloClient.query<GetTodoGroupRankings>({
+        query: gql`
+query GetTodoGroupRankings($todoGroupId: Int!, $skip: Int!, $limit: Int!) {
+  todoGroupRankings(todoGroupId: $todoGroupId, skip: $skip, limit: $limit) {
+    id
+    username
+    score
+    character {
+      id
+      hp
+    }
+  }
+}
         `,
         variables
     });
