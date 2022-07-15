@@ -15,7 +15,7 @@ function Todo(): JSX.Element {
         <CenterAlignedPage>
             <>
                 <div>
-                    <h1 style={{ color: 'white' }}>{user?.id || '샌즈'}</h1>
+                    <h1 style={{ color: 'white' }}>{user?.username || '샌즈'}</h1>
                 </div>
                 <div style={{ color: 'white' }}>
                     캐릭터 체력 ===============================
