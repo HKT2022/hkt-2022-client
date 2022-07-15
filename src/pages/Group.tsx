@@ -148,8 +148,6 @@ const Search = styled.input`
     height: 43px;
     box-sizing: border-box;
 
-    max-width: 800px;
-
     padding-left: 20px;
     margin-bottom: 10px;
     border: 0px;
