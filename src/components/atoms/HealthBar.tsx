@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const HealthBarContainerDiv = styled.div`
     width: 100%;
     height: 20px;
-    background-color: ${props => props.theme.colors.primary};
+    background-color: ${props => props.theme.colors.secondary};
 `;
 
 interface HealthBarItemProps {
