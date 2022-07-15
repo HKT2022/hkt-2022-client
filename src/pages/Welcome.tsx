@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button1, InnerFlexDiv1, OuterFlexDiv, PaddingDiv } from '../components/atoms/styled';
+import { MEDIA_MAX_WIDTH } from '../constants/css';
 
 const TitleContainerDiv = styled(InnerFlexDiv1)`
     width: 600px;
@@ -16,7 +17,8 @@ const TitleContainerDiv = styled(InnerFlexDiv1)`
 const TitleH1 = styled.h1`
     font-size: 50px;
     margin: 0;
-    padding: 0;
+    padding: 0 10px;
+    box-sizing: border-box;
     background-color: ${props => props.theme.colors.secondary};
     width: 90%;
     height: 300px;
@@ -29,9 +31,31 @@ const LoginButton = styled(Button1)`
     width: 100%;
 `;
 
-const ImageCard = styled.div`
+const ImageCardOuterFlexDiv = styled(OuterFlexDiv)`
+    min-height: 100%;
+    height: auto;
+`;
+
+const ImageCardDiv = styled.div`
     width: 100%;
     height: 100%;
+    background-color: ${props => props.theme.colors.secondary};
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+`;
+
+const ImageCardImg = styled.img`
+    width: 500px;
+    height: 500px;
+
+    margin: 10px;
+
+    @media (max-width: ${MEDIA_MAX_WIDTH}px) {
+        min-width: calc(100% - 40px);
+    }
 `;
 
 function Welcome(): JSX.Element {
@@ -53,7 +77,7 @@ function Welcome(): JSX.Element {
                         todo survival
                     </TitleH1>
                     <PaddingDiv height='20px' />
-                    에 오신것을 환영합니다!
+                        에 오신것을 환영합니다!
                     <PaddingDiv height='100px' />
                     <LoginButton onClick={handleLogin}>
                         로그인
@@ -64,11 +88,14 @@ function Welcome(): JSX.Element {
                     </LoginButton>
                 </TitleContainerDiv>
             </OuterFlexDiv>
-            <OuterFlexDiv>
-                <ImageCard>
-                    <img src='/images/wellcome.png' />
-                </ImageCard>
-            </OuterFlexDiv>
+            <ImageCardOuterFlexDiv>
+                <ImageCardDiv>
+                    <ImageCardImg src='/images/wellcome.png' />
+                    <ImageCardImg src='/images/wellcome.png' />
+                    <ImageCardImg src='/images/wellcome.png' />
+                    <ImageCardImg src='/images/wellcome.png' />
+                </ImageCardDiv>
+            </ImageCardOuterFlexDiv>
         </>
     );
 }
