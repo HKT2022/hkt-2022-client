@@ -34,7 +34,7 @@ const ImageCard = styled.div`
     height: 100%;
 `;
 
-function Wellcome(): JSX.Element {
+function Welcome(): JSX.Element {
     const navigate = useNavigate();
 
     const handleLogin = useCallback(() => {
@@ -73,4 +73,4 @@ function Wellcome(): JSX.Element {
     );
 }
 
-export default Wellcome;
+export default Welcome;
