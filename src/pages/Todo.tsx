@@ -175,6 +175,11 @@ const FakeHr = styled.div`
     margin-bottom: 60px;
 
     max-width: 810px;
+
+    @media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 `;
 
 const BottomDiv = styled.div`
@@ -186,6 +191,12 @@ const BottomDiv = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    @media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
+        width: calc(100% - 40px);
+
+        padding: 0px 50px 0px 50px;
+    }
 `;
 
 function CheckButton({onChange, first}: {onChange: (state:boolean) => void, first?: boolean}) {
