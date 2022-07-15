@@ -16,7 +16,7 @@ function CenterAlignedPage(props: CenterAlignedPageProps): JSX.Element {
     return (
         <OuterFlexDiv>
             <Link to={'/'}>
-                <Logo1/>
+                <Logo1 src='static/LogoSmall.svg' />
             </Link>
             {props.children}
             <PaddingDiv height='100px'/>
