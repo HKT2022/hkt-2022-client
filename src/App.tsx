@@ -4,7 +4,6 @@ import isLoggedIn from './utilities/isLoggedIn';
 import ChangePassword from './pages/ChangePassword';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
-import Main from './pages/Main';
 import MyPage from './pages/MyPage';
 import NotFound from './pages/NotFound';
 import PasswordReset from './pages/PasswordReset';
@@ -12,12 +11,14 @@ import PasswordResetRequest from './pages/PasswordResetRequest';
 import Register from './pages/Register';
 import Todo from './pages/Todo';
 import Welcome from './pages/Welcome';
+import useIsLoggedIn from './hooks/useIsLoggedIn';
 
 function App(): JSX.Element {
+    const loggedIn = useIsLoggedIn();
     return (
         <BrowserRouter>
             <Routes>
-                {isLoggedIn() ? 
+                {loggedIn ? 
                     <Route path='/' element={<Navigate to="/todo" replace/>} /> :
                     <Route path='/' element={<Navigate to="/welcome" replace/>} />
                 }
