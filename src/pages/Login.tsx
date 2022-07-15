@@ -24,6 +24,7 @@ import * as Mutations from '../gql/mutations';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
 import useLocalStorageRawState from '../hooks/useLocalStorageRawState';
 import { JWT_LOCAL_STORAGE_KEY } from '../constants/localStorage';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`
     display: flex;
@@ -104,7 +105,7 @@ function LoginForm(): JSX.Element {
 
     const [rememberMe, setRememberMe] = useState(false);
 
-    const [, setJwt] = useLocalStorageRawState('', JWT_LOCAL_STORAGE_KEY);
+    const { setJwt } = useAuthContext();
     
     const emailValidator = useRequiredValidator('Email is required');
     const passwordValidator = useRequiredValidator('Password is required');
