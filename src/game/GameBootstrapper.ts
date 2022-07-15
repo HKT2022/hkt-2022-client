@@ -61,8 +61,8 @@ export class Bootstrapper extends BaseBootstrapper<StateInteropObject> {
                 .getGameObject(player))
                 
             .withChild(instantiater.buildPrefab('grid_input', GridInputPrefab, new Vector3(0, 0, -500000))
-                .withCollideMap(colideTilemapChunkRenderer)
                 .withCollideMap(collideMap)
+                //.withCollideMap(colideTilemapChunkRenderer)
                 .getGridPointer(gridPointer).make())
                 
             .withChild(instantiater.buildPrefab('camera', CameraPrefab)
