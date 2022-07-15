@@ -273,6 +273,18 @@ const LogoImg = styled.img`
     height: 35px;
 `;
 
+const AbsoluteArea = styled.div`
+    display: flex;
+    
+    justify-content: center;
+
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 800px;
+    transform: translateX(-50%);
+`;
+
 function Todo(): JSX.Element {
     const user = useUser();
     const loggedIn = useIsLoggedIn();
@@ -421,82 +433,89 @@ function Todo(): JSX.Element {
     const windowSize = useWindowSize();
 
     return (
-        <OuterFlexDiv>
-            <BallContainerDiv>
-                <LightBlueBallContainer>
-                    <LightBlueBall/>
-                </LightBlueBallContainer>
-                <RTitleContainerDiv>
-                    <TitleH1>{new Date(Date.now()).toLocaleDateString()}</TitleH1>
-                </RTitleContainerDiv>
-            </BallContainerDiv>
-            <BaseDiv>
-                <LeftSideDiv>
-                    <GameViewDiv ref={gameContainerRef} />
-                    <HealthBarContainerDiv>
-                        <HealthBar health={health} maxHealth={100} />
-                    </HealthBarContainerDiv>
-                </LeftSideDiv>
-                <PaddingDiv width='10px' />
-                <RightSideDiv>
-                    <TitleContainerDiv>
-                        { windowSize.width > MEDIA_MAX_WIDTH + 60
-                            ? 'Todo'
-                            : new Date(Date.now()).toLocaleDateString() + ' Todo' }
-                    </TitleContainerDiv>
-                    <TodoListContainerDiv>
-                        {todos.map(todo => {
-                            return (
-                                <TodoItemDiv key={todo.id}>
-                                    <TodoItemLeftDiv>
-                                        <PriorityDiv priority={todo.priority as 1 | 2 | 3} />
-                                        {todo.content}
-                                    </TodoItemLeftDiv>
-                                    <CheckButton onChange={onChangeChecked(todo)} first={todo.completed} />
-                                </TodoItemDiv>
-                            );
-                        })}
-                    </TodoListContainerDiv>
-                    <TodoListAddForm onSubmit={onSubmit}>
-                        <ChoosePriority onChange={setNewTodoPriority} />
-                        <TodoListInput placeholder='new todo...' value={newTodoContent} onChange={onChangeNewTodoContent} />
-                        <TodoListAddButton type='submit'>
-                            +
-                        </TodoListAddButton>
-                    </TodoListAddForm>
-                </RightSideDiv>
-            </BaseDiv>
-            <FakeHr />
-            <BottomDiv>
-                <LogoImg src={'static/LogoSmall.svg'} alt='logo' />
-                <div>
-                    <BtnImg src='/static/group.svg' 
-                        onClick={() => {
-                            navigate('/group');
-                        }}
-                    />
-                    <BtnImg src='/static/skin.svg' 
-                        style={{marginLeft: 32}}
-                        onClick={() => {
-                            navigate('/');
-                        }}
-                    />
-                    <BtnImg src='/static/trophy.svg' 
-                        style={{marginLeft: 32}}
-                        onClick={() => {
-                            navigate('/ranking');
-                        }}
-                    />
-                    <BtnImg 
-                        src='/static/logout.svg' 
-                        style={{marginLeft: 32}}
-                        onClick={() => {
-                            location.href = '/logout';
-                        }}
-                    />
+        <>
+            <AbsoluteArea>
+                <BallContainerDiv>
+                    <LightBlueBallContainer>
+                        <LightBlueBall/>
+                    </LightBlueBallContainer>
+                    <RTitleContainerDiv>
+                        <TitleH1>{new Date(Date.now()).toLocaleDateString()}</TitleH1>
+                    </RTitleContainerDiv>
+                </BallContainerDiv>
+            </AbsoluteArea>
+            <OuterFlexDiv>
+                <div style={{height: 100}}>
+
                 </div>
-            </BottomDiv>
-        </OuterFlexDiv>
+                <BaseDiv>
+                    <LeftSideDiv>
+                        <GameViewDiv ref={gameContainerRef} />
+                        <HealthBarContainerDiv>
+                            <HealthBar health={health} maxHealth={100} />
+                        </HealthBarContainerDiv>
+                    </LeftSideDiv>
+                    <PaddingDiv width='10px' />
+                    <RightSideDiv>
+                        <TitleContainerDiv>
+                            { windowSize.width > MEDIA_MAX_WIDTH + 60
+                                ? 'Todo'
+                                : new Date(Date.now()).toLocaleDateString() + ' Todo' }
+                        </TitleContainerDiv>
+                        <TodoListContainerDiv>
+                            {todos.map(todo => {
+                                return (
+                                    <TodoItemDiv key={todo.id}>
+                                        <TodoItemLeftDiv>
+                                            <PriorityDiv priority={todo.priority as 1 | 2 | 3} />
+                                            {todo.content}
+                                        </TodoItemLeftDiv>
+                                        <CheckButton onChange={onChangeChecked(todo)} first={todo.completed} />
+                                    </TodoItemDiv>
+                                );
+                            })}
+                        </TodoListContainerDiv>
+                        <TodoListAddForm onSubmit={onSubmit}>
+                            <ChoosePriority onChange={setNewTodoPriority} />
+                            <TodoListInput placeholder='new todo...' value={newTodoContent} onChange={onChangeNewTodoContent} />
+                            <TodoListAddButton type='submit'>
+                                +
+                            </TodoListAddButton>
+                        </TodoListAddForm>
+                    </RightSideDiv>
+                </BaseDiv>
+                <FakeHr />
+                <BottomDiv>
+                    <LogoImg src={'static/LogoSmall.svg'} alt='logo' />
+                    <div>
+                        <BtnImg src='/static/group.svg' 
+                            onClick={() => {
+                                navigate('/group');
+                            }}
+                        />
+                        <BtnImg src='/static/skin.svg' 
+                            style={{marginLeft: 32}}
+                            onClick={() => {
+                                navigate('/');
+                            }}
+                        />
+                        <BtnImg src='/static/trophy.svg' 
+                            style={{marginLeft: 32}}
+                            onClick={() => {
+                                navigate('/ranking');
+                            }}
+                        />
+                        <BtnImg 
+                            src='/static/logout.svg' 
+                            style={{marginLeft: 32}}
+                            onClick={() => {
+                                location.href = '/logout';
+                            }}
+                        />
+                    </div>
+                </BottomDiv>
+            </OuterFlexDiv>
+        </>
     );
 }
 
