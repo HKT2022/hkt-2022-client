@@ -172,11 +172,14 @@ function Todo(): JSX.Element {
 
     const onChangeNewTodoContent = useCallback((todo: React.ChangeEvent<HTMLInputElement>) => {
         setNewTodoContent(todo.target.value);
-        console.log(newTodoContent);
     }, [newTodoContent]);
 
     const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (newTodoContent.length === 0) {
+            toast.showToast('Todo content is empty', 'error');
+        }
 
         const newTodo = {
             content: newTodoContent,
