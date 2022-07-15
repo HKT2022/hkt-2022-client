@@ -313,6 +313,7 @@ function Todo(): JSX.Element {
 
     useEffect(() => {
         if (characterId === -1) return;
+
         const charaInfoSub = subscriptions.subscribeUserCharacterState(apolloClient, {
             userCharacterId: characterId
         });
