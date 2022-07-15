@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import ChangePassword from './pages/ChangePassword';
 import Login from './pages/Login';
+import Logout from './pages/Logout';
 import Main from './pages/Main';
 import MyPage from './pages/MyPage';
 import NotFound from './pages/NotFound';
@@ -15,6 +16,7 @@ function App(): JSX.Element {
             <Routes>
                 <Route path='/' element={<Main/>} />
                 <Route path='/login' element={<Login />} />
+                <Route path='/logout' element={<Logout />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/password/reset-request' element={<PasswordResetRequest />} />
                 <Route path='/password/reset' element={<PasswordReset />} />
