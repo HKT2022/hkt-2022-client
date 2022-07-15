@@ -28,34 +28,7 @@ const TitleH1 = styled.h1`
 `;
 
 const LoginButton = styled(Button1)`
-    width: 100%;
-`;
-
-const ImageCardOuterFlexDiv = styled(OuterFlexDiv)`
-    min-height: 100%;
-    height: auto;
-`;
-
-const ImageCardDiv = styled.div`
-    width: 100%;
-    height: 100%;
-    background-color: ${props => props.theme.colors.secondary};
-    flex-direction: row;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-`;
-
-const ImageCardImg = styled.img`
-    width: 500px;
-    height: 500px;
-
-    margin: 10px;
-
-    @media (max-width: ${MEDIA_MAX_WIDTH}px) {
-        min-width: calc(100% - 40px);
-    }
+    width: calc(100% - 40px);
 `;
 
 function Welcome(): JSX.Element {
@@ -88,14 +61,6 @@ function Welcome(): JSX.Element {
                     </LoginButton>
                 </TitleContainerDiv>
             </OuterFlexDiv>
-            <ImageCardOuterFlexDiv>
-                <ImageCardDiv>
-                    <ImageCardImg src='/images/wellcome.png' />
-                    <ImageCardImg src='/images/wellcome.png' />
-                    <ImageCardImg src='/images/wellcome.png' />
-                    <ImageCardImg src='/images/wellcome.png' />
-                </ImageCardDiv>
-            </ImageCardOuterFlexDiv>
         </>
     );
 }
