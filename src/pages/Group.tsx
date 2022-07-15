@@ -143,6 +143,23 @@ function RankingList({ rankings }: { rankings: string[] }) {
     );
 }
 
+const Search = styled.input`
+    width: 100%;
+    height: 43px;
+    box-sizing: border-box;
+
+    max-width: 800px;
+
+    padding-left: 20px;
+    margin-bottom: 10px;
+    border: 0px;
+
+    color: white;
+
+    background: #9CB3FC;
+    border-radius: 21.5px;
+`;
+
 export default function Group() {
 
     const [searchParams] = useSearchParams();
@@ -161,12 +178,14 @@ export default function Group() {
                 <TitleContainerDiv>
                     <TitleH1>Group</TitleH1>
                 </TitleContainerDiv>
+                <Search placeholder='검색어를 입력하세요' />
                 <BodyContainerDiv>
                     <ListContainerDiv>
                         <RankingList rankings={[
-                            'Group1',
-                            'Group2',
-                            'Group3',
+                            '강성우의 생존 그룹',
+                            '문정윤의 생존 그룹',
+                            '유희원의 생존 그룹',
+                            '남현종의 생존 그룹'
                         ]}/>
                     </ListContainerDiv>
                 </BodyContainerDiv>
