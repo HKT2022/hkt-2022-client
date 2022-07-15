@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from 'styled-components';
 
 import App from './App';
-import { API_URL } from './constants/apolloClient';
 import { DARK_THEME, LIGHT_THEME } from './constants/css';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';

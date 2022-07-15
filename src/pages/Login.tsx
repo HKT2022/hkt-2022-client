@@ -22,8 +22,6 @@ import { GOOGLE_CLIENT_ID } from '../constants/googleClient';
 import useToast from '../contexts/ToastContext';
 import * as Mutations from '../gql/mutations';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
-import useLocalStorageRawState from '../hooks/useLocalStorageRawState';
-import { JWT_LOCAL_STORAGE_KEY } from '../constants/localStorage';
 import { useAuthContext } from '../contexts/AuthContext';
 
 const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`

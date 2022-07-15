@@ -1,10 +1,9 @@
-import useIsLoggedIn from '../hooks/useIsLoggedIn';
 import useUser from '../hooks/useCurrentUser';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 
 
 function MyPage(): JSX.Element {
-    const loggedIn = useIsLoggedIn();
+    //const loggedIn = useIsLoggedIn();
     const user = useUser();
 
     return (
