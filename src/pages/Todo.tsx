@@ -6,7 +6,7 @@ import useUser from '../hooks/useCurrentUser';
 function Todo(): JSX.Element {
     const user = useUser();
 
-    const [todos, setTodos] = useState<string[]>([
+    const [todos, ] = useState<string[]>([
         'Todo 1',
         'Todo 2',
     ]);
