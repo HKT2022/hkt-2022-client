@@ -1,10 +1,8 @@
 import { Vector2, Vector3 } from 'three/src/Three';
 import {
     CssCollideTilemapChunkRenderer,
-    CssTilemapChunkRenderer,
     CameraRelativeZaxisSorter,
     CssSpriteAtlasRenderer,
-    TileAtlasItem,
     CssIframeRenderer,
     ZaxisSorter,
     GameObjectBuilder,

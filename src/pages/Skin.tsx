@@ -2,8 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import HealthBar from '../components/atoms/HealthBar';
 import { OuterFlexDiv, PaddingDiv } from '../components/atoms/styled';
-import useUser from '../hooks/useCurrentUser';
-import * as mutations from '../gql/mutations';
+//import useUser from '../hooks/useCurrentUser';
 import * as queries from '../gql/queries';
 import { useApolloClient } from '@apollo/client';
 import { MyTodos_myTodos } from '../gql/__generated__/MyTodos';
@@ -17,8 +16,7 @@ import { Bootstrapper, StateInteropObject } from '../game/GameBootstrapper';
 import { HealthState } from '../game/script/PlayerStatusRenderController';
 import { ContainerDiv, LightBlueBall, LightBlueBallContainer, TitleH1, TitleContainerDiv as RTitleContainerDiv } from './Ranking';
 import { useNavigate } from 'react-router-dom';
-import useIsLoggedIn from '../hooks/useIsLoggedIn';
-import useWindowSize from '../hooks/useWindowSize';
+//import useIsLoggedIn from '../hooks/useIsLoggedIn';
 
 const BaseDiv = styled.div`
     display: flex;
@@ -134,15 +132,15 @@ const BallContainerDiv = styled(ContainerDiv)`
 `;
 
 function Skin(): JSX.Element {
-    const user = useUser();
-    const loggedIn = useIsLoggedIn();
+    // const user = useUser();
+    // const loggedIn = useIsLoggedIn();
     const toast = useToast();
     const apolloClient = useApolloClient();
     const navigate = useNavigate();
 
     const [beforeHealth, setBeforeHealth] = useLocalStorageState(0, BEFORE_HEALTH_KEY);
     const [health, setHealth] = useState(100);
-    const [todos, setTodos] = useState<MyTodos_myTodos[]>([]);
+    const [, setTodos] = useState<MyTodos_myTodos[]>([]);
 
     const [gameInteropObject, setGameInteropObject] = useState<StateInteropObject|null>(null);
 
@@ -215,8 +213,6 @@ function Skin(): JSX.Element {
         gameInteropObject.setState(state);
 
     }, [gameInteropObject, health]);
-
-    const windowSize = useWindowSize();
 
     return (
         <OuterFlexDiv>

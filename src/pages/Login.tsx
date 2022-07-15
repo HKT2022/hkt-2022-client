@@ -202,7 +202,6 @@ function LoginWithSocialForm(): JSX.Element {
 
     const handleResponse = useCallback((response: CredentialResponse) => {
         const idToken = response.credential;
-        console.log(idToken);
 
         Mutations.loginGoogle(apolloClient, { idToken, rememberMe })
             .then(res => {

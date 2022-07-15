@@ -91,7 +91,7 @@ function CircleContainer() {
     const startColor = Math.floor(Math.random() * circleColors.length);
     const [circles, setCircles] = useState(() => genCircles(startColor));
     
-    const [randoms, setRandoms] = useState<XY[]>(() => (
+    const [randoms, ] = useState<XY[]>(() => (
         new Array(10000).fill(null).map(() => ({x:Math.random()*40 - 20, y:Math.random()*40 - 20})) as unknown as XY[]
     ));
 

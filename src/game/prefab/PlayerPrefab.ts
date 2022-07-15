@@ -19,7 +19,7 @@ import HeewonSpriteAtlas from '../asset/Heewon.png';
 import HeewonSpriteAtlasDamaged1 from '../asset/HeewonDamaged.png';
 import HeewonSpriteAtlasDamaged2 from '../asset/HeewonDamaged2.png';
 import HeewonSpriteAtlasDamaged3 from '../asset/HeewonDamaged3.png';
-import { HealthState, PlayerStatusRenderController } from '../script/PlayerStatusRenderController';
+import { PlayerStatusRenderController } from '../script/PlayerStatusRenderController';
 import { PlayerGridMovementController } from '../script/PlayerGridMovementController';
 import { RandomBehaviorMaker } from '../script/RandomBehaviorMaker';
 

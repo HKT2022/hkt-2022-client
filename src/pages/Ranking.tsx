@@ -2,7 +2,6 @@ import { useApolloClient } from '@apollo/client';
 import { Link, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { OuterFlexDiv } from '../components/atoms/styled';
-import PagedListView from '../components/organisms/PagedListView';
 import { MEDIA_MAX_WIDTH } from '../constants/css';
 import { getTotalRankings } from '../gql/queries';
 import { GetTotalRankings } from '../gql/__generated__/GetTotalRankings';

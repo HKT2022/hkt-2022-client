@@ -1,9 +1,9 @@
 import { useApolloClient } from '@apollo/client';
 import { useCallback, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import RequiredTextField from '../components/atoms/RequiredTextField';
-import { Title1Div, TextInput1, Button1, InnerFlexForm1 } from '../components/atoms/styled';
+import { Title1Div, Button1, InnerFlexForm1 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import useToast from '../contexts/ToastContext';
 import { issueEmailToken, resetPassword, verifyEmail } from '../gql/mutations';
@@ -83,7 +83,7 @@ function PasswordResetForm(): JSX.Element {
     const navigate = useNavigate();
     const toast = useToast();
     
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const emailCheckId = searchParams.get('emailCheckId');
     const verifyId = searchParams.get('verifyId');

@@ -1,15 +1,7 @@
-import { useApolloClient } from '@apollo/client';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { OuterFlexDiv } from '../components/atoms/styled';
 import { MEDIA_MAX_WIDTH } from '../constants/css';
-import { getTotalRankings } from '../gql/queries';
-import { GetTotalRankings } from '../gql/__generated__/GetTotalRankings';
-import useAsync from '../hooks/useAsync';
-import ordinal from 'ordinal';
-import useId from '../hooks/useId';
-
-const ITEMS_IN_PAGE = 10;
 
 export const ContainerDiv = styled.div`
 width: calc(max(100% - 200px, 280px));
@@ -72,26 +64,31 @@ color: ${props => props.isReversedColor ? 'white' : props.theme.colors.primary};
 
 font-size: 19px;
 `;
-const VerticalLineDiv = styled.div<{ isReversedColor: boolean }>`
-width: 1px;
-height: 100%;
-display: inline-block;
-background-color: ${props => props.isReversedColor ? 'white' : props.theme.colors.primary};
-margin-left: 14px;
-margin-right: 14px;
-`;
+
+// const VerticalLineDiv = styled.div<{ isReversedColor: boolean }>`
+// width: 1px;
+// height: 100%;
+// display: inline-block;
+// background-color: ${props => props.isReversedColor ? 'white' : props.theme.colors.primary};
+// margin-left: 14px;
+// margin-right: 14px;
+// `;
+
 const VerticalCenterDiv = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
 `;
-const RankSpan = styled.span`
-min-width: 31px;
-`;
+
+// const RankSpan = styled.span`
+// min-width: 31px;
+// `;
+
 const UserNameSpan = styled.span`
 `;
-const ScoreSpan = styled.span`
-`;
+
+// const ScoreSpan = styled.span`
+// `;
 
 export const LightBlueBallContainer = styled.div`
 display: flex;
@@ -122,8 +119,6 @@ cursor: pointer;
 `;
 
 function RankingList({ rankings }: { rankings: string[] }) {
-    const id = useId();
-
     return (
         <ListOl>
             {rankings.map((user, index) => {
@@ -159,13 +154,6 @@ const Search = styled.input`
 `;
 
 export default function Group() {
-
-    const [searchParams] = useSearchParams();
-    const currentPage = Number(searchParams.get('page')) || 1;
-
-    const apolloClient = useApolloClient();
-    
-    
     return (
         <OuterFlexDiv>
             <BackLink to="/todo"><BackIcon src={'/static/back.svg'}/></BackLink>

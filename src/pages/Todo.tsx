@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components';
 import HealthBar from '../components/atoms/HealthBar';
 import { OuterFlexDiv, PaddingDiv } from '../components/atoms/styled';
-import useUser from '../hooks/useCurrentUser';
+//import useUser from '../hooks/useCurrentUser';
 import * as mutations from '../gql/mutations';
 import * as queries from '../gql/queries';
 import * as subscriptions from '../gql/subscriptions';
@@ -18,7 +18,7 @@ import { Bootstrapper, StateInteropObject } from '../game/GameBootstrapper';
 import { HealthState } from '../game/script/PlayerStatusRenderController';
 import { ContainerDiv, LightBlueBall, LightBlueBallContainer, TitleH1, TitleContainerDiv as RTitleContainerDiv } from './Ranking';
 import { useNavigate } from 'react-router-dom';
-import useIsLoggedIn from '../hooks/useIsLoggedIn';
+//import useIsLoggedIn from '../hooks/useIsLoggedIn';
 import useWindowSize from '../hooks/useWindowSize';
 
 const BaseDiv = styled.div`
@@ -126,14 +126,14 @@ const PriorityDiv = styled.div<PriorityDivProps>`
     cursor: pointer;
 `;
 
-const TodoItemButton = styled.button`
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
+// const TodoItemButton = styled.button`
+//     border-radius: 50%;
+//     width: 20px;
+//     height: 20px;
 
-    background-color: yellow;
-    border: 1px solid ${props => props.theme.colors.primary};
-`;
+//     background-color: yellow;
+//     border: 1px solid ${props => props.theme.colors.primary};
+// `;
 
 const TodoListAddForm = styled.form`
     display: flex;
@@ -286,8 +286,8 @@ const AbsoluteArea = styled.div`
 `;
 
 function Todo(): JSX.Element {
-    const user = useUser();
-    const loggedIn = useIsLoggedIn();
+    // const user = useUser();
+    // const loggedIn = useIsLoggedIn();
     const toast = useToast();
     const apolloClient = useApolloClient();
     const navigate = useNavigate();

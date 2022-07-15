@@ -10,7 +10,6 @@ import { ToastProvider } from './contexts/ToastContext';
 import { setContext } from '@apollo/client/link/context';
 import { JWT_LOCAL_STORAGE_KEY } from './constants/localStorage';
 import JwtTokenRefresher from './components/organisms/JwtTokenRefresher';
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { Client, ClientOptions, createClient } from 'graphql-ws';
 import { getMainDefinition, Observable } from '@apollo/client/utilities';
 import { print } from 'graphql';
