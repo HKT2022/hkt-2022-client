@@ -13,8 +13,12 @@ import useId from '../hooks/useId';
 const ITEMS_IN_PAGE = 10;
 
 const ContainerDiv = styled.div`
-width: calc(max(100% - 200px, 280px));
+width: calc(100% - 200px);
 position: relative;
+
+@media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
+    width: calc(100% - 30px);
+}
 `;
 const TitleContainerDiv = styled.div`   
 height: 185px;
@@ -40,6 +44,10 @@ box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.12);
 padding: 38px;
 box-sizing: border-box;
 height: calc(100% - 52px);
+
+@media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
+    padding: 20px;
+}
 `;
 const ListOl = styled.ol`
 width: 100%;
@@ -62,6 +70,8 @@ box-sizing: border-box;
 display: inline-flex;
 justify-content: space-between;
 color: ${props => props.isReversedColor ? 'white' : props.theme.colors.primary};
+
+font-size: 19px;
 `;
 const VerticalLineDiv = styled.div<{ isReversedColor: boolean }>`
 width: 1px;
@@ -77,14 +87,11 @@ justify-content: center;
 align-items: center;
 `;
 const RankSpan = styled.span`
-min-width: 34px;
-font-size: 22px;
+min-width: 31px;
 `;
 const UserNameSpan = styled.span`
-font-size: 22px;
 `;
 const ScoreSpan = styled.span`
-font-size: 22px;
 `;
 
 const LightBlueBallContainer = styled.div`
@@ -104,8 +111,6 @@ const LightBlueBall = styled.div`
 
 function RankingList({ rankings }: { rankings: GetTotalRankings['totalRankings'] }) {
     const id = useId();
-
-    console.log(id);
 
     return (
         <ListOl>
