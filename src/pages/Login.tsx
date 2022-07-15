@@ -178,7 +178,7 @@ function LoginForm(): JSX.Element {
                         <Checkbox type={'checkbox'} checked={rememberMe} onChange={handleRememberMeChange} />
                         Remember Me
                     </Font13Div>
-                    <Styled13Link to={'/password/reset'}>
+                    <Styled13Link to={'/password/reset-request'}>
                         I forgot my password
                     </Styled13Link>
                 </HorizontalDiv>
