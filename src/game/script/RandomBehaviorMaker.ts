@@ -7,7 +7,8 @@ export class RandomBehaviorMaker extends Component {
     public override readonly requiredComponents = [PlayerGridMovementController];
 
     public randomMovementRange = 4;
-    public randowMovementInterval = 4;
+    public randomMovementIntervalMin = 5;
+    public randomMovementIntervalMax = 10;
 
     public randomChatRange = 10;
 
@@ -31,7 +32,9 @@ export class RandomBehaviorMaker extends Component {
 
     private *randomMovement(): CoroutineIterator {
         for (; ;) {
-            yield new WaitForSeconds(this.randowMovementInterval);
+            const randomMovementInterval = 
+                Math.random() * (this.randomMovementIntervalMax - this.randomMovementIntervalMin) + this.randomMovementIntervalMin;
+            yield new WaitForSeconds(randomMovementInterval);
             const randomPosition = this._playerGridMovementController!.positionInGrid;
             randomPosition.x += Math.floor(Math.random() * this.randomMovementRange * 2) - this.randomMovementRange;
             randomPosition.y += Math.floor(Math.random() * this.randomMovementRange * 2) - this.randomMovementRange;
@@ -42,7 +45,7 @@ export class RandomBehaviorMaker extends Component {
     private *randomChat(): CoroutineIterator {
         for (; ;) {
             yield new WaitForSeconds(Math.random() * 5 + 5);
-            
+
             const playerHealthState = this._playerStatusRenderController!.healthState;
             let randomChatSet: string[];
             switch (playerHealthState) {

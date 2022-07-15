@@ -159,7 +159,7 @@ export class ScenePrefab extends Prefab {
 
             .withChild(instantiater.buildGameObject('objects')
 
-                .withChild(instantiater.buildGameObject('iframe', new Vector3(0.5 + 51, 0.5, 0))
+                .withChild(instantiater.buildGameObject('iframe', new Vector3(0.5 + 10, 0.5, 0))
                     .withComponent(CssIframeRenderer, c => {
                         c.iframeSource = 'https://www.youtube.com/embed/p9wmCeqB0eA';
                         c.width = 4 * 1;
@@ -169,7 +169,7 @@ export class ScenePrefab extends Prefab {
                     })
                     .withComponent(ZaxisSorter))
 
-                .withChild(instantiater.buildGameObject('sans', new Vector3(39, -1, 0))
+                .withChild(instantiater.buildGameObject('sans', new Vector3(7, -1, 0))
                     .withComponent(CssSpriteAtlasRenderer, c => {
                         c.asyncSetImageFromPath(SansBlack, 4, 4);
                         c.centerOffset = new Vector2(0.5, 0.7);
