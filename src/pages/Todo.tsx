@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import HealthBar from '../components/atoms/HealthBar';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import useUser from '../hooks/useCurrentUser';
 
@@ -33,7 +34,8 @@ function Todo(): JSX.Element {
                         <h1 style={{ color: 'white' }}>{user?.username || '샌즈'}</h1>
                     </div>
                     <div style={{ color: 'white' }}>
-                        캐릭터 체력 ===============================
+                        캐릭터 체력
+                        <HealthBar health={10} maxHealth={100} />
                     </div>
                     <div style={{width: 300, height: 300, background: 'white'}}>
                         캐릭터 사진
