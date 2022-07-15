@@ -12,6 +12,7 @@ import Welcome from './pages/Welcome';
 import useIsLoggedIn from './hooks/useIsLoggedIn';
 import Ranking from './pages/Ranking';
 import GameViewTest from './pages/GameViewTest';
+import Group from './pages/Group';
 
 function App(): JSX.Element {
     const loggedIn = useIsLoggedIn();
@@ -22,7 +23,7 @@ function App(): JSX.Element {
                     <Route path='/' element={<Navigate to="/todo" replace/>} /> :
                     <Route path='/' element={<Navigate to="/welcome" replace/>} />
                 }
-                
+                <Route path='/group' element={<Group />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/logout' element={<Logout />} />
                 <Route path='/register' element={<Register />} />
