@@ -154,7 +154,7 @@ function LoginForm(): JSX.Element {
             .catch(error => {
                 toast.showToast(error.message, 'error');
             });
-    }, [email, password, rememberMe, emailValidator, passwordValidator, apolloClient, toast.showToast]);
+    }, [email, password, rememberMe, emailValidator, passwordValidator, apolloClient, toast.showToast, setJwt, setRefreshToken, navigate]);
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>
