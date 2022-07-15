@@ -26,7 +26,7 @@ function JwtTokenRefresher(): JSX.Element {
                     toast.showToast(error.message, 'error');
                 });
             }
-        }, 1000);
+        }, 5000);
 
         return () => clearInterval(timer);
     }, [apolloClient, setJwt, toast]);
