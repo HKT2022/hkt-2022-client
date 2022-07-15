@@ -95,7 +95,7 @@ function RegisterForm(): JSX.Element {
 
     const handleEmailChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
-        setEmailError(emailValidator(event.target.value, emailVerified));
+        setEmailError(() => emailValidator(event.target.value, emailVerified));
 
         if (emailVerified) {
             setEmailVerified(false);
@@ -196,12 +196,20 @@ function RegisterForm(): JSX.Element {
         Mutations.verifyEmail(apolloClient, { verifyId: certificationCode })
             .then(response => {
                 if (!response.data) throw new Error('Error while verifying email');
-                setEmailVerified(true);
+
+                const emailError = emailValidator(email, true);
+                
+                setEmailError(emailError);
+                if (emailError) {
+                    return;
+                }
+                
+                setEmailVerified(true); 
             })
             .catch(error => {
                 toast.showToast(error.message, 'error');
             });
-    }, [apolloClient]);
+    }, [email, certificationCode, apolloClient, toast, emailValidator, setEmailError, setEmailVerified]);
 
     return (
         <InnerFlexForm1 onSubmit={handleSubmit}>
@@ -228,14 +236,14 @@ function RegisterForm(): JSX.Element {
             </EmailFieldContainerForm>
             <CertificateFieldContainerForm blind={emailVerificationId === null}>
                 <RequiredTextField
-                    type='certification_code'
+                    type='text'
                     placeholder='Certivication code'
                     value={certificationCode}
                     onChange={handleCertificationCodeChange}
                     error={null}
                 />
-                <SendVerificationEmailButton onClick={handleVerifyEmail} isDisabled={emailVerificationId !== null}>
-                    {emailVerificationId ? 'verify' : 'verified'}
+                <SendVerificationEmailButton onClick={handleVerifyEmail} isDisabled={emailVerified}>
+                    {emailVerified ? 'verified' : 'verify' }
                 </SendVerificationEmailButton>  
             </CertificateFieldContainerForm>
             <PaddingDiv height='20px'/>
