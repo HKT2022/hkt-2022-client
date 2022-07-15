@@ -458,7 +458,7 @@ function Todo(): JSX.Element {
     const windowSize = useWindowSize();
 
     const healthBarText = useMemo(() => {
-        return `100/${health}`;
+        return `${health} / 100`;
     }, [health]);
 
     return (
