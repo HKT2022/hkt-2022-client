@@ -22,6 +22,8 @@ import { GOOGLE_CLIENT_ID } from '../constants/googleClient';
 import useToast from '../contexts/ToastContext';
 import * as Mutations from '../gql/mutations';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
+import useLocalStorageRawState from '../hooks/useLocalStorageRawState';
+import { JWT_LOCAL_STORAGE_KEY } from '../constants/localStorage';
 
 const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`
     display: flex;
@@ -101,6 +103,8 @@ function LoginForm(): JSX.Element {
     const [passwordError, setPasswordError] = useState<string|null>(null);
 
     const [rememberMe, setRememberMe] = useState(false);
+
+    const [, setJwt] = useLocalStorageRawState('', JWT_LOCAL_STORAGE_KEY);
     
     const emailValidator = useRequiredValidator('Email is required');
     const passwordValidator = useRequiredValidator('Password is required');
@@ -137,7 +141,9 @@ function LoginForm(): JSX.Element {
         }
         
         Mutations.loginLocal(apolloClient, { email, password })
-            .then(() => {
+            .then(res => {
+                if (!res.data?.loginLocal?.accessToken) throw new Error('No access token');
+                setJwt(res.data?.loginLocal?.accessToken);
                 toast.showToast('Logged in successfully', 'success');
                 navigate('/');
                 console.log(rememberMe);
