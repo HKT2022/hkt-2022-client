@@ -1,6 +1,7 @@
 import { ApolloClient, gql } from '@apollo/client';
 
 import { GetCurrentUser } from './__generated__/GetCurrentUser';
+import { GetCurrentUserCharacter } from './__generated__/GetCurrentUserCharacter';
 import { GetUser, GetUserVariables } from './__generated__/GetUser';
 import { GetUserCharacter, GetUserCharacterVariables } from './__generated__/GetUserCharacter';
 import { IsEmailUsed, IsEmailUsedVariables } from './__generated__/IsEmailUsed';
@@ -75,7 +76,7 @@ export function getMyTodos(
 export function getCurrentUserCharacter(
     apolloClient: ApolloClient<any>
 ) {
-    return apolloClient.query<GetCurrentUser>({
+    return apolloClient.query<GetCurrentUserCharacter>({
         query: gql`
             query GetCurrentUserCharacter {
                 currentUser {
