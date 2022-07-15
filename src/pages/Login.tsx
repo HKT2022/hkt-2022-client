@@ -201,13 +201,13 @@ function LoginWithSocialForm(): JSX.Element {
         const idToken = response.credential;
         console.log(idToken);
 
-        Mutations.loginGoogle(apolloClient, { idToken, rememberMe })
-            .then(() => {
-                toast.showToast('Logged in successfully', 'success');
-                navigate('/');
-            }).catch(error => {
-                toast.showToast(error.message, 'error');
-            });
+        // Mutations.loginGoogle(apolloClient, { idToken, rememberMe })
+        //     .then(() => {
+        //         toast.showToast('Logged in successfully', 'success');
+        //         navigate('/');
+        //     }).catch(error => {
+        //         toast.showToast(error.message, 'error');
+        //     });
     }, [apolloClient, toast.showToast]);
 
     // const handleError = useCallback((error: string) => {
