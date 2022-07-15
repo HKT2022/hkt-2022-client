@@ -10,6 +10,7 @@ import { RemoveTodo, RemoveTodoVariables } from './__generated__/RemoveTodo';
 import { RequestEmailCheck, RequestEmailCheckVariables } from './__generated__/RequestEmailCheck';
 import { RequestResetPasswordEmail, RequestResetPasswordEmailVariables } from './__generated__/RequestResetPasswordEmail';
 import { ResetPassword, ResetPasswordVariables } from './__generated__/ResetPassword';
+import { ReviveMyUserCharacter } from './__generated__/ReviveMyUserCharacter';
 import { UpdateTodo, UpdateTodoVariables } from './__generated__/UpdateTodo';
 import { UpdateUser, UpdateUserVariables } from './__generated__/UpdateUser';
 import { VerifyEmail, VerifyEmailVariables } from './__generated__/VerifyEmail';
@@ -220,5 +221,20 @@ export function removeTodo(
             }
         `,
         variables
+    });
+}
+
+
+export function reviveMyUserCharacter(
+    apolloClient: ApolloClient<any>
+) {
+    return apolloClient.mutate<ReviveMyUserCharacter>({
+        mutation: gql`
+            mutation ReviveMyUserCharacter {
+                reviveMyUserCharacter {
+                    id
+                }
+            }
+        `
     });
 }
