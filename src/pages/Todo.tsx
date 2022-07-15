@@ -255,6 +255,10 @@ const BallContainerDiv = styled(ContainerDiv)`
     }
 `;
 
+const LogoImg = styled.img`
+    height: 35px;
+`;
+
 function Todo(): JSX.Element {
     const user = useUser();
     const loggedIn = useIsLoggedIn();
@@ -430,9 +434,7 @@ function Todo(): JSX.Element {
             </BaseDiv>
             <FakeHr />
             <BottomDiv>
-                <div>
-                    logo
-                </div>
+                <LogoImg src={'static/LogoSmall.svg'} alt='logo' />
                 <div>
                     <BtnImg src='/static/trophy.svg' 
                         onClick={() => {
