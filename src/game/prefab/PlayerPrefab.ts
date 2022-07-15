@@ -117,7 +117,6 @@ export class PlayerPrefab extends Prefab {
                     HeewonSpriteAtlasDamaged2,
                     HeewonSpriteAtlasDamaged3
                 ]);
-                c.setHealthState(HealthState.Damaged3);
             })
             .getComponent(PlayerStatusRenderController, playerStatusRenderController)
 

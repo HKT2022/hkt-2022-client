@@ -11,7 +11,7 @@ import { Vector2, Vector3 } from 'three/src/Three';
 import { CameraPrefab } from './prefab/CameraPrefab';
 import { GridInputPrefab } from './prefab/GridInputPrefab';
 import { PlayerPrefab } from './prefab/PlayerPrefab';
-import { SansFightRoomPrefab } from './prefab/SansFightRoomPrefab';
+import { ScenePrefab } from './prefab/ScenePrefab';
 import { InvokeOnStart as InvokeOnAwake } from './script/InvokeOnAwake';
 import { HealthState, PlayerStatusRenderController } from './script/PlayerStatusRenderController';
 
@@ -48,7 +48,7 @@ export class Bootstrapper extends BaseBootstrapper<StateInteropObject> {
         const playerStatusRenderController = new PrefabRef<PlayerStatusRenderController>();
 
         return this.sceneBuilder
-            .withChild(instantiater.buildPrefab('sans_fight_room', SansFightRoomPrefab)
+            .withChild(instantiater.buildPrefab('sans_fight_room', ScenePrefab)
                 .getColideTilemapChunkRendererRef(colideTilemapChunkRenderer)
                 .getGridObjectCollideMapRef(collideMap).make())
             

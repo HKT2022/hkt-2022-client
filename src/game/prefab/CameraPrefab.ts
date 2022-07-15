@@ -12,7 +12,7 @@ export class CameraPrefab extends Prefab {
     public make(): GameObjectBuilder {
         return this.gameObjectBuilder
             .withComponent(Camera, c => {
-                c.backgroundColor = new Color(0, 0, 0, 1);
+                c.backgroundColor = new Color(1, 1, 1, 1);
                 c.viewSize = 2.5;
                 c.cameraType = CameraType.Orthographic;
             })

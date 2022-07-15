@@ -17,16 +17,16 @@ import SansFightRoomTileAtlas from '../asset/room_sanscorridor.png';
 import SansBlack from '../asset/Sans black.png';
 import { CssSpriteAtlasRenderMode } from 'the-world-engine/dist/engine/script/render/CssSpriteAtlasRenderer';
 
-export class SansFightRoomPrefab extends Prefab {
+export class ScenePrefab extends Prefab {
     private _colideTilemapChunkRenderer = new PrefabRef<CssCollideTilemapChunkRenderer>();
     private _gridObjectCollideMap = new PrefabRef<GridObjectCollideMap>();
 
-    public getColideTilemapChunkRendererRef(colideTilemapRenderer: PrefabRef<CssCollideTilemapChunkRenderer>): SansFightRoomPrefab {
+    public getColideTilemapChunkRendererRef(colideTilemapRenderer: PrefabRef<CssCollideTilemapChunkRenderer>): ScenePrefab {
         this._colideTilemapChunkRenderer = colideTilemapRenderer;
         return this;
     }
 
-    public getGridObjectCollideMapRef(gridObjectCollideMap: PrefabRef<GridObjectCollideMap>): SansFightRoomPrefab {
+    public getGridObjectCollideMapRef(gridObjectCollideMap: PrefabRef<GridObjectCollideMap>): ScenePrefab {
         this._gridObjectCollideMap = gridObjectCollideMap;
         return this;
     }
