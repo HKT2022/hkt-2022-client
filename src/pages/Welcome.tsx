@@ -53,11 +53,11 @@ function Welcome(): JSX.Element {
                         에 오신것을 환영합니다!
                     <PaddingDiv height='100px' />
                     <LoginButton onClick={handleLogin}>
-                        로그인
+                        Login
                     </LoginButton>
                     <PaddingDiv height='20px' />
                     <LoginButton onClick={handleRegister}>
-                        회원가입
+                        Register
                     </LoginButton>
                 </TitleContainerDiv>
             </OuterFlexDiv>
