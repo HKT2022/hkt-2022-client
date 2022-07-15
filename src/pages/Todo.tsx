@@ -201,7 +201,6 @@ const BottomDiv = styled.div`
 function CheckButton({onChange, first}: {onChange: (state:boolean) => void, first?: boolean}) {
     const [checked, setChecked] = useState(first || false);
     const onClick = useCallback(() => {
-        console.log(!checked);
         onChange(!checked);
         setChecked(o => !o);
     }, [checked, setChecked, onChange]);
