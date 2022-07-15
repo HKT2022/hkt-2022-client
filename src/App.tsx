@@ -10,6 +10,7 @@ import Register from './pages/Register';
 import Todo from './pages/Todo';
 import Welcome from './pages/Welcome';
 import useIsLoggedIn from './hooks/useIsLoggedIn';
+import Ranking from './pages/Ranking';
 
 function App(): JSX.Element {
     const loggedIn = useIsLoggedIn();
@@ -29,6 +30,7 @@ function App(): JSX.Element {
                 <Route path='/mypage' element={<MyPage />} />
                 <Route path='/todo' element={<Todo />} />
                 <Route path='/welcome' element={<Welcome />} />
+                <Route path='/ranking' element={<Ranking />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
         </BrowserRouter>

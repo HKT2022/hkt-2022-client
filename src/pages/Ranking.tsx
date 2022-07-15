@@ -1,0 +1,164 @@
+import { useApolloClient } from '@apollo/client';
+import { useSearchParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { OuterFlexDiv } from '../components/atoms/styled';
+import PagedListView from '../components/organisms/PagedListView';
+import { MEDIA_MAX_WIDTH } from '../constants/css';
+import { getTotalRankings } from '../gql/queries';
+import { GetTotalRankings } from '../gql/__generated__/GetTotalRankings';
+import useAsync from '../hooks/useAsync';
+import ordinal from 'ordinal';
+import useId from '../hooks/useId';
+
+const ITEMS_IN_PAGE = 10;
+
+const ContainerDiv = styled.div`
+width: calc(100% - 200px);
+position: relative;
+
+@media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
+    width: calc(100% - 30px);
+}
+`;
+const TitleContainerDiv = styled.div`   
+height: 185px;
+position: relative;
+z-index: 2;
+`;
+const TitleH1 = styled.h1`
+text-align: center;
+color: white;
+margin-bottom: 0px;
+margin-top: 0px;
+padding-top: 70px;
+font-size: 45px;
+`;
+const BodyContainerDiv = styled.div`
+height: calc(100vh - 185px);
+`;
+const ListContainerDiv = styled.div`
+width: 100%;
+border-radius: 30px;
+background-color: white;
+box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.12);
+padding: 38px;
+box-sizing: border-box;
+height: calc(100% - 52px);
+
+@media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
+    padding: 20px;
+}
+`;
+const ListOl = styled.ol`
+width: 100%;
+list-style: none;
+padding: 0px;
+margin: 0px;
+`;
+const ListItemLi = styled.li<{ isReversedColor: boolean }>`
+width: 100%;
+border-radius: 21.5px;
+border-style: solid;
+border-width: 1px;
+border-color: ${props => props.theme.colors.primary};
+background-color: ${props => props.isReversedColor ? props.theme.colors.primary : 'white'};
+height: 43px;
+margin-bottom: 16px;
+display: flex;
+padding: 9px 12px;
+box-sizing: border-box;
+display: inline-flex;
+justify-content: space-between;
+color: ${props => props.isReversedColor ? 'white' : props.theme.colors.primary};
+
+font-size: 19px;
+`;
+const VerticalLineDiv = styled.div<{ isReversedColor: boolean }>`
+width: 1px;
+height: 100%;
+display: inline-block;
+background-color: ${props => props.isReversedColor ? 'white' : props.theme.colors.primary};
+margin-left: 14px;
+margin-right: 14px;
+`;
+const VerticalCenterDiv = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+`;
+const RankSpan = styled.span`
+min-width: 31px;
+`;
+const UserNameSpan = styled.span`
+`;
+const ScoreSpan = styled.span`
+`;
+
+const LightBlueBallContainer = styled.div`
+display: flex;
+height: 0px;
+position: relative;
+justify-content: center;
+z-index: 1;
+`;
+const LightBlueBall = styled.div`
+    background-color: #CEDEFF;
+    width: 452px;
+    height: 452px;
+    border-radius: 50%;
+    transform: translate(0, -280px);
+`;
+
+function RankingList({ rankings }: { rankings: GetTotalRankings['totalRankings'] }) {
+    const id = useId();
+
+    return (
+        <ListOl>
+            {rankings.map((user, index) => {
+                const rank = index + 1;
+
+                const isMe = user.id === id;
+
+                return (
+                    <ListItemLi key={index} isReversedColor={isMe}>
+                        <VerticalCenterDiv>
+                            <RankSpan>{ordinal(rank)}</RankSpan>
+                            <VerticalLineDiv isReversedColor={isMe}/>
+                            <UserNameSpan>{user.username}</UserNameSpan>
+                        </VerticalCenterDiv>
+                        <VerticalCenterDiv>
+                            <ScoreSpan>{user.score}</ScoreSpan>
+                        </VerticalCenterDiv>
+                    </ListItemLi>
+                );
+            })}
+        </ListOl>
+    );
+}
+
+export default function Ranking() {
+
+    const [searchParams] = useSearchParams();
+    const currentPage = Number(searchParams.get('page')) || 1;
+
+    const apolloClient = useApolloClient();
+    const totalRankingsAsync = useAsync(() => getTotalRankings(apolloClient, { skip: ITEMS_IN_PAGE * (currentPage - 1), limit: ITEMS_IN_PAGE }));
+    
+    return (
+        <OuterFlexDiv>
+            <ContainerDiv>
+                <LightBlueBallContainer>
+                    <LightBlueBall/>
+                </LightBlueBallContainer>
+                <TitleContainerDiv>
+                    <TitleH1>Ranking</TitleH1>
+                </TitleContainerDiv>
+                <BodyContainerDiv>
+                    <ListContainerDiv>
+                        <RankingList rankings={totalRankingsAsync.value?.data.totalRankings ?? []}/>
+                    </ListContainerDiv>
+                </BodyContainerDiv>
+            </ContainerDiv>
+        </OuterFlexDiv>
+    );
+}

@@ -178,6 +178,8 @@ const FakeHr = styled.div`
 const BottomDiv = styled.div`
     width: 100%;
     max-width: 810px;
+    box-sizing: border-box;
+    padding: 0px 50px 50px 50px;
 
     display: flex;
     flex-direction: row;
