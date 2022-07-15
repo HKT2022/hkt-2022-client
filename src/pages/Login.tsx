@@ -80,6 +80,7 @@ const RegisterNowDiv = styled(InnerFlexDiv1)`
     color: ${props => props.theme.colors.textLight};
     background-color: transparent;
     font-size: 13px;
+    box-shadow: none;
 `;
 
 const SignInWithSocialDiv = styled(InnerFlexDiv1)`
