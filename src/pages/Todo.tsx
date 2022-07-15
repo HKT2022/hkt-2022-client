@@ -100,7 +100,6 @@ interface PriorityDivProps {
 }
 
 const PriorityDiv = styled.div<PriorityDivProps>`
-    border: 1px solid red;
     border-radius: 50px;
     width: 10px;
     height: 10px;
@@ -203,6 +202,36 @@ function CheckButton({onChange, first}: {onChange: (state:boolean) => void, firs
     );
 }
 
+const PriorityListDiv = styled.div`
+    height: 50px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    padding-left: 10px;
+    border-radius: 30px 30px 30px 30px;
+    
+    background-color: ${props => props.theme.colors.background};
+`;
+
+function ChoosePriority({onChange}: {onChange: (select: number) => void }) {
+    const [selected, setSelected] = useState(2);
+    const onClick = useCallback((select: number) => {
+        onChange(select);
+        setSelected(select);
+    }, [setSelected, onChange]);
+
+    return (
+        <PriorityListDiv>
+            <PriorityDiv style={{opacity: selected === 1 ? 1 : 0.3}} priority={1} onClick={() => onClick(1)} />
+            <PriorityDiv style={{opacity: selected === 2 ? 1 : 0.3}} priority={2} onClick={() => onClick(2)} />
+            <PriorityDiv style={{opacity: selected === 3 ? 1 : 0.3}} priority={3} onClick={() => onClick(3)} />
+        </PriorityListDiv>
+    );
+}
+
 function Todo(): JSX.Element {
     const user = useUser();
     const toast = useToast();
@@ -213,6 +242,7 @@ function Todo(): JSX.Element {
     const [todos, setTodos] = useState<MyTodos_myTodos[]>([]);
 
     const [newTodoContent, setNewTodoContent] = useState('');
+    const [newTodoPriority, setNewTodoPriority] = useState(2);
 
     const [gameInteropObject, setGameInteropObject] = useState<StateInteropObject|null>(null);
 
@@ -224,7 +254,6 @@ function Todo(): JSX.Element {
             shakeCamera();
             toast.showToast(`You lost ${dif} health!`, 'error');
         }
-        
 
         setBeforeHealth(hp);
     }, [beforeHealth]);
@@ -260,7 +289,7 @@ function Todo(): JSX.Element {
 
         const newTodo = {
             content: newTodoContent,
-            priority: 1,
+            priority: newTodoPriority,
         };
         mutations.createTodo(apolloClient, {
             todo: newTodo
@@ -360,6 +389,7 @@ function Todo(): JSX.Element {
                         })}
                     </TodoListContainerDiv>
                     <TodoListAddForm onSubmit={onSubmit}>
+                        <ChoosePriority onChange={setNewTodoPriority} />
                         <TodoListInput placeholder='new todo...' value={newTodoContent} onChange={onChangeNewTodoContent} />
                         <TodoListAddButton type='submit'>
                             +
