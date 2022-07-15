@@ -11,6 +11,8 @@ import styled from 'styled-components';
 
 import { MEDIA_MAX_WIDTH } from '../../constants/css';
 import useDebounce from '../../hooks/useDebounce';
+import useIsLoggedIn from '../../hooks/useIsLoggedIn';
+import useCurrentUser from '../../hooks/useCurrentUser';
 import useWindowSize from '../../hooks/useWindowSize';
 import MenuButton from '../atoms/MenuButton';
 import { PaddingDiv } from '../atoms/styled';
@@ -118,12 +120,21 @@ function RightNavbarButtons(): JSX.Element {
         navigate('/login');
     }, [navigate]);
 
+    const isLoggedIn = useIsLoggedIn();
+    const user = useCurrentUser();
+
     return (
         <>
             <UserInfoDiv>
-                <NavBarButton onClick={handleLoginClick}>
-                    Sign In
-                </NavBarButton>
+                { isLoggedIn ?  (
+                    <NavBarButton onClick={handleLoginClick}>
+                        Sign In
+                    </NavBarButton>
+                ) : (
+                    <NavBarButton>
+                        {user?.username}
+                    </NavBarButton>
+                ) }
             </UserInfoDiv>
         </>
     );
