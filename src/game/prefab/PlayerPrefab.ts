@@ -18,6 +18,7 @@ import { MovementAnimationController } from '../script/MovementAnimationControll
 import HeewonSpriteAtlas from '../asset/Heewon.png';
 import { PlayerStatusRenderController } from '../script/PlayerStatusRenderController';
 import { PlayerGridMovementController } from '../script/PlayerGridMovementController';
+import { RandomBehaviorMaker } from '../script/RandomBehaviorMaker';
 
 export class PlayerPrefab extends Prefab {
     private _collideMaps: PrefabRef<IGridCollidable>[] = [];
@@ -47,7 +48,9 @@ export class PlayerPrefab extends Prefab {
 
     public make(): GameObjectBuilder {
         const instantlater = this.instantiater;
-        
+
+        const playerStatusRenderController = new PrefabRef<PlayerStatusRenderController>();
+
         const chatboxRenderer: PrefabRef<CssHtmlElementRenderer> = new PrefabRef();
         const chatboxObject: PrefabRef<GameObject> = new PrefabRef();
         const nameTagRenderer: PrefabRef<CssTextRenderer> = new PrefabRef();
@@ -101,6 +104,24 @@ export class PlayerPrefab extends Prefab {
                 c.setNameTagObject(nameTagObject.ref!);
                 c.setNameTagRenderer(nameTagRenderer.ref!);
                 c.nameTag = this._nameTagString.ref;
+            })
+            .getComponent(PlayerStatusRenderController, playerStatusRenderController)
+            
+            .withComponent(RandomBehaviorMaker, c => {
+                c.randomChatHealth1Set = [
+                    '안녕하세요'
+                ];
+                c.randomChatHealth2Set = [
+                    '안녕하세요...'
+                ];
+                c.randomChatHealth3Set = [
+                    '안녕하세요......'
+                ];
+                c.randomChatHealth4Set = [
+                    '안녕하세요........'
+                ];
+
+                c.setPlayerStatusRenderController(playerStatusRenderController.ref!);
             })
 
             .withChild(instantlater.buildGameObject('chatbox',
