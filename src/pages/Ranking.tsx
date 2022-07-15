@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/client';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { OuterFlexDiv } from '../components/atoms/styled';
 import PagedListView from '../components/organisms/PagedListView';
@@ -109,6 +109,19 @@ const LightBlueBall = styled.div`
     transform: translate(0, -280px);
 `;
 
+const BackLink = styled(Link)`
+z-index: 3;
+display: inline-block;
+position: absolute;
+left: 30px;
+top: 30px;
+`;
+const BackIcon = styled.img`
+width: 30px;
+height: 30px;
+cursor: pointer;
+`;
+
 function RankingList({ rankings }: { rankings: GetTotalRankings['totalRankings'] }) {
     const id = useId();
 
@@ -146,6 +159,7 @@ export default function Ranking() {
     
     return (
         <OuterFlexDiv>
+            <BackLink to="/todo"><BackIcon src={'/static/back.svg'}/></BackLink>
             <ContainerDiv>
                 <LightBlueBallContainer>
                     <LightBlueBall/>
