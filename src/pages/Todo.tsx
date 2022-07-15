@@ -355,9 +355,12 @@ function Todo(): JSX.Element {
             if (game) {
                 game.inputHandler.stopHandleEvents();
                 game.dispose();
-                setGame(null);
-                setGameInteropObject(null);
             }
+
+            setGame(null);
+            setGameInteropObject(null);
+            
+            if (gameContainerRef.current) gameContainerRef.current.innerHTML = '';
         };
     }, [gameContainerRef, setGame, setGameInteropObject]);
 

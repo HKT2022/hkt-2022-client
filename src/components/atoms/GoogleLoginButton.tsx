@@ -9,7 +9,7 @@ const SigninWithGoogleButton = styled(Button1)`
     background-color: ${props => props.theme.colors.primary};
 
     &:hover {
-        background-color: ${props => props.theme.colors.background};
+        background-color: ${props => props.theme.colors.secondary};
     }
 
     &:active {
