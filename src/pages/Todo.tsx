@@ -356,11 +356,10 @@ function Todo(): JSX.Element {
             if(!(res.data?.dayUpdate)) return;
 
             (async () => {
+                await apolloClient.clearStore();
                 const res = await queries.getMyTodos(apolloClient);
                 setTodos(res.data.myTodos);
             })();
-
-            queries.getMyTodos(apolloClient);
         });
 
         return () => {

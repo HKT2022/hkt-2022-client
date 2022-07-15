@@ -194,6 +194,8 @@ function LoginWithSocialForm(): JSX.Element {
     const toast = useToast();
     const navigate = useNavigate();
 
+    const { setJwt } = useAuthContext();
+
     const handleRememberMeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setRememberMe(event.target.checked);
     }, []);
@@ -203,13 +205,17 @@ function LoginWithSocialForm(): JSX.Element {
         console.log(idToken);
 
         Mutations.loginGoogle(apolloClient, { idToken, rememberMe })
-            .then(() => {
+            .then(res => {
+                if (!res.data?.loginGoogle.accessToken) throw new Error('No access token');
+                apolloClient.resetStore();
+                setJwt(res.data.loginGoogle.accessToken);
+                window.localStorage.setItem(REFRESH_TOKEN_LOCAL_STORAGE_KEY, res.data.loginGoogle.refreshToken);
                 toast.showToast('Logged in successfully', 'success');
                 navigate('/');
             }).catch(error => {
                 toast.showToast(error.message, 'error');
             });
-    }, [apolloClient, toast.showToast]);
+    }, [apolloClient, toast.showToast, setJwt, navigate]);
 
     // const handleError = useCallback((error: string) => {
     //     toast.showToast(error, 'error');

@@ -54,9 +54,9 @@ export function loginGoogle(
     apolloClient: ApolloClient<any>,
     variables: LoginGoogleVariables
 ) {
-    return apolloClient.query<LoginGoogle>(
+    return apolloClient.mutate<LoginGoogle>(
         {
-            query: gql`
+            mutation: gql`
                 mutation LoginGoogle($idToken: String!, $rememberMe: Boolean!) {
                     loginGoogle(idToken: $idToken, rememberMe: $rememberMe) {
                         refreshToken,

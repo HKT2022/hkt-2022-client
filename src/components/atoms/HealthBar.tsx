@@ -8,6 +8,7 @@ const HealthBarContainerDiv = styled.div`
     border-radius: 80px;
     overflow: hidden;
     background-color: ${props => props.theme.colors.tertiary};
+    color: ${props => props.theme.colors.textLightest};
 
     position: relative;
     

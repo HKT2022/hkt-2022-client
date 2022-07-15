@@ -111,8 +111,8 @@ function GoogleLoginButton(props: IGoogleLoginButtonProps): JSX.Element {
                     client_id: GOOGLE_CLIENT_ID,
                     callback: handleCredentialResponse
                 });
-                google.accounts.id.prompt();
-              
+
+                setDisabled(false);
             });
         }
     }, [setDisabled]);
