@@ -131,6 +131,19 @@ const BallContainerDiv = styled(ContainerDiv)`
     }
 `;
 
+const AbsoluteArea = styled.div`
+    display: flex;
+    
+    justify-content: center;
+
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 800px;
+    transform: translateX(-50%);
+`;
+
+
 function Skin(): JSX.Element {
     // const user = useUser();
     // const loggedIn = useIsLoggedIn();
@@ -180,26 +193,28 @@ function Skin(): JSX.Element {
     const [game, setGame] = useState<Game|null>(null);
 
     useEffect(() => {
-        if (gameContainerRef.current && !game) {
-            const game = new Game(gameContainerRef.current);
-            const interopObject = new StateInteropObject();
-            game.run(Bootstrapper, interopObject);
-            game.inputHandler.startHandleEvents();
-            setGame(game);
-            setGameInteropObject(interopObject);
-        }
-
-        return () => {
-            if (game) {
-                game.inputHandler.stopHandleEvents();
-                game.dispose();
+        setTimeout(() => {
+            if (gameContainerRef.current && !game) {
+                const game = new Game(gameContainerRef.current);
+                const interopObject = new StateInteropObject();
+                game.run(Bootstrapper, interopObject);
+                game.inputHandler.startHandleEvents();
+                setGame(game);
+                setGameInteropObject(interopObject);
             }
 
-            setGame(null);
-            setGameInteropObject(null);
+            return () => {
+                if (game) {
+                    game.inputHandler.stopHandleEvents();
+                    game.dispose();
+                }
 
-            //if (gameContainerRef.current) gameContainerRef.current.innerHTML = '';
-        };
+                setGame(null);
+                setGameInteropObject(null);
+
+                //if (gameContainerRef.current) gameContainerRef.current.innerHTML = '';
+            };
+        }, 200);
     }, [gameContainerRef, setGame, setGameInteropObject]);
 
     useEffect(() => {
@@ -215,65 +230,72 @@ function Skin(): JSX.Element {
     }, [gameInteropObject, health]);
 
     return (
-        <OuterFlexDiv>
-            <BallContainerDiv>
-                <LightBlueBallContainer>
-                    <LightBlueBall/>
-                </LightBlueBallContainer>
-                <RTitleContainerDiv>
-                    <TitleH1>Skin</TitleH1>
-                </RTitleContainerDiv>
-            </BallContainerDiv>
-            <BaseDiv>
-                <LeftSideDiv>
-                    <GameViewDiv ref={gameContainerRef} />
-                    <HealthBarContainerDiv>
-                        <HealthBar health={health} maxHealth={100} />
-                    </HealthBarContainerDiv>
-                </LeftSideDiv>
-                <PaddingDiv width='10px' />
-                <RightSideDiv>
-                    <TitleContainerDiv>
-                        Add skin
-                    </TitleContainerDiv>
-                    <TodoListContainerDiv>
-                        <img src="/static/plus.svg" />
-                    </TodoListContainerDiv>
-                </RightSideDiv>
-            </BaseDiv>
-            <FakeHr />
-            <BottomDiv>
-                <div>
-                    logo
+        <>
+            <AbsoluteArea>
+                <BallContainerDiv>
+                    <LightBlueBallContainer>
+                        <LightBlueBall/>
+                    </LightBlueBallContainer>
+                    <RTitleContainerDiv>
+                        <TitleH1>Skin</TitleH1>
+                    </RTitleContainerDiv>
+                </BallContainerDiv>
+            </AbsoluteArea>
+            <OuterFlexDiv>
+                <div style={{height: 100}}>
+
                 </div>
-                <div>
-                    <BtnImg src='/static/group.svg' 
-                        onClick={() => {
-                            navigate('/group');
-                        }}
-                    />
-                    <BtnImg src='/static/skin.svg' 
-                        style={{marginLeft: 32}}
-                        onClick={() => {
-                            navigate('/');
-                        }}
-                    />
-                    <BtnImg src='/static/trophy.svg' 
-                        style={{marginLeft: 32}}
-                        onClick={() => {
-                            navigate('/ranking');
-                        }}
-                    />
-                    <BtnImg 
-                        src='/static/logout.svg' 
-                        style={{marginLeft: 32}}
-                        onClick={() => {
-                            location.href = '/logout';
-                        }}
-                    />
-                </div>
-            </BottomDiv>
-        </OuterFlexDiv>
+                <BaseDiv>
+                    <LeftSideDiv>
+                        <GameViewDiv ref={gameContainerRef} />
+                        <HealthBarContainerDiv>
+                            <HealthBar health={health} maxHealth={100} />
+                        </HealthBarContainerDiv>
+                    </LeftSideDiv>
+                    <PaddingDiv width='10px' />
+                    <RightSideDiv>
+                        <TitleContainerDiv>
+                            Add skin
+                        </TitleContainerDiv>
+                        <TodoListContainerDiv>
+                            <img src="/static/plus.svg" />
+                        </TodoListContainerDiv>
+                    </RightSideDiv>
+                </BaseDiv>
+                <FakeHr />
+                <BottomDiv>
+                    <div>
+                        logo
+                    </div>
+                    <div>
+                        <BtnImg src='/static/group.svg' 
+                            onClick={() => {
+                                navigate('/group');
+                            }}
+                        />
+                        <BtnImg src='/static/skin.svg' 
+                            style={{marginLeft: 32}}
+                            onClick={() => {
+                                navigate('/');
+                            }}
+                        />
+                        <BtnImg src='/static/trophy.svg' 
+                            style={{marginLeft: 32}}
+                            onClick={() => {
+                                navigate('/ranking');
+                            }}
+                        />
+                        <BtnImg 
+                            src='/static/logout.svg' 
+                            style={{marginLeft: 32}}
+                            onClick={() => {
+                                location.href = '/logout';
+                            }}
+                        />
+                    </div>
+                </BottomDiv>
+            </OuterFlexDiv>
+        </>
     );
 }
 
