@@ -71,6 +71,7 @@ const HealthBarContainerDiv = styled.div`
 const TodoListContainerDiv = styled.div`
     height: 250px;
     overflow-y: auto;
+    overflow-x: hidden;
 `;
 
 const TodoItemDiv = styled.div`
