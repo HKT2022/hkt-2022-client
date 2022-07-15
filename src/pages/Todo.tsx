@@ -16,6 +16,8 @@ import { Game } from 'the-world-engine';
 import { Bootstrapper, StateInteropObject } from '../game/GameBootstrapper';
 import { HealthState } from '../game/script/PlayerStatusRenderController';
 import { ContainerDiv, LightBlueBall, LightBlueBallContainer, TitleH1, TitleContainerDiv as RTitleContainerDiv } from './Ranking';
+import { useNavigate } from 'react-router-dom';
+import useIsLoggedIn from '../hooks/useIsLoggedIn';
 
 const BaseDiv = styled.div`
     display: flex;
@@ -232,10 +234,18 @@ function ChoosePriority({onChange}: {onChange: (select: number) => void }) {
     );
 }
 
+const BtnImg = styled.img`
+:hover {
+    cursor: pointer;
+}
+`;
+
 function Todo(): JSX.Element {
     const user = useUser();
+    const loggedIn = useIsLoggedIn();
     const toast = useToast();
     const apolloClient = useApolloClient();
+    const navigate = useNavigate();
 
     const [beforeHealth, setBeforeHealth] = useLocalStorageState(0, BEFORE_HEALTH_KEY);
     const [health, setHealth] = useState(100);
@@ -403,8 +413,18 @@ function Todo(): JSX.Element {
                     logo
                 </div>
                 <div>
-                    <img src='/static/trophy.svg' />
-                    <img src='/static/setting.svg' style={{marginLeft: 32}}/>
+                    <BtnImg src='/static/trophy.svg' 
+                        onClick={() => {
+                            navigate('/ranking');
+                        }}
+                    />
+                    <BtnImg 
+                        src='/static/logout.svg' 
+                        style={{marginLeft: 32}}
+                        onClick={() => {
+                            location.href = '/logout';
+                        }}
+                    />
                 </div>
             </BottomDiv>
         </OuterFlexDiv>
