@@ -21,6 +21,7 @@ const LeftSideDiv = styled.div`
 const RightSideDiv = styled.div`
     border: 1px solid red;
 
+    width: 500px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -44,7 +45,7 @@ const TodoItemDiv = styled.div`
     border: 1px solid red;
     border-radius: 50px;
 
-    width: 400px;
+    width: 100%;
     margin: 8px;
     padding: 8px 12px;
 
@@ -96,7 +97,7 @@ const TodoItemButton = styled.button`
     border: 1px solid ${props => props.theme.colors.primary};
 `;
 
-const TodoListAddForm = styled.div`
+const TodoListAddForm = styled.form`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -146,7 +147,9 @@ function Todo(): JSX.Element {
         console.log(newTodoContent);
     }, [newTodoContent]);
 
-    const onSubmit = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
         const newTodo = {
             content: newTodoContent,
             priority: 1,
@@ -195,9 +198,9 @@ function Todo(): JSX.Element {
                             );
                         })}
                     </div>
-                    <TodoListAddForm>
+                    <TodoListAddForm onSubmit={onSubmit}>
                         <TodoListInput placeholder='new todo...' value={newTodoContent} onChange={onChangeNewTodoContent} />
-                        <TodoListAddButton onClick={onSubmit}>
+                        <TodoListAddButton type='submit'>
                             +
                         </TodoListAddButton>
                     </TodoListAddForm>
