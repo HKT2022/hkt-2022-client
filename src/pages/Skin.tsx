@@ -69,94 +69,15 @@ const HealthBarContainerDiv = styled.div`
 `;
 
 const TodoListContainerDiv = styled.div`
+    display: flex;
+
     height: 250px;
     overflow-y: auto;
-    overflow-x: hidden;
-`;
 
-const TodoItemDiv = styled.div`
-    box-sizing: border-box;
-    border-radius: 50px;
-    background-color: ${props => props.theme.colors.primary};
-
-    color: ${props => props.theme.colors.textLightest};
-
-    width: calc(100%-16px);
-    margin: 8px;
-    padding: 8px 12px;
-
-    font-size: 13px;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-`;
 
-const TodoItemLeftDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-`;
-
-interface PriorityDivProps {
-    priority: 1 | 2 | 3;
-}
-
-const PriorityDiv = styled.div<PriorityDivProps>`
-    border-radius: 50px;
-    width: 10px;
-    height: 10px;
-    margin-right: 8px;
-
-    background-color: ${props => {
-        switch (props.priority) {
-        case 1:
-            return '#ff0000';
-        case 2:
-            return '#ffa500';
-        case 3:
-            return '#00ff00';
-        default:
-            return '#ffffff';
-        }
-    }};
-
-    cursor: pointer;
-`;
-
-const TodoItemButton = styled.button`
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-
-    background-color: yellow;
-    border: 1px solid ${props => props.theme.colors.primary};
-`;
-
-const TodoListAddForm = styled.form`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-`;
-
-const TodoListInput = styled.input`
-    border-radius: 50px;
-    margin: 8px;
-    padding: 5px 10px;
-    box-sizing: content-box;
-    width: 100%;
-`;
-
-const TodoListAddButton = styled.button`
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    box-sizing: content-box;
-
-    margin-right: 10px;
+    margin-bottom: 20px;
 `;
 
 const GameViewDiv = styled.div`
@@ -199,50 +120,6 @@ const BottomDiv = styled.div`
     }
 `;
 
-function CheckButton({onChange, first}: {onChange: (state:boolean) => void, first?: boolean}) {
-    const [checked, setChecked] = useState(first || false);
-    const onClick = useCallback(() => {
-        onChange(!checked);
-        setChecked(o => !o);
-    }, [checked, setChecked, onChange]);
-
-    return (
-        <img 
-            src={checked ? '/static/checked.svg' : '/static/unchecked.svg' }
-            onClick={onClick}
-        />
-    );
-}
-
-const PriorityListDiv = styled.div`
-    height: 50px;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-
-    padding-left: 10px;
-    border-radius: 30px 30px 30px 30px;
-    
-    background-color: ${props => props.theme.colors.background};
-`;
-
-function ChoosePriority({onChange}: {onChange: (select: number) => void }) {
-    const [selected, setSelected] = useState(2);
-    const onClick = useCallback((select: number) => {
-        onChange(select);
-        setSelected(select);
-    }, [setSelected, onChange]);
-
-    return (
-        <PriorityListDiv>
-            <PriorityDiv style={{opacity: selected === 1 ? 1 : 0.3}} priority={1} onClick={() => onClick(1)} />
-            <PriorityDiv style={{opacity: selected === 2 ? 1 : 0.3}} priority={2} onClick={() => onClick(2)} />
-            <PriorityDiv style={{opacity: selected === 3 ? 1 : 0.3}} priority={3} onClick={() => onClick(3)} />
-        </PriorityListDiv>
-    );
-}
 
 const BtnImg = styled.img`
 :hover {
@@ -256,11 +133,7 @@ const BallContainerDiv = styled(ContainerDiv)`
     }
 `;
 
-const LogoImg = styled.img`
-    height: 35px;
-`;
-
-function Todo(): JSX.Element {
+function Skin(): JSX.Element {
     const user = useUser();
     const loggedIn = useIsLoggedIn();
     const toast = useToast();
@@ -270,9 +143,6 @@ function Todo(): JSX.Element {
     const [beforeHealth, setBeforeHealth] = useLocalStorageState(0, BEFORE_HEALTH_KEY);
     const [health, setHealth] = useState(100);
     const [todos, setTodos] = useState<MyTodos_myTodos[]>([]);
-
-    const [newTodoContent, setNewTodoContent] = useState('');
-    const [newTodoPriority, setNewTodoPriority] = useState(2);
 
     const [gameInteropObject, setGameInteropObject] = useState<StateInteropObject|null>(null);
 
@@ -306,45 +176,6 @@ function Todo(): JSX.Element {
             });
     }, []);
 
-    const onChangeNewTodoContent = useCallback((todo: React.ChangeEvent<HTMLInputElement>) => {
-        setNewTodoContent(todo.target.value);
-    }, [newTodoContent]);
-
-    const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        if (newTodoContent.length === 0) {
-            toast.showToast('Todo content is empty', 'error');
-        }
-
-        const newTodo = {
-            content: newTodoContent,
-            priority: newTodoPriority,
-        };
-        mutations.createTodo(apolloClient, {
-            todo: newTodo
-        }).then(res => {
-            const resTodo = res.data?.createTodo;
-            if (!resTodo) throw new Error('createTodo failed');
-            setTodos(o => [...o, {...resTodo, createdAt: new Date()}]);
-        }).catch(err => {
-            toast.showToast(err.message, 'error');
-        });
-        setNewTodoContent('');
-    }, [newTodoContent, apolloClient, toast]);
-
-    const onChangeChecked = useCallback((todo: MyTodos_myTodos) => (state: boolean) => {
-        mutations.updateTodo(apolloClient, {
-            id: todo.id,
-            todo: {
-                completed: state,
-                content: todo.content,
-                priority: todo.priority
-            }
-        }).catch(err => {
-            toast.showToast(err.message, 'error');
-        });
-    }, []);
 
     const gameContainerRef = useRef<HTMLDivElement>(null);
 
@@ -394,7 +225,7 @@ function Todo(): JSX.Element {
                     <LightBlueBall/>
                 </LightBlueBallContainer>
                 <RTitleContainerDiv>
-                    <TitleH1>{new Date(Date.now()).toLocaleDateString()}</TitleH1>
+                    <TitleH1>Skin</TitleH1>
                 </RTitleContainerDiv>
             </BallContainerDiv>
             <BaseDiv>
@@ -407,35 +238,18 @@ function Todo(): JSX.Element {
                 <PaddingDiv width='10px' />
                 <RightSideDiv>
                     <TitleContainerDiv>
-                        { windowSize.width > MEDIA_MAX_WIDTH + 60
-                            ? 'Todo'
-                            : new Date(Date.now()).toLocaleDateString() + ' Todo' }
+                        Add skin
                     </TitleContainerDiv>
                     <TodoListContainerDiv>
-                        {todos.map(todo => {
-                            return (
-                                <TodoItemDiv key={todo.id}>
-                                    <TodoItemLeftDiv>
-                                        <PriorityDiv priority={todo.priority as 1 | 2 | 3} />
-                                        {todo.content}
-                                    </TodoItemLeftDiv>
-                                    <CheckButton onChange={onChangeChecked(todo)} first={todo.completed} />
-                                </TodoItemDiv>
-                            );
-                        })}
+                        <img src="/static/plus.svg" />
                     </TodoListContainerDiv>
-                    <TodoListAddForm onSubmit={onSubmit}>
-                        <ChoosePriority onChange={setNewTodoPriority} />
-                        <TodoListInput placeholder='new todo...' value={newTodoContent} onChange={onChangeNewTodoContent} />
-                        <TodoListAddButton type='submit'>
-                            +
-                        </TodoListAddButton>
-                    </TodoListAddForm>
                 </RightSideDiv>
             </BaseDiv>
             <FakeHr />
             <BottomDiv>
-                <LogoImg src={'static/LogoSmall.svg'} alt='logo' />
+                <div>
+                    logo
+                </div>
                 <div>
                     <BtnImg src='/static/trophy.svg' 
                         onClick={() => {
@@ -455,4 +269,4 @@ function Todo(): JSX.Element {
     );
 }
 
-export default Todo;
+export default Skin;
