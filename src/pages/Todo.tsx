@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import HealthBar from '../components/atoms/HealthBar';
 import { OuterFlexDiv, PaddingDiv } from '../components/atoms/styled';
@@ -11,6 +11,8 @@ import useToast from '../contexts/ToastContext';
 import { MEDIA_MAX_WIDTH } from '../constants/css';
 import useLocalStorageState from '../hooks/useLocalStorageState';
 import { BEFORE_HEALTH_KEY } from '../constants/localStorage';
+import { Game } from 'the-world-engine';
+import { Bootstrapper } from '../game/GameBootstrapper';
 
 const BaseDiv = styled.div`
     display: flex;
@@ -145,6 +147,12 @@ const TodoListAddButton = styled.button`
     margin-right: 10px;
 `;
 
+const GameViewDiv = styled.div`
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+`;
+
 function Todo(): JSX.Element {
     const user = useUser();
     const toast = useToast();
@@ -210,13 +218,31 @@ function Todo(): JSX.Element {
         setNewTodoContent('');
     }, [newTodoContent]);
 
+    const gameContainerRef = useRef<HTMLDivElement>(null);
+
+    const [game, setGame] = useState<Game|null>(null);
+    useEffect(() => {
+        if (gameContainerRef.current && !game) {
+            const game = new Game(gameContainerRef.current);
+            game.run(Bootstrapper);
+            game.inputHandler.startHandleEvents();
+            setGame(game);
+        }
+
+        return () => {
+            if (game) {
+                game.inputHandler.stopHandleEvents();
+                game.dispose();
+                setGame(null);
+            }
+        };
+    }, [gameContainerRef, setGame]);
+
     return (
         <OuterFlexDiv>
             <BaseDiv>
                 <LeftSideDiv>
-                    <div style={{width: 300, height: 300, background: 'white'}}>
-                        charactor
-                    </div>
+                    <GameViewDiv ref={gameContainerRef} />
                     <HealthBarContainerDiv>
                         health
                         <HealthBar health={health} maxHealth={100} />
