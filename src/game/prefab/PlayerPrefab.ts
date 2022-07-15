@@ -123,16 +123,31 @@ export class PlayerPrefab extends Prefab {
 
             .withComponent(RandomBehaviorMaker, c => {
                 c.randomChatHealth1Set = [
-                    '안녕하세요!'
+                    '좋은 하루!',
+                    '할 일 잘 하고 있지!?',
+                    '항상 고마워!',
+                    '기분 좋은 날이야 !',
+                    '화이팅!'
                 ];
                 c.randomChatHealth2Set = [
-                    '안녕하세요...'
+                    '조금 힘들데,,',
+                    '할 일 잘 하는거 맞아..?',
+                    '열심히 하는거지..?',
+                    '힘 좀 내봐..'
+
                 ];
                 c.randomChatHealth3Set = [
-                    '안녕하세요......'
+                    '야.. 살아는 있는거지',
+                    '지금 하는건 있어???',
+                    '너 친구 없지??',
+                    '너 때문에 내가,,,'
                 ];
                 c.randomChatHealth4Set = [
-                    '안녕하세요........'
+                    '너무 고통스러워...',
+                    '나를 왜 만든거야??',
+                    '그냥 나를 지워줘..',
+                    '개자식!',
+                    '누가 내 머리에 평탄화 작업을 한거야??'
                 ];
 
                 c.setPlayerStatusRenderController(playerStatusRenderController.ref!);

@@ -2,10 +2,8 @@ import { Vector2, Vector3 } from 'three/src/Three';
 import {
     CssCollideTilemapChunkRenderer,
     CssTilemapChunkRenderer,
-    ParallaxTranslater,
     CameraRelativeZaxisSorter,
     CssSpriteAtlasRenderer,
-    CssSpriteRenderer,
     TileAtlasItem,
     CssIframeRenderer,
     ZaxisSorter,
@@ -17,7 +15,6 @@ import {
 } from 'the-world-engine';
 import SansFightRoomTileAtlas from '../asset/room_sanscorridor.png';
 import SansBlack from '../asset/Sans black.png';
-import Pillar from '../asset/spr_foregroundpillar.png';
 import { CssSpriteAtlasRenderMode } from 'the-world-engine/dist/engine/script/render/CssSpriteAtlasRenderer';
 
 export class SansFightRoomPrefab extends Prefab {
@@ -165,8 +162,8 @@ export class SansFightRoomPrefab extends Prefab {
                 .withChild(instantiater.buildGameObject('iframe', new Vector3(0.5 + 51, 0.5, 0))
                     .withComponent(CssIframeRenderer, c => {
                         c.iframeSource = 'https://www.youtube.com/embed/p9wmCeqB0eA';
-                        c.width = 4 * 3;
-                        c.height = 2.25 * 3;
+                        c.width = 4 * 1;
+                        c.height = 2.25 * 1;
                         c.viewScale = 0.01;
                         c.centerOffset = new Vector2(0, 0.5);
                     })
@@ -187,127 +184,7 @@ export class SansFightRoomPrefab extends Prefab {
                         c.addCollider(0, 0);
                         c.gridObjectCollideMap = this._gridObjectCollideMap.ref!;
                     })
-                    .withComponent(ZaxisSorter))
-
-                .withChild(instantiater.buildGameObject('pillar', new Vector3(0.5 + 5, -2, 0))
-                    //.active(false)
-                    .withComponent(CssSpriteRenderer, c => {
-                        c.asyncSetImageFromPath(Pillar);
-                        c.centerOffset = new Vector2(0, 0.5);
-                        c.pointerEvents = false;
-                        c.imageWidth = 3.5;
-                        c.imageHeight = 10;
-                    })
-                    .withComponent(ParallaxTranslater, c => {
-                        c.offsetX = -0.7;
-                        c.offsetY = 0;
-                    })
-                    .withComponent(CameraRelativeZaxisSorter, c => c.offset = -6))
-                    
-                .withChild(instantiater.buildGameObject('pillar', new Vector3(0.5 + 11, -2, 0))
-                    //.active(false)
-                    .withComponent(CssSpriteRenderer, c => {
-                        c.asyncSetImageFromPath(Pillar);
-                        c.centerOffset = new Vector2(0, 0.5);
-                        c.pointerEvents = false;
-                        c.imageWidth = 3.5;
-                        c.imageHeight = 10;
-                    })
-                    .withComponent(ParallaxTranslater, c => {
-                        c.offsetX = -0.7;
-                        c.offsetY = 0;
-                    })
-                    .withComponent(CameraRelativeZaxisSorter, c => c.offset = -6))
-                    
-                .withChild(instantiater.buildGameObject('pillar', new Vector3(0.5 + 17, -2, 0))
-                    //.active(false)
-                    .withComponent(CssSpriteRenderer, c => {
-                        c.asyncSetImageFromPath(Pillar);
-                        c.centerOffset = new Vector2(0, 0.5);
-                        c.pointerEvents = false;
-                        c.imageWidth = 3.5;
-                        c.imageHeight = 10;
-                    })
-                    .withComponent(ParallaxTranslater, c => {
-                        c.offsetX = -0.7;
-                        c.offsetY = 0;
-                    })
-                    .withComponent(CameraRelativeZaxisSorter, c => c.offset = -6))
-                    
-                .withChild(instantiater.buildGameObject('pillar', new Vector3(0.5 + 23, -2, 0))
-                    //.active(false)
-                    .withComponent(CssSpriteRenderer, c => {
-                        c.asyncSetImageFromPath(Pillar);
-                        c.centerOffset = new Vector2(0, 0.5);
-                        c.pointerEvents = false;
-                        c.imageWidth = 3.5;
-                        c.imageHeight = 10;
-                    })
-                    .withComponent(ParallaxTranslater, c => {
-                        c.offsetX = -0.7;
-                        c.offsetY = 0;
-                    })
-                    .withComponent(CameraRelativeZaxisSorter, c => c.offset = -6))
-                    
-                .withChild(instantiater.buildGameObject('pillar', new Vector3(0.5 + 29, -2, 0))
-                    //.active(false)
-                    .withComponent(CssSpriteRenderer, c => {
-                        c.asyncSetImageFromPath(Pillar);
-                        c.centerOffset = new Vector2(0, 0.5);
-                        c.pointerEvents = false;
-                        c.imageWidth = 3.5;
-                        c.imageHeight = 10;
-                    })
-                    .withComponent(ParallaxTranslater, c => {
-                        c.offsetX = -0.7;
-                        c.offsetY = 0;
-                    })
-                    .withComponent(CameraRelativeZaxisSorter, c => c.offset = -6))
-                    
-                .withChild(instantiater.buildGameObject('pillar', new Vector3(0.5 + 35, -2, 0))
-                    //.active(false)
-                    .withComponent(CssSpriteRenderer, c => {
-                        c.asyncSetImageFromPath(Pillar);
-                        c.centerOffset = new Vector2(0, 0.5);
-                        c.pointerEvents = false;
-                        c.imageWidth = 3.5;
-                        c.imageHeight = 10;
-                    })
-                    .withComponent(ParallaxTranslater, c => {
-                        c.offsetX = -0.7;
-                        c.offsetY = 0;
-                    })
-                    .withComponent(CameraRelativeZaxisSorter, c => c.offset = -6))
-                    
-                .withChild(instantiater.buildGameObject('pillar', new Vector3(0.5 + 41, -2, 0))
-                    //.active(false)
-                    .withComponent(CssSpriteRenderer, c => {
-                        c.asyncSetImageFromPath(Pillar);
-                        c.centerOffset = new Vector2(0, 0.5);
-                        c.pointerEvents = false;
-                        c.imageWidth = 3.5;
-                        c.imageHeight = 10;
-                    })
-                    .withComponent(ParallaxTranslater, c => {
-                        c.offsetX = -0.7;
-                        c.offsetY = 0;
-                    })
-                    .withComponent(CameraRelativeZaxisSorter, c => c.offset = -6))
-                    
-                .withChild(instantiater.buildGameObject('pillar', new Vector3(0.5 + 47, -2, 0))
-                    .active(false)
-                    .withComponent(CssSpriteRenderer, c => {
-                        c.asyncSetImageFromPath(Pillar);
-                        c.centerOffset = new Vector2(0, 0.5);
-                        c.pointerEvents = false;
-                        c.imageWidth = 3.5;
-                        c.imageHeight = 10;
-                    })
-                    .withComponent(ParallaxTranslater, c => {
-                        c.offsetX = -0.7;
-                        c.offsetY = 0;
-                    })
-                    .withComponent(CameraRelativeZaxisSorter, c => c.offset = -6)))
+                    .withComponent(ZaxisSorter)))
         ;
     }
 }
