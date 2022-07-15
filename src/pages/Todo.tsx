@@ -291,6 +291,18 @@ function Todo(): JSX.Element {
         };
     }, [gameContainerRef, setGame, setGameInteropObject]);
 
+    useEffect(() => {
+        if (!gameInteropObject) return;
+
+        let state = HealthState.Healthy;
+        if (health <= 75) state = HealthState.Damaged1;
+        if (health <= 50) state = HealthState.Damaged2;
+        if (health <= 25) state = HealthState.Damaged3;
+
+        gameInteropObject.setState(state);
+
+    }, [gameInteropObject, health]);
+
     return (
         <OuterFlexDiv>
             <BaseDiv>
