@@ -96,7 +96,7 @@ const TodoItemButton = styled.button`
     border: 1px solid ${props => props.theme.colors.primary};
 `;
 
-const TodoListAddForm = styled.form`
+const TodoListAddForm = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -133,6 +133,7 @@ function Todo(): JSX.Element {
     useEffect(() => {
         queries.getMyTodos(apolloClient)
             .then(res => {
+                console.debug(res);
                 setTodos(res.data.myTodos);
             })
             .catch(err => {
@@ -142,7 +143,8 @@ function Todo(): JSX.Element {
 
     const onChangeNewTodoContent = useCallback((todo: React.ChangeEvent<HTMLInputElement>) => {
         setNewTodoContent(todo.target.value);
-    }, []);
+        console.log(newTodoContent);
+    }, [newTodoContent]);
 
     const onSubmit = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const newTodo = {
@@ -159,7 +161,7 @@ function Todo(): JSX.Element {
             toast.showToast(err.message, 'error');
         });
         setNewTodoContent('');
-    }, []);
+    }, [newTodoContent]);
 
     return (
         <OuterFlexDiv>
@@ -183,7 +185,7 @@ function Todo(): JSX.Element {
                             return (
                                 <TodoItemDiv key={todo.id}>
                                     <TodoItemLeftDiv>
-                                        <PriorityDiv priority={1} />
+                                        <PriorityDiv priority={todo.priority as 1 | 2 | 3} />
                                         {todo.content}
                                     </TodoItemLeftDiv>
                                     <TodoItemButton>
