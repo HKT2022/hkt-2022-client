@@ -249,6 +249,12 @@ const BtnImg = styled.img`
 }
 `;
 
+const BallContainerDiv = styled(ContainerDiv)`
+    @media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
+        display: none;
+    }
+`;
+
 function Todo(): JSX.Element {
     const user = useUser();
     const loggedIn = useIsLoggedIn();
@@ -378,15 +384,14 @@ function Todo(): JSX.Element {
 
     return (
         <OuterFlexDiv>
-            <ContainerDiv>
+            <BallContainerDiv>
                 <LightBlueBallContainer>
                     <LightBlueBall/>
                 </LightBlueBallContainer>
                 <RTitleContainerDiv>
                     <TitleH1>{new Date(Date.now()).toLocaleDateString()}</TitleH1>
                 </RTitleContainerDiv>
-
-            </ContainerDiv>
+            </BallContainerDiv>
             <BaseDiv>
                 <LeftSideDiv>
                     <GameViewDiv ref={gameContainerRef} />
