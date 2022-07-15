@@ -122,17 +122,16 @@ function RightNavbarButtons(): JSX.Element {
 
     const isLoggedIn = useIsLoggedIn();
     const user = useCurrentUser();
-
     return (
         <>
             <UserInfoDiv>
-                { isLoggedIn ?  (
+                { !isLoggedIn ?  (
                     <NavBarButton onClick={handleLoginClick}>
                         Sign In
                     </NavBarButton>
                 ) : (
                     <NavBarButton>
-                        {user?.username}
+                        {user?.username ?? '...'}
                     </NavBarButton>
                 ) }
             </UserInfoDiv>
