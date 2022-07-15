@@ -251,7 +251,19 @@ function Skin(): JSX.Element {
                     logo
                 </div>
                 <div>
+                    <BtnImg src='/static/group.svg' 
+                        onClick={() => {
+                            navigate('/group');
+                        }}
+                    />
+                    <BtnImg src='/static/skin.svg' 
+                        style={{marginLeft: 32}}
+                        onClick={() => {
+                            navigate('/');
+                        }}
+                    />
                     <BtnImg src='/static/trophy.svg' 
+                        style={{marginLeft: 32}}
                         onClick={() => {
                             navigate('/ranking');
                         }}

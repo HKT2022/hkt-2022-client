@@ -439,7 +439,19 @@ function Todo(): JSX.Element {
             <BottomDiv>
                 <LogoImg src={'static/LogoSmall.svg'} alt='logo' />
                 <div>
+                    <BtnImg src='/static/group.svg' 
+                        onClick={() => {
+                            navigate('/group');
+                        }}
+                    />
+                    <BtnImg src='/static/skin.svg' 
+                        style={{marginLeft: 32}}
+                        onClick={() => {
+                            navigate('/skin');
+                        }}
+                    />
                     <BtnImg src='/static/trophy.svg' 
+                        style={{marginLeft: 32}}
                         onClick={() => {
                             navigate('/ranking');
                         }}
