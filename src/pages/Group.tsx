@@ -196,7 +196,7 @@ export default function Group() {
                 toast.showToast('Successfully joined to this group!', 'success');
                 navigate(`/group/${group.id}/ranking`);
             } catch(e: any) {
-                toast.showToast(e.message, 'error');
+                navigate(`/group/${group.id}/ranking`);
             }
         })();
     }, []);
