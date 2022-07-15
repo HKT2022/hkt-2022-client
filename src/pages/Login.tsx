@@ -106,7 +106,7 @@ function LoginForm(): JSX.Element {
     const [rememberMe, setRememberMe] = useState(false);
 
     const { setJwt } = useAuthContext();
-    const [ ,setRefreshToken ] = useLocalStorageRawState('', REFRESH_TOKEN_LOCAL_STORAGE_KEY);
+    const [ , setRefreshToken ] = useLocalStorageRawState('', REFRESH_TOKEN_LOCAL_STORAGE_KEY);
     
     const emailValidator = useRequiredValidator('Email is required');
     const passwordValidator = useRequiredValidator('Password is required');
