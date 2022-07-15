@@ -272,7 +272,7 @@ function Todo(): JSX.Element {
 
     const [beforeHealth, setBeforeHealth] = useLocalStorageState(0, BEFORE_HEALTH_KEY);
     const [health, setHealth] = useState(100);
-    const [characterId, setCharacterId] = useState(0);
+    const [characterId, setCharacterId] = useState(-1);
     const [todos, setTodos] = useState<MyTodos_myTodos[]>([]);
 
     const [newTodoContent, setNewTodoContent] = useState('');
@@ -312,6 +312,7 @@ function Todo(): JSX.Element {
     }, []);
 
     useEffect(() => {
+        if (characterId === -1) return;
         const charaInfoSub = subscriptions.subscribeUserCharacterState(apolloClient, {
             userCharacterId: characterId
         });
