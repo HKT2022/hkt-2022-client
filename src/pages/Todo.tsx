@@ -31,7 +31,8 @@ const LeftSideDiv = styled.div`
 `;
 
 const RightSideDiv = styled.div`
-    border: 1px solid red;
+    background-color: ${props => props.theme.colors.secondaryBG};
+    border-radius: 30px;
 
     width: 500px;
     display: flex;
@@ -52,8 +53,7 @@ const TitleContainerDiv = styled.div`
 `;
 
 const HealthBarContainerDiv = styled.div`
-    border: 1px solid red;
-    padding: 10px;
+    /* padding: 10px; */
     margin-top: 10px;
     
     @media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
@@ -67,9 +67,11 @@ const TodoListContainerDiv = styled.div`
 `;
 
 const TodoItemDiv = styled.div`
-    border: 1px solid red;
     box-sizing: border-box;
     border-radius: 50px;
+    background-color: ${props => props.theme.colors.primary};
+
+    color: ${props => props.theme.colors.textLightest};
 
     width: calc(100%-16px);
     margin: 8px;
@@ -152,6 +154,10 @@ const GameViewDiv = styled.div`
     width: 300px;
     height: 300px;
     overflow: hidden;
+
+    border-radius: 30px;
+
+    background-color: ${props => props.theme.colors.secondaryBG};
 `;
 
 function Todo(): JSX.Element {
@@ -249,14 +255,13 @@ function Todo(): JSX.Element {
                 <LeftSideDiv>
                     <GameViewDiv ref={gameContainerRef} />
                     <HealthBarContainerDiv>
-                        health
                         <HealthBar health={health} maxHealth={100} />
                     </HealthBarContainerDiv>
                 </LeftSideDiv>
                 <PaddingDiv width='10px' />
                 <RightSideDiv>
                     <TitleContainerDiv>
-                        To Do
+                        Todo
                     </TitleContainerDiv>
                     <TodoListContainerDiv>
                         {todos.map(todo => {
@@ -281,6 +286,12 @@ function Todo(): JSX.Element {
                     </TodoListAddForm>
                 </RightSideDiv>
             </BaseDiv>
+            <div>
+                ==========================================================
+            </div>
+            <div>
+
+            </div>
         </OuterFlexDiv>
     );
 }

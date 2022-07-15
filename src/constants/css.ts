@@ -7,6 +7,7 @@ export const LIGHT_THEME = {
         // secondary: '#eee',
         // tertiary: '#f5f5f5',
         background: '#F8F9FD',
+        secondaryBG: '#FFFFFF',
         primary: '#5A81FA',
         secondary: '#2B308C',
         tertiary: '#9CB3FC',
