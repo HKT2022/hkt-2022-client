@@ -14,7 +14,11 @@ export const AuthContext = createContext<AuthContextState>({
     setJwt: _=>_,
 });
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+interface AuthProviderProps {
+    children: React.ReactNode|React.ReactNode[];
+}
+
+export function AuthProvider(props: AuthProviderProps): JSX.Element {
     const [jwt, setJwt] = useLocalStorageRawState('', JWT_LOCAL_STORAGE_KEY);
     
     const state = {
@@ -24,7 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     return (
         <AuthContext.Provider value={state}>
-            {children}
+            {props.children}
         </AuthContext.Provider>
     );
 }

@@ -9,6 +9,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { setContext } from '@apollo/client/link/context';
 import { JWT_LOCAL_STORAGE_KEY } from './constants/localStorage';
+import JwtTokenRefresher from './components/organisms/JwtTokenRefresher';
 
 const httpLink = createHttpLink({
     uri: 'https://truedu.kr/graphql',
@@ -39,6 +40,7 @@ root.render(
             <AuthProvider>
                 <ThemeProvider theme={DARK_THEME || LIGHT_THEME}>
                     <ToastProvider>
+                        <JwtTokenRefresher />
                         <App/>
                     </ToastProvider>
                 </ThemeProvider>

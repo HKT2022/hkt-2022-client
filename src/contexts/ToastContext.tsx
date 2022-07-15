@@ -99,7 +99,7 @@ const ToastContext = createContext<Toast>({
 });
 
 interface ToastProviderProps {
-    children: React.ReactNode;
+    children: React.ReactNode|React.ReactNode[];
 }
 
 interface ToastsState {

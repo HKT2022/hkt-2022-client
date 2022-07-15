@@ -23,6 +23,8 @@ import useToast from '../contexts/ToastContext';
 import * as Mutations from '../gql/mutations';
 import useRequiredValidator from '../hooks/text-validators/useRequiredValidator';
 import { useAuthContext } from '../contexts/AuthContext';
+import useLocalStorageRawState from '../hooks/useLocalStorageRawState';
+import { REFRESH_TOKEN_LOCAL_STORAGE_KEY } from '../constants/localStorage';
 
 const MarginBottomLeftAlignDiv = styled(LeftAlignDiv)`
     display: flex;
@@ -104,6 +106,7 @@ function LoginForm(): JSX.Element {
     const [rememberMe, setRememberMe] = useState(false);
 
     const { setJwt } = useAuthContext();
+    const [ ,setRefreshToken ] = useLocalStorageRawState('', REFRESH_TOKEN_LOCAL_STORAGE_KEY);
     
     const emailValidator = useRequiredValidator('Email is required');
     const passwordValidator = useRequiredValidator('Password is required');
@@ -144,6 +147,8 @@ function LoginForm(): JSX.Element {
                 if (!res.data?.loginLocal?.accessToken) throw new Error('No access token');
                 apolloClient.resetStore();
                 setJwt(res.data?.loginLocal?.accessToken);
+                console.log(res.data?.loginLocal?.refreshToken);
+                setRefreshToken(res.data.loginLocal.refreshToken);
                 toast.showToast('Logged in successfully', 'success');
                 navigate('/');
             })
