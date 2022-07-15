@@ -8,6 +8,17 @@ const HealthBarContainerDiv = styled.div`
     border-radius: 80px;
     overflow: hidden;
     background-color: ${props => props.theme.colors.tertiary};
+
+    position: relative;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const HealthBarInnerDiv = styled.div`
+    width: 100%;
+    height: 100%;
 `;
 
 interface HealthBarItemProps {
@@ -22,13 +33,18 @@ const HealthBarItem = styled.div<HealthBarItemProps>`
     transition: width 0.5s;
 `;
 
+const TextDiv = styled.div`
+    position: absolute;
+`;
+
 interface HealthBarProps {
     health: number;
     maxHealth: number;
+    innerText?: string;
 }
 
 function HealthBar(props: HealthBarProps) {
-    const { health, maxHealth } = props;
+    const { health, maxHealth, innerText } = props;
 
     const healthPercentage = useMemo(() => {
         return Math.floor((health / maxHealth) * 100);
@@ -36,7 +52,10 @@ function HealthBar(props: HealthBarProps) {
 
     return (
         <HealthBarContainerDiv>
-            <HealthBarItem healthPercentage={healthPercentage} />
+            <HealthBarInnerDiv>
+                <HealthBarItem healthPercentage={healthPercentage} />
+            </HealthBarInnerDiv>
+            <TextDiv>{innerText}</TextDiv>
         </HealthBarContainerDiv>
     );
 }

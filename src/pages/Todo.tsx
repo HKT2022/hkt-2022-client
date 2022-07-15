@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import HealthBar from '../components/atoms/HealthBar';
 import { OuterFlexDiv, PaddingDiv } from '../components/atoms/styled';
@@ -434,6 +434,10 @@ function Todo(): JSX.Element {
 
     const windowSize = useWindowSize();
 
+    const healthBarText = useMemo(() => {
+        return `100/${health}`;
+    }, [health]);
+
     return (
         <>
             <AbsoluteArea>
@@ -454,7 +458,7 @@ function Todo(): JSX.Element {
                     <LeftSideDiv>
                         <GameViewDiv ref={gameContainerRef} />
                         <HealthBarContainerDiv>
-                            <HealthBar health={health} maxHealth={100} />
+                            <HealthBar health={health} maxHealth={100} innerText={healthBarText}/>
                         </HealthBarContainerDiv>
                     </LeftSideDiv>
                     <PaddingDiv width='10px' />
