@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import HealthBar from '../components/atoms/HealthBar';
 import { OuterFlexDiv, PaddingDiv } from '../components/atoms/styled';
@@ -229,6 +229,10 @@ function Skin(): JSX.Element {
 
     }, [gameInteropObject, health]);
 
+    const healthBarText = useMemo(() => {
+        return `${health} / 100`;
+    }, [health]);
+
     return (
         <>
             <AbsoluteArea>
@@ -249,7 +253,7 @@ function Skin(): JSX.Element {
                     <LeftSideDiv>
                         <GameViewDiv ref={gameContainerRef} />
                         <HealthBarContainerDiv>
-                            <HealthBar health={health} maxHealth={100} />
+                            <HealthBar health={health} maxHealth={100} innerText={healthBarText} />
                         </HealthBarContainerDiv>
                     </LeftSideDiv>
                     <PaddingDiv width='10px' />
