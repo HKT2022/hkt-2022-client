@@ -18,7 +18,7 @@ const TitleH1 = styled.h1`
     margin: 0;
     padding: 0;
     background-color: ${props => props.theme.colors.secondary};
-    width: 100%;
+    width: 90%;
     height: 300px;
     display: flex;
     justify-content: center;
@@ -41,6 +41,10 @@ function Welcome(): JSX.Element {
         navigate('/login');
     }, [navigate]);
 
+    const handleRegister = useCallback(() => {
+        navigate('/register');
+    }, [navigate]);
+
     return (
         <>
             <OuterFlexDiv>
@@ -54,10 +58,16 @@ function Welcome(): JSX.Element {
                     <LoginButton onClick={handleLogin}>
                         로그인
                     </LoginButton>
+                    <PaddingDiv height='20px' />
+                    <LoginButton onClick={handleRegister}>
+                        회원가입
+                    </LoginButton>
                 </TitleContainerDiv>
             </OuterFlexDiv>
             <OuterFlexDiv>
-                
+                <ImageCard>
+                    <img src='/images/wellcome.png' />
+                </ImageCard>
             </OuterFlexDiv>
         </>
     );
