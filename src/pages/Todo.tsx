@@ -215,8 +215,8 @@ const BottomDiv = styled.div`
 function CheckButton({onChange, first}: {onChange: (state:boolean) => void, first?: boolean}) {
     const [checked, setChecked] = useState(first || false);
     const onClick = useCallback(() => {
-        onChange(!checked);
-        setChecked(o => !o);
+        onChange(true);
+        setChecked(true);
     }, [checked, setChecked, onChange]);
 
     return (
@@ -470,7 +470,19 @@ function Todo(): JSX.Element {
             <BottomDiv>
                 <LogoImg src={'static/LogoSmall.svg'} alt='logo' />
                 <div>
+                    <BtnImg src='/static/group.svg' 
+                        onClick={() => {
+                            navigate('/group');
+                        }}
+                    />
+                    <BtnImg src='/static/skin.svg' 
+                        style={{marginLeft: 32}}
+                        onClick={() => {
+                            navigate('/');
+                        }}
+                    />
                     <BtnImg src='/static/trophy.svg' 
+                        style={{marginLeft: 32}}
                         onClick={() => {
                             navigate('/ranking');
                         }}
