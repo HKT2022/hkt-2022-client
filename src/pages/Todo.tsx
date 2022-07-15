@@ -140,7 +140,14 @@ const TodoListAddForm = styled.form`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    box-sizing: border-box;
+    width: calc(100%-12px);
+
+    color: white;
+    margin: 6px;
+
+    border-radius: 21.5px;
+    background-color: ${props => props.theme.colors.quaternary};
 `;
 
 const TodoListInput = styled.input`
@@ -149,6 +156,9 @@ const TodoListInput = styled.input`
     padding: 5px 10px;
     box-sizing: content-box;
     width: 100%;
+
+    border: 0px solid #00000000;
+    background-color: #00000000;
 `;
 
 const TodoListAddButton = styled.button`
@@ -218,7 +228,7 @@ function CheckButton({onChange, first}: {onChange: (state:boolean) => void, firs
 }
 
 const PriorityListDiv = styled.div`
-    height: 50px;
+    height: 40px;
 
     display: flex;
     flex-direction: row;
