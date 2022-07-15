@@ -154,6 +154,7 @@ export class ScenePrefab extends Prefab {
                 .withComponent(GridObjectCollideMap, c => {
                     c.gridCellHeight = this._colideTilemapChunkRenderer.ref?.gridCellHeight ?? 1;
                     c.gridCellWidth = this._colideTilemapChunkRenderer.ref?.gridCellWidth ?? 1;
+                    c.showCollider = true;
                 })
                 .getComponent(GridObjectCollideMap, this._gridObjectCollideMap))
 
