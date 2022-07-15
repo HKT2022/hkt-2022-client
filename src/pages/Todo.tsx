@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import HealthBar from '../components/atoms/HealthBar';
 import { OuterFlexDiv, PaddingDiv } from '../components/atoms/styled';
@@ -326,7 +326,6 @@ function Todo(): JSX.Element {
             .then(res => {
                 setCharacterId(res.data.currentUser.character.id);
                 setHealth(res.data.currentUser.character.hp);
-                changedHealth(res.data.currentUser.character.hp);
             })
             .catch(err => {
                 toast.showToast(err.message, 'error');
@@ -427,6 +426,8 @@ function Todo(): JSX.Element {
     useEffect(() => {
         if (!gameInteropObject) return;
 
+        changedHealth(health);
+
         let state = HealthState.Healthy;
         if      (health <= 25) state = HealthState.Damaged3;
         else if (health <= 50) state = HealthState.Damaged2;
@@ -437,6 +438,10 @@ function Todo(): JSX.Element {
     }, [gameInteropObject, health]);
 
     const windowSize = useWindowSize();
+
+    const healthBarText = useMemo(() => {
+        return `100/${health}`;
+    }, [health]);
 
     return (
         <>
@@ -458,7 +463,7 @@ function Todo(): JSX.Element {
                     <LeftSideDiv>
                         <GameViewDiv ref={gameContainerRef} />
                         <HealthBarContainerDiv>
-                            <HealthBar health={health} maxHealth={100} />
+                            <HealthBar health={health} maxHealth={100} innerText={healthBarText}/>
                         </HealthBarContainerDiv>
                     </LeftSideDiv>
                     <PaddingDiv width='10px' />
