@@ -3,7 +3,7 @@ import { JWT_LOCAL_STORAGE_KEY } from '../constants/localStorage';
 
 export default function isLoggedIn() {
     const rawJwt = window.localStorage.getItem(JWT_LOCAL_STORAGE_KEY);
-    if (rawJwt === null) return true;
+    if (!rawJwt) return true;
 
     const jwt = jose.decodeJwt(rawJwt);
     if (jwt.exp === undefined) return true;
