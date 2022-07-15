@@ -97,11 +97,14 @@ function RegisterForm(): JSX.Element {
         setEmail(event.target.value);
         setEmailError(() => emailValidator(event.target.value, emailVerified));
 
+        setEmailVerificationId(null);
+        
         if (emailVerified) {
             setEmailVerified(false);
-            setEmailVerificationId(null);
         }
-    }, [setEmail, setEmailError, emailValidator, emailVerified, setEmailVerified, setEmailVerificationId]);
+
+        setCertificationCode('');
+    }, [setEmail, setEmailError, emailValidator, emailVerified, setEmailVerified, setEmailVerificationId, setCertificationCode]);
 
     const handlePasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
@@ -114,8 +117,12 @@ function RegisterForm(): JSX.Element {
     }, [setPasswordConfirm, setPasswordConfirmError, passwordConfirmValidator]);
 
     const handleCertificationCodeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        if (emailVerified) {
+            return;    
+        }
+
         setCertificationCode(event.target.value);
-    }, [setCertificationCode]);
+    }, [setCertificationCode, emailVerified]);
 
     const apolloClient = useApolloClient();
 
