@@ -12,16 +12,16 @@ import useId from '../hooks/useId';
 
 const ITEMS_IN_PAGE = 10;
 
-const ContainerDiv = styled.div`
+export const ContainerDiv = styled.div`
 width: calc(max(100% - 200px, 280px));
 position: relative;
 `;
-const TitleContainerDiv = styled.div`   
+export const TitleContainerDiv = styled.div`   
 height: 185px;
 position: relative;
 z-index: 2;
 `;
-const TitleH1 = styled.h1`
+export const TitleH1 = styled.h1`
 text-align: center;
 color: white;
 margin-bottom: 0px;
@@ -87,14 +87,14 @@ const ScoreSpan = styled.span`
 font-size: 22px;
 `;
 
-const LightBlueBallContainer = styled.div`
+export const LightBlueBallContainer = styled.div`
 display: flex;
 height: 0px;
 position: relative;
 justify-content: center;
 z-index: 1;
 `;
-const LightBlueBall = styled.div`
+export const LightBlueBall = styled.div`
     background-color: #CEDEFF;
     width: 452px;
     height: 452px;

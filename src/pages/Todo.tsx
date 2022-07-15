@@ -15,6 +15,7 @@ import shakeCamera from '../utilities/shakeCamera';
 import { Game } from 'the-world-engine';
 import { Bootstrapper, StateInteropObject } from '../game/GameBootstrapper';
 import { HealthState } from '../game/script/PlayerStatusRenderController';
+import { ContainerDiv, LightBlueBall, LightBlueBallContainer, TitleH1, TitleContainerDiv as RTitleContainerDiv } from './Ranking';
 
 const BaseDiv = styled.div`
     display: flex;
@@ -324,6 +325,15 @@ function Todo(): JSX.Element {
 
     return (
         <OuterFlexDiv>
+            <ContainerDiv>
+                <LightBlueBallContainer>
+                    <LightBlueBall/>
+                </LightBlueBallContainer>
+                <RTitleContainerDiv>
+                    <TitleH1>2077/7/7</TitleH1>
+                </RTitleContainerDiv>
+
+            </ContainerDiv>
             <BaseDiv>
                 <LeftSideDiv>
                     <GameViewDiv ref={gameContainerRef} />
