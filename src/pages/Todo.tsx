@@ -18,6 +18,7 @@ import { HealthState } from '../game/script/PlayerStatusRenderController';
 import { ContainerDiv, LightBlueBall, LightBlueBallContainer, TitleH1, TitleContainerDiv as RTitleContainerDiv } from './Ranking';
 import { useNavigate } from 'react-router-dom';
 import useIsLoggedIn from '../hooks/useIsLoggedIn';
+import useWindowSize from '../hooks/useWindowSize';
 
 const BaseDiv = styled.div`
     display: flex;
@@ -119,6 +120,8 @@ const PriorityDiv = styled.div<PriorityDivProps>`
             return '#ffffff';
         }
     }};
+
+    cursor: pointer;
 `;
 
 const TodoItemButton = styled.button`
@@ -168,18 +171,16 @@ const GameViewDiv = styled.div`
 
 const FakeHr = styled.div`
     width: 100%;
-    height: 0px;
     border-top: 3px solid ${props => props.theme.colors.quaternary};
 
     margin-top: 40px;
+    
     margin-bottom: 60px;
+    @media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
+        margin-bottom: 20px;
+    }
 
     max-width: 810px;
-
-    @media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
 `;
 
 const BottomDiv = styled.div`
@@ -191,11 +192,9 @@ const BottomDiv = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
+    
     @media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
-        width: calc(100% - 40px);
-
-        padding: 0px 50px 0px 50px;
+        padding: 0px 50px 10px 50px;
     }
 `;
 
@@ -359,8 +358,8 @@ function Todo(): JSX.Element {
 
             setGame(null);
             setGameInteropObject(null);
-            
-            if (gameContainerRef.current) gameContainerRef.current.innerHTML = '';
+
+            //if (gameContainerRef.current) gameContainerRef.current.innerHTML = '';
         };
     }, [gameContainerRef, setGame, setGameInteropObject]);
 
@@ -376,6 +375,8 @@ function Todo(): JSX.Element {
 
     }, [gameInteropObject, health]);
 
+    const windowSize = useWindowSize();
+
     return (
         <OuterFlexDiv>
             <ContainerDiv>
@@ -383,7 +384,7 @@ function Todo(): JSX.Element {
                     <LightBlueBall/>
                 </LightBlueBallContainer>
                 <RTitleContainerDiv>
-                    <TitleH1>2077/7/7</TitleH1>
+                    <TitleH1>{new Date(Date.now()).toLocaleDateString()}</TitleH1>
                 </RTitleContainerDiv>
 
             </ContainerDiv>
@@ -397,7 +398,9 @@ function Todo(): JSX.Element {
                 <PaddingDiv width='10px' />
                 <RightSideDiv>
                     <TitleContainerDiv>
-                        Todo
+                        { windowSize.width > MEDIA_MAX_WIDTH + 60
+                            ? 'Todo'
+                            : new Date(Date.now()).toLocaleDateString() + ' Todo' }
                     </TitleContainerDiv>
                     <TodoListContainerDiv>
                         {todos.map(todo => {
