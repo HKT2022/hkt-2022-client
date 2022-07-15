@@ -20,4 +20,5 @@ export interface LoginLocal {
 export interface LoginLocalVariables {
   email: string;
   password: string;
+  rememberMe: boolean;
 }

@@ -140,13 +140,13 @@ function LoginForm(): JSX.Element {
             return;
         }
         
-        Mutations.loginLocal(apolloClient, { email, password })
+        Mutations.loginLocal(apolloClient, { email, password, rememberMe })
             .then(res => {
                 if (!res.data?.loginLocal?.accessToken) throw new Error('No access token');
+                apolloClient.resetStore();
                 setJwt(res.data?.loginLocal?.accessToken);
                 toast.showToast('Logged in successfully', 'success');
                 navigate('/');
-                console.log(rememberMe);
             })
             .catch(error => {
                 toast.showToast(error.message, 'error');
@@ -199,7 +199,7 @@ function LoginWithSocialForm(): JSX.Element {
     const handleResponse = useCallback((response: gapi.auth2.GoogleUser) => {
         const idToken = response.getAuthResponse().id_token;
 
-        Mutations.loginGoogle(apolloClient, { idToken })
+        Mutations.loginGoogle(apolloClient, { idToken, rememberMe })
             .then(() => {
                 toast.showToast('Logged in successfully', 'success');
                 navigate('/');

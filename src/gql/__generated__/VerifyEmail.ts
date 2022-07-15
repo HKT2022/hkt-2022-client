@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface VerifyEmail {
-  verifyEmail: string;
+  verifyEmail: boolean;
 }
 
 export interface VerifyEmailVariables {

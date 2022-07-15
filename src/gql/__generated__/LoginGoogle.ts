@@ -19,4 +19,5 @@ export interface LoginGoogle {
 
 export interface LoginGoogleVariables {
   idToken: string;
+  rememberMe: boolean;
 }

@@ -1,29 +1,15 @@
 import { gql, useApolloClient } from "@apollo/client";
 import { useEffect, useState } from "react";
+import { getCurrentUser } from "../gql/queries";
+import { GetCurrentUser } from "../gql/__generated__/GetCurrentUser";
 
-export interface User {
-    id: string,
-    nickname: string,
-    skinSrc: string
-}
-
-function useUser(): User | null {
+function useUser(): GetCurrentUser['currentUser'] | null {
     const apolloClient = useApolloClient();
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<GetCurrentUser['currentUser'] | null>(null);
 
     useEffect(() => {
         (async () => {
-            const res = await apolloClient.query({
-                query: gql`
-                    query getUser {
-                        currentUser {
-                            id,
-                            nickname,
-                            skinSrc
-                        }
-                    }
-                `
-            });
+            const res = await getCurrentUser(apolloClient );
 
             setUser(res.data.currentUser);
         })();

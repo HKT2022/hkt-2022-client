@@ -33,8 +33,8 @@ export function loginLocal(
     return apolloClient.mutate<LoginLocal>(
         {
             mutation: gql`
-                mutation LoginLocal($email: String!, $password: String!) {
-                    loginLocal(email: $email, password: $password) {
+                mutation LoginLocal($email: String!, $password: String!, $rememberMe: Boolean!) {
+                    loginLocal(email: $email, password: $password, rememberMe: $rememberMe) {
                         refreshToken,
                         accessToken
                     }
@@ -52,8 +52,8 @@ export function loginGoogle(
     return apolloClient.query<LoginGoogle>(
         {
             query: gql`
-                mutation LoginGoogle($idToken: String!) {
-                    loginGoogle(idToken: $idToken) {
+                mutation LoginGoogle($idToken: String!, $rememberMe: Boolean!) {
+                    loginGoogle(idToken: $idToken, rememberMe: $rememberMe) {
                         refreshToken,
                         accessToken
                     }
