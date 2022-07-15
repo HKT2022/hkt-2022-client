@@ -163,10 +163,10 @@ const GameViewDiv = styled.div`
 const FakeHr = styled.div`
     width: 100%;
     height: 0px;
-    border-top: 3px solid ${props => props.theme.colors.tertiary};
+    border-top: 3px solid ${props => props.theme.colors.quaternary};
 
     margin-top: 40px;
-    margin-bottom: 40px;
+    margin-bottom: 60px;
 
     max-width: 810px;
 `;
@@ -313,7 +313,7 @@ function Todo(): JSX.Element {
                 </div>
                 <div>
                     <img src='/static/trophy.svg' />
-                    <img src='/static/setting.svg' />
+                    <img src='/static/setting.svg' style={{marginLeft: 32}}/>
                 </div>
             </BottomDiv>
         </OuterFlexDiv>

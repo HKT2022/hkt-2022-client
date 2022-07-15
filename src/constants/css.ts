@@ -11,7 +11,7 @@ export const LIGHT_THEME = {
         primary: '#5A81FA',
         secondary: '#2B308C',
         tertiary: '#9CB3FC',
-        quaternary: '#9CB3FC',
+        quaternary: '#CEDEFF',
         
         backgroundInverse: '#000',
         primaryInverse: '#111',
