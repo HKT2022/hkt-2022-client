@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ChangePassword from './pages/ChangePassword';
 import Login from './pages/Login';
 import Main from './pages/Main';
+import MyPage from './pages/MyPage';
 import NotFound from './pages/NotFound';
 import PasswordReset from './pages/PasswordReset';
 import Register from './pages/Register';
@@ -16,6 +17,7 @@ function App(): JSX.Element {
                 <Route path='/register' element={<Register />} />
                 <Route path='/password/reset' element={<PasswordReset />} />
                 <Route path='/password/change' element={<ChangePassword />} />
+                <Route path='/mypage' element={<MyPage />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
         </BrowserRouter>
