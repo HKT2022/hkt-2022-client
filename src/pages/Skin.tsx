@@ -281,7 +281,7 @@ function Skin(): JSX.Element {
                         <BtnImg src='/static/skin.svg' 
                             style={{marginLeft: 32}}
                             onClick={() => {
-                                navigate('/');
+                                location.href = '/todo';
                             }}
                         />
                         <BtnImg src='/static/trophy.svg' 
