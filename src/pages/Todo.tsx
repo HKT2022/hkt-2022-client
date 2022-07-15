@@ -180,6 +180,21 @@ const BottomDiv = styled.div`
     justify-content: space-between;
 `;
 
+function CheckButton({onChange, first}: {onChange: (state:boolean) => void, first?: boolean}) {
+    const [checked, setChecked] = useState(first || false);
+    const onClick = useCallback(() => {
+        setChecked(o => !o);
+        onChange(checked);
+    }, []);
+
+    return (
+        <img 
+            src={checked ? '/static/checked.svg' : '/static/unchecked.svg' }
+            onClick={onClick}
+        />
+    );
+}
+
 function Todo(): JSX.Element {
     const user = useUser();
     const toast = useToast();
@@ -291,9 +306,7 @@ function Todo(): JSX.Element {
                                         <PriorityDiv priority={todo.priority as 1 | 2 | 3} />
                                         {todo.content}
                                     </TodoItemLeftDiv>
-                                    <TodoItemButton>
-                                        v
-                                    </TodoItemButton>
+                                    <CheckButton onChange={() => {/** */}} />
                                 </TodoItemDiv>
                             );
                         })}
