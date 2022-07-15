@@ -10,6 +10,7 @@ import PasswordReset from './pages/PasswordReset';
 import PasswordResetRequest from './pages/PasswordResetRequest';
 import Register from './pages/Register';
 import Todo from './pages/Todo';
+import Wellcome from './pages/Wellcome';
 
 function App(): JSX.Element {
     return (
@@ -24,6 +25,7 @@ function App(): JSX.Element {
                 <Route path='/password/change' element={<ChangePassword />} />
                 <Route path='/mypage' element={<MyPage />} />
                 <Route path='/todo' element={<Todo />} />
+                <Route path='/wellcome' element={<Wellcome />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
         </BrowserRouter>
