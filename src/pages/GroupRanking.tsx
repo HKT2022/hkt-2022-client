@@ -10,9 +10,10 @@ import ordinal from 'ordinal';
 import useId from '../hooks/useId';
 import { GetTodoGroupRankings } from '../gql/__generated__/GetTodoGroupRankings';
 import SlimHealthBar from '../components/atoms/SlimHealthBar';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { sendHeart } from '../gql/mutations';
 import useToast from '../contexts/ToastContext';
+import { subscribeUserCharacterState } from '../gql/subscriptions';
 
 const ITEMS_IN_PAGE = 10;
 
@@ -172,8 +173,42 @@ export default function GroupRanking() {
 
     const apolloClient = useApolloClient();
     const groupAsync = useAsync(() => getTodoGroup(apolloClient, { id: groupId }));
-    const totalRankingsAsync = useAsync(() => getTodoGroupRankings(apolloClient, { todoGroupId: groupId, skip: 0, limit: ITEMS_IN_PAGE }));
-    
+    const [totalRankings, setTotalRankings] = useState<GetTodoGroupRankings['todoGroupRankings']>([]);
+
+    useEffect(() => {
+        (async () => setTotalRankings((await getTodoGroupRankings(apolloClient, { todoGroupId: groupId, skip: 0, limit: ITEMS_IN_PAGE })).data.todoGroupRankings))();
+    }, [groupId]);
+
+    useEffect(() => {
+        const rankings = totalRankings;
+
+        const observables = rankings.map(user => {
+            return subscribeUserCharacterState(apolloClient, { userCharacterId: user.character.id });
+        });
+
+        const subscriptions = observables.map((observable, i) => observable.subscribe(res => {
+            setTotalRankings(rankings => {
+                return rankings.map(ranking => {
+                    if(!res.data) return ranking;
+
+                    if(rankings[i].id !== ranking.id) return ranking;
+
+                    return ({
+                        ...ranking,
+                        character: {
+                            ...ranking.character,
+                            hp: res.data.userCharacterState.hp,
+                        }
+                    });
+                });
+            });
+        }));
+
+        return () => {
+            subscriptions.forEach(subscription => subscription.unsubscribe());
+        };
+    }, [totalRankings]);
+
     const handleHeartSendClick = useCallback((userCharacterId: number) => {
         (async () => {
             try {
@@ -198,7 +233,7 @@ export default function GroupRanking() {
                 </TitleContainerDiv>
                 <BodyContainerDiv>
                     <ListContainerDiv>
-                        <RankingList rankings={totalRankingsAsync.value?.data.todoGroupRankings ?? []} onHeartSendClick={handleHeartSendClick}/>
+                        <RankingList rankings={totalRankings} onHeartSendClick={handleHeartSendClick}/>
                     </ListContainerDiv>
                 </BodyContainerDiv>
             </ContainerDiv>
