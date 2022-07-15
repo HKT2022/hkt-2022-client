@@ -19,7 +19,7 @@ const TitleH1 = styled.h1`
     margin: 0;
     padding: 0 10px;
     box-sizing: border-box;
-    background-color: ${props => props.theme.colors.secondary};
+    background-color: ${props => props.theme.colors.quaternary};
     width: 90%;
     height: 300px;
     display: flex;
