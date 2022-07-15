@@ -40,6 +40,8 @@ const RightSideDiv = styled.div`
     flex-direction: column;
     justify-content: space-between;
 
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.12);
+
     @media (max-width: ${MEDIA_MAX_WIDTH + 60}px) {
         width: 100%;
     }
@@ -159,6 +161,7 @@ const GameViewDiv = styled.div`
     border-radius: 30px;
 
     background-color: ${props => props.theme.colors.secondaryBG};
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.12);
 `;
 
 const FakeHr = styled.div`
@@ -276,6 +279,8 @@ function Todo(): JSX.Element {
                 content: todo.content,
                 priority: todo.priority
             }
+        }).catch(err => {
+            toast.showToast(err.message, 'error');
         });
     }, []);
 
@@ -307,9 +312,9 @@ function Todo(): JSX.Element {
         if (!gameInteropObject) return;
 
         let state = HealthState.Healthy;
-        if (health <= 75) state = HealthState.Damaged1;
-        if (health <= 50) state = HealthState.Damaged2;
-        if (health <= 25) state = HealthState.Damaged3;
+        if      (health <= 25) state = HealthState.Damaged3;
+        else if (health <= 50) state = HealthState.Damaged2;
+        else if (health <= 75) state = HealthState.Damaged1;
 
         gameInteropObject.setState(state);
 
