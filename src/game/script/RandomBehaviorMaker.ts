@@ -7,7 +7,7 @@ export class RandomBehaviorMaker extends Component {
     public override readonly requiredComponents = [PlayerGridMovementController];
 
     public randomMovementRange = 4;
-    public randowMovementInterval = 5;
+    public randowMovementInterval = 4;
 
     public randomChatRange = 10;
 

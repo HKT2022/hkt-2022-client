@@ -66,6 +66,11 @@ export class PlayerStatusRenderController extends Component {
         this.updateHealthStateRender();
     }
 
+    public setPlayerSprites(sprites: [string, string, string, string]): void {
+        this._playerSprites = sprites;
+        this.updateHealthStateRender();
+    }
+
     public get healthState(): HealthState {
         return this._healthState;
     }

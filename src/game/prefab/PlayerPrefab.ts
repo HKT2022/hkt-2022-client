@@ -16,7 +16,10 @@ import {
 } from 'the-world-engine';
 import { MovementAnimationController } from '../script/MovementAnimationController';
 import HeewonSpriteAtlas from '../asset/Heewon.png';
-import { PlayerStatusRenderController } from '../script/PlayerStatusRenderController';
+import HeewonSpriteAtlasDamaged1 from '../asset/HeewonDamaged.png';
+import HeewonSpriteAtlasDamaged2 from '../asset/HeewonDamaged2.png';
+import HeewonSpriteAtlasDamaged3 from '../asset/HeewonDamaged3.png';
+import { HealthState, PlayerStatusRenderController } from '../script/PlayerStatusRenderController';
 import { PlayerGridMovementController } from '../script/PlayerGridMovementController';
 import { RandomBehaviorMaker } from '../script/RandomBehaviorMaker';
 
@@ -51,6 +54,7 @@ export class PlayerPrefab extends Prefab {
 
         const playerStatusRenderController = new PrefabRef<PlayerStatusRenderController>();
 
+        const playerRenderer = new PrefabRef<CssSpriteAtlasRenderer>();
         const chatboxRenderer: PrefabRef<CssHtmlElementRenderer> = new PrefabRef();
         const chatboxObject: PrefabRef<GameObject> = new PrefabRef();
         const nameTagRenderer: PrefabRef<CssTextRenderer> = new PrefabRef();
@@ -65,6 +69,8 @@ export class PlayerPrefab extends Prefab {
                 c.imageWidth = 1;
                 c.imageHeight = 2;
             })
+            .getComponent(CssSpriteAtlasRenderer, playerRenderer)
+
             .withComponent(SpriteAtlasAnimator, c => {
                 c.addAnimation('down_idle', [0]);
                 c.addAnimation('right_idle', [4]);
@@ -104,12 +110,20 @@ export class PlayerPrefab extends Prefab {
                 c.setNameTagObject(nameTagObject.ref!);
                 c.setNameTagRenderer(nameTagRenderer.ref!);
                 c.nameTag = this._nameTagString.ref;
+                c.setPlayerRenderer(playerRenderer.ref!);
+                c.setPlayerSprites([
+                    HeewonSpriteAtlas,
+                    HeewonSpriteAtlasDamaged1,
+                    HeewonSpriteAtlasDamaged2,
+                    HeewonSpriteAtlasDamaged3
+                ]);
+                c.setHealthState(HealthState.Damaged3);
             })
             .getComponent(PlayerStatusRenderController, playerStatusRenderController)
-            
+
             .withComponent(RandomBehaviorMaker, c => {
                 c.randomChatHealth1Set = [
-                    '안녕하세요'
+                    '안녕하세요!'
                 ];
                 c.randomChatHealth2Set = [
                     '안녕하세요...'
@@ -125,9 +139,9 @@ export class PlayerPrefab extends Prefab {
             })
 
             .withChild(instantlater.buildGameObject('chatbox',
-                new Vector3(0, 45, 0),
+                new Vector3(0, 1.7, 0),
                 new Quaternion(),
-                new Vector3(0.5, 0.5, 0.5))
+                new Vector3(0.1, 0.1, 0.1))
                 .active(false)
                 .withComponent(CssHtmlElementRenderer, c => {
                     c.autoSize = true;
@@ -146,9 +160,9 @@ export class PlayerPrefab extends Prefab {
                 .getGameObject(chatboxObject))
 
             .withChild(instantlater.buildGameObject('nametag',
-                new Vector3(0, 32, 0),
+                new Vector3(0, -0.7, 0),
                 new Quaternion(),
-                new Vector3(0.5, 0.5, 0.5))
+                new Vector3(0.3, 0.3, 0.3))
                 .active(false)
                 .withComponent(CssTextRenderer, c => {
                     c.textAlign = TextAlign.Center;
