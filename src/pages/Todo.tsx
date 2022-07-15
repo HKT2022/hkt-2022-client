@@ -16,6 +16,8 @@ import { Game } from 'the-world-engine';
 import { Bootstrapper, StateInteropObject } from '../game/GameBootstrapper';
 import { HealthState } from '../game/script/PlayerStatusRenderController';
 import { ContainerDiv, LightBlueBall, LightBlueBallContainer, TitleH1, TitleContainerDiv as RTitleContainerDiv } from './Ranking';
+import { useNavigate } from 'react-router-dom';
+import useIsLoggedIn from '../hooks/useIsLoggedIn';
 
 const BaseDiv = styled.div`
     display: flex;
@@ -100,7 +102,6 @@ interface PriorityDivProps {
 }
 
 const PriorityDiv = styled.div<PriorityDivProps>`
-    border: 1px solid red;
     border-radius: 50px;
     width: 10px;
     height: 10px;
@@ -203,16 +204,55 @@ function CheckButton({onChange, first}: {onChange: (state:boolean) => void, firs
     );
 }
 
+const PriorityListDiv = styled.div`
+    height: 50px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    padding-left: 10px;
+    border-radius: 30px 30px 30px 30px;
+    
+    background-color: ${props => props.theme.colors.background};
+`;
+
+function ChoosePriority({onChange}: {onChange: (select: number) => void }) {
+    const [selected, setSelected] = useState(2);
+    const onClick = useCallback((select: number) => {
+        onChange(select);
+        setSelected(select);
+    }, [setSelected, onChange]);
+
+    return (
+        <PriorityListDiv>
+            <PriorityDiv style={{opacity: selected === 1 ? 1 : 0.3}} priority={1} onClick={() => onClick(1)} />
+            <PriorityDiv style={{opacity: selected === 2 ? 1 : 0.3}} priority={2} onClick={() => onClick(2)} />
+            <PriorityDiv style={{opacity: selected === 3 ? 1 : 0.3}} priority={3} onClick={() => onClick(3)} />
+        </PriorityListDiv>
+    );
+}
+
+const BtnImg = styled.img`
+:hover {
+    cursor: pointer;
+}
+`;
+
 function Todo(): JSX.Element {
     const user = useUser();
+    const loggedIn = useIsLoggedIn();
     const toast = useToast();
     const apolloClient = useApolloClient();
+    const navigate = useNavigate();
 
     const [beforeHealth, setBeforeHealth] = useLocalStorageState(0, BEFORE_HEALTH_KEY);
     const [health, setHealth] = useState(100);
     const [todos, setTodos] = useState<MyTodos_myTodos[]>([]);
 
     const [newTodoContent, setNewTodoContent] = useState('');
+    const [newTodoPriority, setNewTodoPriority] = useState(2);
 
     const [gameInteropObject, setGameInteropObject] = useState<StateInteropObject|null>(null);
 
@@ -224,7 +264,6 @@ function Todo(): JSX.Element {
             shakeCamera();
             toast.showToast(`You lost ${dif} health!`, 'error');
         }
-        
 
         setBeforeHealth(hp);
     }, [beforeHealth]);
@@ -260,7 +299,7 @@ function Todo(): JSX.Element {
 
         const newTodo = {
             content: newTodoContent,
-            priority: 1,
+            priority: newTodoPriority,
         };
         mutations.createTodo(apolloClient, {
             todo: newTodo
@@ -360,6 +399,7 @@ function Todo(): JSX.Element {
                         })}
                     </TodoListContainerDiv>
                     <TodoListAddForm onSubmit={onSubmit}>
+                        <ChoosePriority onChange={setNewTodoPriority} />
                         <TodoListInput placeholder='new todo...' value={newTodoContent} onChange={onChangeNewTodoContent} />
                         <TodoListAddButton type='submit'>
                             +
@@ -373,8 +413,18 @@ function Todo(): JSX.Element {
                     logo
                 </div>
                 <div>
-                    <img src='/static/trophy.svg' />
-                    <img src='/static/setting.svg' style={{marginLeft: 32}}/>
+                    <BtnImg src='/static/trophy.svg' 
+                        onClick={() => {
+                            navigate('/ranking');
+                        }}
+                    />
+                    <BtnImg 
+                        src='/static/logout.svg' 
+                        style={{marginLeft: 32}}
+                        onClick={() => {
+                            location.href = '/logout';
+                        }}
+                    />
                 </div>
             </BottomDiv>
         </OuterFlexDiv>
