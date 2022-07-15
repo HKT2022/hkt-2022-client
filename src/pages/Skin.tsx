@@ -201,6 +201,7 @@ function Skin(): JSX.Element {
                 const game = new Game(gameContainerRef.current);
                 const interopObject = new StateInteropObject();
                 game.run(Bootstrapper, interopObject);
+                interopObject.setTImeScale(0);
                 game.inputHandler.startHandleEvents();
                 setGame(game);
                 setGameInteropObject(interopObject);
@@ -208,7 +209,7 @@ function Skin(): JSX.Element {
 
             return () => {
                 if (game) {
-                    game.inputHandler.stopHandleEvents();
+                    //game.inputHandler.stopHandleEvents();
                     game.dispose();
                 }
 

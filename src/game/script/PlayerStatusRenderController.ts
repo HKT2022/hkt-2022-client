@@ -190,4 +190,8 @@ export class PlayerStatusRenderController extends Component {
 
         this._playerRenderer.asyncSetImageFromPath(image, 4, 4);
     }        
+
+    public setTimeScale(value: number): void {
+        this.engine.time.timeScale = value;
+    }
 }

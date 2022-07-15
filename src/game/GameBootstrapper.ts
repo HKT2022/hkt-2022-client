@@ -34,6 +34,12 @@ export class StateInteropObject implements IStateInterop {
         this._playerStatusRenderController = controller;
         controller.setHealthState(this._state);
     }
+
+    public setTImeScale(timeScale: number): void {
+        if (this._playerStatusRenderController) {
+            this._playerStatusRenderController.setTimeScale(timeScale);
+        }
+    }
 }
 
 export class Bootstrapper extends BaseBootstrapper<StateInteropObject> {
