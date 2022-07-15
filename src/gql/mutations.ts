@@ -1,4 +1,5 @@
 import { ApolloClient, gql } from '@apollo/client';
+import { CompleteTodo, CompleteTodoVariables } from './__generated__/CompleteTodo';
 import { CreateTodo, CreateTodoVariables } from './__generated__/CreateTodo';
 
 import { IssueEmailToken, IssueEmailTokenVariables } from './__generated__/IssueEmailToken';
@@ -236,5 +237,21 @@ export function reviveMyUserCharacter(
                 }
             }
         `
+    });
+}
+
+export function completeTodo(
+    apolloClient: ApolloClient<any>,
+    variables: CompleteTodoVariables
+) {
+    return apolloClient.mutate<CompleteTodo>({
+        mutation: gql`
+            mutation CompleteTodo($id: Int!) {
+                completeTodo(id: $id) {
+                    id
+                }
+            }
+        `,
+        variables
     });
 }
