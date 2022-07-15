@@ -65,7 +65,9 @@ function Wellcome(): JSX.Element {
                 </TitleContainerDiv>
             </OuterFlexDiv>
             <OuterFlexDiv>
-                
+                <ImageCard>
+                    <img src='/images/wellcome.png' />
+                </ImageCard>
             </OuterFlexDiv>
         </>
     );
