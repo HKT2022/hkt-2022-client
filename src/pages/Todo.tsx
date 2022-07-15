@@ -323,7 +323,7 @@ function Todo(): JSX.Element {
 
         return () => {
             unsub.unsubscribe();
-        }
+        };
     }, [characterId]);
 
     const onChangeNewTodoContent = useCallback((todo: React.ChangeEvent<HTMLInputElement>) => {
