@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import isLoggedIn from './utilities/isLoggedIn';
 
-import ChangePassword from './pages/ChangePassword';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import MyPage from './pages/MyPage';
@@ -28,7 +27,6 @@ function App(): JSX.Element {
                 <Route path='/register' element={<Register />} />
                 <Route path='/password/reset-request' element={<PasswordResetRequest />} />
                 <Route path='/password/reset' element={<PasswordReset />} />
-                <Route path='/password/change' element={<ChangePassword />} />
                 <Route path='/mypage' element={<MyPage />} />
                 <Route path='/todo' element={<Todo />} />
                 <Route path='/welcome' element={<Welcome />} />

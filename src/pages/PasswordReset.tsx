@@ -1,15 +1,84 @@
 import { useApolloClient } from '@apollo/client';
 import { useCallback, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import styled from 'styled-components';
 import RequiredTextField from '../components/atoms/RequiredTextField';
 import { Title1Div, TextInput1, Button1, InnerFlexForm1 } from '../components/atoms/styled';
 import CenterAlignedPage from '../components/templates/CenterAlignedPage';
 import useToast from '../contexts/ToastContext';
 import { issueEmailToken, resetPassword, verifyEmail } from '../gql/mutations';
+import usePasswordConfirmValidator from '../hooks/text-validators/usePasswordConfirmValidator';
+import usePasswordValidator from '../hooks/text-validators/usePasswordValidator';
 
 
 
-function PasswordReset(): JSX.Element {
+// function PasswordReset(): JSX.Element {
+//     const apolloClient = useApolloClient();
+//     const navigate = useNavigate();
+//     const toast = useToast();
+    
+//     const [searchParams, setSearchParams] = useSearchParams();
+
+//     const emailCheckId = searchParams.get('emailCheckId');
+//     const verifyId = searchParams.get('verifyId');
+
+//     const [newPassword, setNewPassword] = useState('');
+//     const [newPasswordError, setNewPasswordError] = useState<string|null>(null);
+
+//     const handleNewPasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+//         setNewPassword(event.target.value);
+//     }, [setNewPassword]);
+
+//     const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
+//         event.preventDefault();
+
+//         if(newPassword.length < 8) {
+//             setNewPasswordError('Password must be at least 8 characters long');
+//             return;
+//         }
+
+//         try {
+//             await verifyEmail(apolloClient, { verifyId: verifyId ?? '' });
+//             const emailToken = (await issueEmailToken(apolloClient, { emailCheckId: emailCheckId ?? '' })).data!.issueEmailToken;
+//             await resetPassword(apolloClient, { emailToken: emailToken, password: newPassword });
+            
+//             toast.showToast('Password reset successfully', 'success');
+//             navigate('/login');
+//         } catch(error: any) {
+//             toast.showToast(error.message, 'error');
+//         }
+//     }, [newPassword]);
+
+//     return (
+//         <CenterAlignedPage>
+//             <InnerFlexForm1 onSubmit={handleSubmit}>
+//                 <Title1Div>
+//                     Reset Password
+//                 </Title1Div>
+//                 <RequiredTextField
+//                     type='password'
+//                     placeholder='New password'
+//                     value={newPassword}
+//                     onChange={handleNewPasswordChange}
+//                     error={newPasswordError}
+//                 />
+//                 <Button1 type='submit'>Reset Password</Button1>
+//             </InnerFlexForm1>
+//         </CenterAlignedPage>
+//     );
+// }
+
+// export default PasswordReset;
+
+
+
+
+
+const SubmitButton = styled(Button1)`
+    margin-top: 30px;
+`;
+
+function PasswordResetForm(): JSX.Element {
     const apolloClient = useApolloClient();
     const navigate = useNavigate();
     const toast = useToast();
@@ -19,48 +88,79 @@ function PasswordReset(): JSX.Element {
     const emailCheckId = searchParams.get('emailCheckId');
     const verifyId = searchParams.get('verifyId');
 
-    const [newPassword, setNewPassword] = useState('');
-    const [newPasswordError, setNewPasswordError] = useState<string|null>(null);
 
-    const handleNewPasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        setNewPassword(event.target.value);
-    }, [setNewPassword]);
+    const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState<string|null>(null);
+
+    const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [passwordConfirmError, setPasswordConfirmError] = useState<string|null>(null);
+    
+    const passwordValidator = usePasswordValidator();
+    const passwordConfirmValidator = usePasswordConfirmValidator(password);
+
+    const handlePasswordChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
+        setPasswordError(passwordValidator(event.target.value));
+    }, [setPassword, setPasswordError, passwordValidator]);
+
+    const handlePasswordConfirmChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setPasswordConfirm(event.target.value);
+        setPasswordConfirmError(passwordConfirmValidator(event.target.value));
+    }, [setPasswordConfirm, setPasswordConfirmError, passwordConfirmValidator]);
 
     const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if(newPassword.length < 8) {
-            setNewPasswordError('Password must be at least 8 characters long');
+        const passwordError = passwordValidator(password);
+        const passwordConfirmError = passwordConfirmValidator(password);
+
+        setPasswordError(passwordError);
+        setPasswordConfirmError(passwordConfirmError);
+
+        if (passwordError || passwordConfirmError) {
             return;
         }
 
         try {
             await verifyEmail(apolloClient, { verifyId: verifyId ?? '' });
             const emailToken = (await issueEmailToken(apolloClient, { emailCheckId: emailCheckId ?? '' })).data!.issueEmailToken;
-            await resetPassword(apolloClient, { emailToken: emailToken, password: newPassword });
+            await resetPassword(apolloClient, { emailToken: emailToken, password });
             
             toast.showToast('Password reset successfully', 'success');
             navigate('/login');
         } catch(error: any) {
             toast.showToast(error.message, 'error');
         }
-    }, [newPassword]);
+    }, [password, passwordConfirm, passwordValidator, passwordConfirmValidator]);
 
     return (
+        <InnerFlexForm1 onSubmit={handleSubmit}>
+            <Title1Div>
+                Reset Password
+            </Title1Div>
+            <RequiredTextField
+                type='password'
+                placeholder='Password'
+                value={password}
+                onChange={handlePasswordChange}
+                error={passwordError}
+            />
+            <RequiredTextField
+                type='password'
+                placeholder='Confirm Password'
+                value={passwordConfirm}
+                onChange={handlePasswordConfirmChange}
+                error={passwordConfirmError}
+            />
+            <SubmitButton type='submit'>Change Password</SubmitButton>
+        </InnerFlexForm1>
+    );
+}
+
+function PasswordReset(): JSX.Element {
+    return (
         <CenterAlignedPage>
-            <InnerFlexForm1 onSubmit={handleSubmit}>
-                <Title1Div>
-                    Reset Password
-                </Title1Div>
-                <RequiredTextField
-                    type='password'
-                    placeholder='New password'
-                    value={newPassword}
-                    onChange={handleNewPasswordChange}
-                    error={newPasswordError}
-                />
-                <Button1 type='submit'>Reset Password</Button1>
-            </InnerFlexForm1>
+            <PasswordResetForm />
         </CenterAlignedPage>
     );
 }
