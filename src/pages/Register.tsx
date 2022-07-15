@@ -162,10 +162,11 @@ function RegisterForm(): JSX.Element {
                             'emailToken': res.data?.issueEmailToken
                         }
                     }
-                );
-            })
-            .then(() => {
-                history('/login');
+                ).then(() => {
+                    history('/login');
+                }).catch(error => {
+                    toast.showToast(error.message, 'error');
+                });
             })
             .catch(error => {
                 toast.showToast(error.message, 'error');
