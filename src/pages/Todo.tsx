@@ -43,9 +43,10 @@ const HealthBarContainerDiv = styled.div`
 
 const TodoItemDiv = styled.div`
     border: 1px solid red;
+    box-sizing: border-box;
     border-radius: 50px;
 
-    width: 100%;
+    width: calc(100%-16px);
     margin: 8px;
     padding: 8px 12px;
 
