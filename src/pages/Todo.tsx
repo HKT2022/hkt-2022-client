@@ -13,7 +13,8 @@ import useLocalStorageState from '../hooks/useLocalStorageState';
 import { BEFORE_HEALTH_KEY } from '../constants/localStorage';
 import shakeCamera from '../utilities/shakeCamera';
 import { Game } from 'the-world-engine';
-import { Bootstrapper } from '../game/GameBootstrapper';
+import { Bootstrapper, StateInteropObject } from '../game/GameBootstrapper';
+import { HealthState } from '../game/script/PlayerStatusRenderController';
 
 const BaseDiv = styled.div`
     display: flex;
@@ -206,6 +207,8 @@ function Todo(): JSX.Element {
 
     const [newTodoContent, setNewTodoContent] = useState('');
 
+    const [gameInteropObject, setGameInteropObject] = useState<StateInteropObject|null>(null);
+
     const changedHealth = useCallback((hp: number) => {
         const d = hp - beforeHealth;
         const dif = Math.abs(d);
@@ -262,17 +265,20 @@ function Todo(): JSX.Element {
             toast.showToast(err.message, 'error');
         });
         setNewTodoContent('');
-    }, [newTodoContent]);
+    }, [newTodoContent, apolloClient, toast]);
 
     const gameContainerRef = useRef<HTMLDivElement>(null);
 
     const [game, setGame] = useState<Game|null>(null);
+
     useEffect(() => {
         if (gameContainerRef.current && !game) {
             const game = new Game(gameContainerRef.current);
-            game.run(Bootstrapper);
+            const interopObject = new StateInteropObject();
+            game.run(Bootstrapper, interopObject);
             game.inputHandler.startHandleEvents();
             setGame(game);
+            setGameInteropObject(interopObject);
         }
 
         return () => {
@@ -280,9 +286,10 @@ function Todo(): JSX.Element {
                 game.inputHandler.stopHandleEvents();
                 game.dispose();
                 setGame(null);
+                setGameInteropObject(null);
             }
         };
-    }, [gameContainerRef, setGame]);
+    }, [gameContainerRef, setGame, setGameInteropObject]);
 
     return (
         <OuterFlexDiv>

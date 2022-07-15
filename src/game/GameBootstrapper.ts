@@ -12,7 +12,7 @@ import { CameraPrefab } from './prefab/CameraPrefab';
 import { GridInputPrefab } from './prefab/GridInputPrefab';
 import { PlayerPrefab } from './prefab/PlayerPrefab';
 import { SansFightRoomPrefab } from './prefab/SansFightRoomPrefab';
-import { InvokeOnStart } from './script/InvokeOnStart';
+import { InvokeOnStart as InvokeOnAwake } from './script/InvokeOnAwake';
 import { HealthState, PlayerStatusRenderController } from './script/PlayerStatusRenderController';
 
 export interface IStateInterop {
@@ -69,7 +69,7 @@ export class Bootstrapper extends BaseBootstrapper<StateInteropObject> {
                 .withTrackTarget(player).make())
 
             .withChild(instantiater.buildGameObject('invoker')
-                .withComponent(InvokeOnStart, c => c.invoke = () => {
+                .withComponent(InvokeOnAwake, c => c.invoke = () => {
                     this.interopObject?.setController(playerStatusRenderController.ref!);
                 }))
         ;

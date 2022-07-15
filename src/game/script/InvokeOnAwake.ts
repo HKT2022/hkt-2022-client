@@ -1,11 +1,12 @@
-import { Component } from "the-world-engine";
+import { Component } from 'the-world-engine';
 
 export class InvokeOnStart extends Component {
     public invoke = () => {
         // do something
     };
 
-    public start(): void {
+    public awake(): void {
         this.invoke();
+        this.destroy();
     }
 }
