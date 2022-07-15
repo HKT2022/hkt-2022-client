@@ -2,6 +2,7 @@ import { ApolloClient, gql } from '@apollo/client';
 
 import { GetCurrentUser } from './__generated__/GetCurrentUser';
 import { GetUser, GetUserVariables } from './__generated__/GetUser';
+import { GetUserCharacter, GetUserCharacterVariables } from './__generated__/GetUserCharacter';
 import { IsEmailUsed, IsEmailUsedVariables } from './__generated__/IsEmailUsed';
 import { MyTodos } from './__generated__/MyTodos';
 
@@ -71,3 +72,38 @@ export function getMyTodos(
     });
 }
 
+export function getCurrentUserCharacter(
+    apolloClient: ApolloClient<any>
+) {
+    return apolloClient.query<GetCurrentUser>({
+        query: gql`
+            query GetCurrentUserCharacter {
+                currentUser {
+                    character {
+                        id
+                        hp
+                    }
+                }
+            }
+        `
+    });
+}
+
+export function getUserCharacter(
+    apolloClient: ApolloClient<any>,
+    variables: GetUserCharacterVariables
+) {
+    return apolloClient.query<GetUserCharacter>({
+        query: gql`
+            query GetUserCharacter($id: String!) {
+                User(id: $id) {
+                    character {
+                        id
+                        hp
+                    }
+                }
+            }
+        `,
+        variables
+    });
+}
