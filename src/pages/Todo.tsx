@@ -525,7 +525,7 @@ function Todo(): JSX.Element {
                         <BtnImg src='/static/skin.svg' 
                             style={{marginLeft: 32}}
                             onClick={() => {
-                                navigate('/');
+                                navigate('/skin');
                             }}
                         />
                         <BtnImg src='/static/trophy.svg' 
