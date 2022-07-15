@@ -165,8 +165,8 @@ const FakeHr = styled.div`
     height: 0px;
     border-top: 3px solid ${props => props.theme.colors.tertiary};
 
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 40px;
 
     max-width: 810px;
 `;
