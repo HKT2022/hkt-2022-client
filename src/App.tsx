@@ -1,4 +1,5 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import isLoggedIn from './utilities/isLoggedIn';
 
 import ChangePassword from './pages/ChangePassword';
 import Login from './pages/Login';
@@ -10,13 +11,17 @@ import PasswordReset from './pages/PasswordReset';
 import PasswordResetRequest from './pages/PasswordResetRequest';
 import Register from './pages/Register';
 import Todo from './pages/Todo';
-import Wellcome from './pages/Wellcome';
+import Welcome from './pages/Welcome';
 
 function App(): JSX.Element {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<Main/>} />
+                {isLoggedIn() ? 
+                    <Route path='/' element={<Navigate to="/todo" replace/>} /> :
+                    <Route path='/' element={<Navigate to="/welcome" replace/>} />
+                }
+                
                 <Route path='/login' element={<Login />} />
                 <Route path='/logout' element={<Logout />} />
                 <Route path='/register' element={<Register />} />
@@ -25,7 +30,7 @@ function App(): JSX.Element {
                 <Route path='/password/change' element={<ChangePassword />} />
                 <Route path='/mypage' element={<MyPage />} />
                 <Route path='/todo' element={<Todo />} />
-                <Route path='/wellcome' element={<Wellcome />} />
+                <Route path='/welcome' element={<Welcome />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
         </BrowserRouter>
