@@ -1,5 +1,5 @@
-import { ApolloClient, gql } from "@apollo/client";
-import { UserCharacterState, UserCharacterStateVariables } from "./__generated__/UserCharacterState";
+import { ApolloClient, gql } from '@apollo/client';
+import { UserCharacterState, UserCharacterStateVariables } from './__generated__/UserCharacterState';
 
 
 

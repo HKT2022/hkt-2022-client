@@ -5,6 +5,7 @@ import { OuterFlexDiv, PaddingDiv } from '../components/atoms/styled';
 import useUser from '../hooks/useCurrentUser';
 import * as mutations from '../gql/mutations';
 import * as queries from '../gql/queries';
+import * as subscriptions from '../gql/subscriptions';
 import { useApolloClient } from '@apollo/client';
 import { MyTodos_myTodos } from '../gql/__generated__/MyTodos';
 import useToast from '../contexts/ToastContext';
@@ -271,6 +272,7 @@ function Todo(): JSX.Element {
 
     const [beforeHealth, setBeforeHealth] = useLocalStorageState(0, BEFORE_HEALTH_KEY);
     const [health, setHealth] = useState(100);
+    const [characterId, setCharacterId] = useState(0);
     const [todos, setTodos] = useState<MyTodos_myTodos[]>([]);
 
     const [newTodoContent, setNewTodoContent] = useState('');
@@ -300,6 +302,7 @@ function Todo(): JSX.Element {
             });
         queries.getCurrentUserCharacter(apolloClient)
             .then(res => {
+                setCharacterId(res.data.currentUser.character.id);
                 setHealth(res.data.currentUser.character.hp);
                 changedHealth(res.data.currentUser.character.hp);
             })
@@ -307,6 +310,21 @@ function Todo(): JSX.Element {
                 toast.showToast(err.message, 'error');
             });
     }, []);
+
+    useEffect(() => {
+        const charaInfoSub = subscriptions.subscribeUserCharacterState(apolloClient, {
+            userCharacterId: characterId
+        });
+
+        const unsub = charaInfoSub.subscribe(res => {
+            if(!(res.data?.userCharacterState)) return;
+            setHealth(res.data?.userCharacterState.hp);
+        });
+
+        return () => {
+            unsub.unsubscribe();
+        }
+    }, [characterId]);
 
     const onChangeNewTodoContent = useCallback((todo: React.ChangeEvent<HTMLInputElement>) => {
         setNewTodoContent(todo.target.value);
