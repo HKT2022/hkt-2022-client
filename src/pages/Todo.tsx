@@ -372,26 +372,28 @@ function Todo(): JSX.Element {
     const [game, setGame] = useState<Game|null>(null);
 
     useEffect(() => {
-        if (gameContainerRef.current && !game) {
-            const game = new Game(gameContainerRef.current);
-            const interopObject = new StateInteropObject();
-            game.run(Bootstrapper, interopObject);
-            game.inputHandler.startHandleEvents();
-            setGame(game);
-            setGameInteropObject(interopObject);
-        }
-
-        return () => {
-            if (game) {
-                game.inputHandler.stopHandleEvents();
-                game.dispose();
+        setTimeout(() => {
+            if (gameContainerRef.current && !game) {
+                const game = new Game(gameContainerRef.current);
+                const interopObject = new StateInteropObject();
+                game.run(Bootstrapper, interopObject);
+                game.inputHandler.startHandleEvents();
+                setGame(game);
+                setGameInteropObject(interopObject);
             }
 
-            setGame(null);
-            setGameInteropObject(null);
+            return () => {
+                if (game) {
+                    game.inputHandler.stopHandleEvents();
+                    game.dispose();
+                }
 
-            //if (gameContainerRef.current) gameContainerRef.current.innerHTML = '';
-        };
+                setGame(null);
+                setGameInteropObject(null);
+
+                //if (gameContainerRef.current) gameContainerRef.current.innerHTML = '';
+            };
+        }, 100);
     }, [gameContainerRef, setGame, setGameInteropObject]);
 
     useEffect(() => {
