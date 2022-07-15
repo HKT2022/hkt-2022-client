@@ -349,6 +349,25 @@ function Todo(): JSX.Element {
         };
     }, [characterId]);
 
+    useEffect(() => {
+        const dayUpdateObservable = subscriptions.subscribeDayUpdate(apolloClient);
+
+        const dayUpdateSub = dayUpdateObservable.subscribe(res => {
+            if(!(res.data?.dayUpdate)) return;
+
+            (async () => {
+                const res = await queries.getMyTodos(apolloClient);
+                setTodos(res.data.myTodos);
+            })();
+
+            queries.getMyTodos(apolloClient);
+        });
+
+        return () => {
+            dayUpdateSub.unsubscribe();
+        };
+    }, []);
+
     const onChangeNewTodoContent = useCallback((todo: React.ChangeEvent<HTMLInputElement>) => {
         setNewTodoContent(todo.target.value);
     }, [newTodoContent]);
