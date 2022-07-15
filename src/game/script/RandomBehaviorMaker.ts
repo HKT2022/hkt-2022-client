@@ -41,6 +41,8 @@ export class RandomBehaviorMaker extends Component {
 
     private *randomChat(): CoroutineIterator {
         for (; ;) {
+            yield new WaitForSeconds(Math.random() * 5 + 5);
+            
             const playerHealthState = this._playerStatusRenderController!.healthState;
             let randomChatSet: string[];
             switch (playerHealthState) {
@@ -60,7 +62,6 @@ export class RandomBehaviorMaker extends Component {
 
             const randomChat = randomChatSet[Math.floor(Math.random() * randomChatSet.length)];
             this._playerStatusRenderController!.setChatBoxText(randomChat);
-            yield new WaitForSeconds(Math.random() * 5 + 5);
         }
     }
 }
